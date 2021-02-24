@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<#include '../common/css.html'>
+<body class='contrast-blue'>
+	<#include '../common/header.html'>
+	<div id='wrapper'>
+		<div id='main-nav-bg'></div>
+		<#include 'left.html'>
+		<section id='content'>
+			<div class='container'>
+				<div class='row' id='content-wrapper'>
+					<div class='col-xs-12'>
+						<div class='row'>
+							<div class='col-sm-12'>
+								<div class='box'>
+									<div class='box-content'>
+										<button class='btn btn-primary btn-lg' onclick="showdialog('增加');" style='margin-bottom:5px'>
+											<i class='icon-beer'></i> 增加用户
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class='row'>
+							<div class='col-sm-12'>
+								<div class='box bordered-box blue-border' style='margin-bottom:0;'>
+									<div class='box-header blue-background'>
+										<div class='title'>所有用户</div>
+										<div class='actions'>
+											<a class="btn box-collapse btn-xs btn-link" href="#"><i></i> </a>
+										</div>
+									</div>
+									<div class='box-content box-no-padding'>
+										<div class='responsive-table'>
+											<div class='scrollable-area'>
+												<table class='table' style='margin-bottom:0;'>
+													<thead>
+														<tr>
+															<th>用户名</th>
+															<th></th>
+														</tr>
+													</thead>
+													<tbody>
+														<#list users as user>
+														<tr>
+															<td>${user.username}</td>
+															<td>
+																<div class='text-center'>
+																	<a class='btn btn-warning btn-xs' href='javascript:void(0);'
+																		onclick="edituser(${user.id},'${user.username}','${user.password}');"> <i class='icon-edit'></i>
+																	</a> 
+																	<a class='btn btn-warning btn-xs' href='javascript:void(0);'
+																		onclick="edituserrole(${user.id},'${user.username}','${user.password}');"> <i class='icon-user'></i>
+																	</a> 
+																	<a class='btn btn-danger btn-xs' href='${request.contextPath}/admin/deluser?id=${user.id}'> <i
+																		class='icon-remove'></i>
+																	</a>
+																</div>
+															</td>
+														</tr>
+														</#list>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<div class="modal fade" id="myModal" data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="roletitle"></h4>
+					<input type="hidden" id="userId" />
+				</div>
+				<div class="modal-body">
+					<form class="form form-horizontal validate-form" role="form" id="formuser">
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><h4>用户名</h4></label>
+							<div class="col-sm-10 controls">
+								<input type="text" class="form-control" id="username" data-rule-minlength='1' data-rule-required='true' />
+							</div>
+						</div>
+						<div class="form-group" id="pwdiv">
+							<label class="col-sm-2 control-label"><h4>密码</h4></label>
+							<div class="col-sm-10">
+								<input type="password" class="form-control" id="password">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="adduser();" id="rolebutton"></button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="myModal2" data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">角色</h4>
+					<input type="hidden" id="userid" />
+				</div>
+				<div class="modal-body">
+					<form class="form form-horizontal validate-form" role="form" id="formrole">
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-10 controls">
+								<#list roles as role>
+								<div class="checkbox">
+									<label> <input type="checkbox" value="${role.id}">${role.name}
+									</label>
+								</div>
+								</#list>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="adduserrole();">编辑</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<#include '../common/js.html'>
+	<script>
+		function showdialog(title) {
+			$('#myModal').modal({
+				keyboard : false
+			});
+			$("#userId").val(-1);
+			$("#roletitle").html(title);
+			$("#rolebutton").html(title);
+			$("#username").val("");
+			$("#password").val("");
+			$("#pwdiv").show();
+		}
+		function edituser(id, name,password) {
+			$('#myModal').modal({
+				keyboard : false
+			});
+			$("#roletitle").html("编辑");
+			$("#rolebutton").html("编辑");
+			$("#userId").val(id);
+			$("#username").val(name);
+			$("#password").val(password);
+			$("#pwdiv").hide();
+		}
+		function edituserrole(id, name,password) {
+			$('#myModal2').modal({
+				keyboard : false
+			});
+		}
+		function adduserrole() {
+			
+			var userid = $("#userid").val();
+			
+			 var chk_value =[];    
+			  $("input[type='checkbox']:checked").each(function(){    
+			   chk_value.push($(this).val());    
+			  });    
+			  alert(chk_value.length==0 ?'你还没有选择任何内容！':chk_value);    
+			  return;
+			var roleid = $("#roleid").val();
+			var username = $("#username").val();
+			var data;
+			var url;
+			userid = parseInt(userid);
+			data = {
+					userid : userid,
+					role : username,
+					password : password
+			};
+			url = "${request.contextPath}/admin/edituserrole";
+			$.ajax({
+				url : url,
+				type : "post",
+				data : data,
+				success : function(s) {
+					if (s.success) {
+						location.reload();
+					}
+					else
+					{
+						alert(s.msg);
+					}
+				}
+			});
+		}
+		function adduser() {
+			var isSuccess=$('.form-horizontal').valid(); 
+			if (!isSuccess)
+			{
+				return;
+			}
+			
+			var userId = $("#userId").val();
+			var password = $("#password").val();
+			var username = $("#username").val();
+			var data;
+			var url;
+			userId = parseInt(userId);
+			if (userId != -1) {
+				data = {
+					id : userId,
+					username : username,
+					password : password
+				};
+				url = "${request.contextPath}/admin/edituser";
+			} else {
+				data = {
+						username : username,
+						password : password
+				};
+				url = "${request.contextPath}/admin/saveuser";
+			}
+			$.ajax({
+				url : url,
+				type : "post",
+				data : data,
+				success : function(s) {
+					if (s.success) {
+						location.reload();
+					}
+					else
+					{
+						alert(s.msg);
+					}
+				}
+			});
+		}
+	</script>
+</body>
+</html>
+
+
+

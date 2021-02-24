@@ -1,0 +1,20 @@
+<nav id='main-nav' style="margin-right:0px">
+	<div class='navigation fch1'>
+		<ul class=' nav-stacked '>
+			<li class='list-dropdown1'><i class='icon-group icon-menu'></i> <span class="icon-li">后台管理</span>
+				<ul class='fch2'>
+					<@shiro.hasRole name="admin">
+					<li class=''><a href='${request.contextPath}/courseadmin/usermanage/1'><span>用户管理</span> </a></li>
+					</@shiro.hasRole>
+					<li class=''><a href='${request.contextPath}/courseadmin/course/1'><span>课程信息</span> </a></li>
+				</ul>
+			</li>
+			<li class='list-dropdown1'>
+				<ul class='fch2'>
+					<li class=''><a href='${request.contextPath}/courseadmin/channel'><span>课程栏目</span> </a></li>
+					<li class=''><a href='${request.contextPath}/courseadmin/content'><span>课程内容</span> </a></li>
+				</ul>
+			</li> 
+		</ul>
+	</div>
+</nav>

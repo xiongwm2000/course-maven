@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>首页</title>
+<#include '../common/coursecss.html'>
+ <link href="${request.contextPath}/style/css/index.css" rel="stylesheet" type="text/css" /> 
+<#include '../common/hdcss.html'>
+<#include '../common/hdjs.html'>
+ <style>
+body{
+	min-width: 1200px;
+}
+.index-content{
+	width: 1200px;
+	height:100%;
+	margin:0 auto; 
+}
+.div-title{
+	width:150px;
+	height: 35px;
+	line-height:35px;
+	background-color: #455A6E;
+	color:#fff;
+	
+	text-align: center;
+	font-size: 18px;
+    
+}
+.border-bottom{
+	margin-top:5px;
+	margin-bottom:40px;
+	  border-bottom: 1px solid #d2d2d2;
+}
+.title-content1{
+	width:600px;
+	height:90px;
+	margin:0 auto; 
+	background-color:#FE8504;
+	border-radius: 5px 5px 5px 5px;
+	margin-bottom:30px;
+	line-height:90px;
+	color:#fff;
+	text-align: center;
+	font-size: 18px;
+}
+.title-content2{
+	width:600px;
+	height:90px;
+	margin:0 auto; 
+	background-color:#966CC0;
+	border-radius: 5px 5px 5px 5px;
+	margin-bottom:30px;
+	line-height:90px;
+	color:#fff;
+	text-align: center;
+	font-size: 18px;
+}
+.title-content3{
+	width:600px;
+	height:90px;
+	margin:0 auto; 
+	background-color:#FBAB2C;
+	border-radius: 5px 5px 5px 5px;
+	margin-bottom:30px;
+	line-height:90px;
+	color:#fff;
+	text-align: center;
+	font-size: 18px;
+}
+.title-content4{
+	width:600px;
+	height:90px;
+	margin:0 auto; 
+	background-color:#33A3E6;
+	border-radius: 5px 5px 5px 5px;
+	margin-bottom:50px;
+	line-height:90px;
+	color:#fff;
+	text-align: center;
+	font-size: 18px;
+}
+.text{
+	font-size: 16px;
+	line-height: 20px;
+	
+	padding: 20px 50px 30px 15px;
+     text-indent: 2em;
+	margin-bottom: 40px;
+}
+
+.text2{
+	width:90%;
+	height:20px;
+	margin:0 auto; 
+	text-align:right;
+	font-size: 16px;
+    color:#FBAB2C;
+	margin-bottom: 40px;
+}
+.cheng{
+	width:1000px;
+	height: 500px;
+	margin:0 auto;
+}
+.ming{
+	font-size: 18px;
+	  border-bottom: 1px solid #e4e5e6;
+}
+.geshi{
+	font-size: 16px;
+	color:gray;
+	line-height: 25px;
+}
+ 
+.tab{
+	width: 100%;
+	height: 90px;
+	text-align: center;
+	line-height:90px;
+}
+
+	 </style>
+</head>
+<body>
+	
+	 <#include '../common/header.html'>
+	 <#include '../common/hdslide.html'>
+	
+		<div class="container">
+		<div class="index-content">
+		 <div class="div-title">资源统计</div>
+		<div class="border-bottom"></div>
+		
+		 <div class="title-content1"><table class="tab" ><tr><td><img alt="" src="${request.contextPath}/style/img/tu1.png " style="height: 80px;"></td><td>总量：532个</td></tr></table></div>
+		  <div class="title-content2"><table class="tab" ><tr><td><img alt="" src="${request.contextPath}/style/img/tu2.png" style="height: 80px;"></td><td>视频资源：33个</td></tr></table></div>
+		  <div class="title-content3"><table class="tab"><tr><td><img alt="" src="${request.contextPath}/style/img/tu3.png" style="height: 80px;"></td><td>文档资源：56个</td></tr></table></div>
+		   <div class="title-content4"><table class="tab"><tr><td><img alt="" src="${request.contextPath}/style/img/tu4.png" style="height: 80px;"></td><td>其他资源：443个</td></tr></table></div>
+		
+		 <div class="div-title">课程介绍</div>
+		 <div class="border-bottom"></div>
+		 <div class="text"> ${(course.describle)!''}</div>
+		 
+		 <div class="div-title">成果展示</div>
+		 <div class="border-bottom"></div>
+		 <div class="cheng">
+		 
+		 <div style="width: 470px;height: 230px; float: left;margin: 5px;">
+		   <table  style="height:230px ;border:0;width: 400px;">
+		   <tr><td style="width: 230px;">
+		   <img alt="" src="${request.contextPath}/assets/images/lesson1.png">
+		   </td>
+		   <td><div style="height: 200px"> <p class="ming">名称</p><p class="geshi">资源格式：图片</p><p class="geshi">适用科目：财经商贸</p><p class="geshi">作者：<a href="">金誉华</a></p></div></td></tr>
+		   </table>
+		 </div>
+		 <div style="width: 470px;height: 230px;float: left;margin: 5px;">
+		   <table  style="height:230px ;border:0; width: 400px;">
+		   <tr><td style="width: 230px;">
+		   <img alt="" src="${request.contextPath}/assets/images/lesson1.png">
+		   </td>
+		   <td><div style="height: 200px"> <p class="ming">名称</p><p class="geshi">资源格式：图片</p><p class="geshi">适用科目：财经商贸</p><p class="geshi">作者：<a href="">金誉华</a></p></div></td></tr>
+		   </table>
+		 </div>
+		  <div style="width: 470px;height: 230px;float: left;margin: 5px;">
+		   <table  style="height:230px ;border:0; width: 400px;">
+		   <tr><td style="width: 230px;">
+		   <img alt="" src="${request.contextPath}/assets/images/lesson1.png">
+		   </td>
+		   <td><div style="height: 200px"> <p class="ming">名称</p><p class="geshi">资源格式：图片</p><p class="geshi">适用科目：财经商贸</p><p class="geshi">作者：<a href="">金誉华</a></p></div></td></tr>
+		   </table>
+		 </div>
+		  <div style="width: 470px;height: 230px;float: left;margin: 5px;">
+		   <table  style="height:230px ;border:0; width: 400px;">
+		   <tr><td style="width: 230px;">
+		   <img alt="" src="${request.contextPath}/assets/images/lesson1.png">
+		   </td>
+		   <td><div style="height: 200px"> <p class="ming">名称</p><p class="geshi">资源格式：图片</p><p class="geshi">适用科目：财经商贸</p><p class="geshi">作者：<a href="">金誉华</a></p></div></td></tr>
+		   </table>
+		 </div>
+		
+		 </div>
+		  <div class="text2"><a href="">更多</a></div>
+		  
+		  <div class="div-title">课程特色</div>
+		 <div class="border-bottom"></div>
+		  <div class="text"> ${(course.feature)!''}</div>
+		  
+		  
+		  
+		</div>
+		
+		</div>
+		
+		
+	<#include '../common/footer.html'>
+	
+	
+	
+	
+</body>
+</html>

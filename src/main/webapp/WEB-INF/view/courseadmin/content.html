@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>课程内容</title>
+</head>
+<#include '../common/css.html' >
+<body class='contrast-blue'>
+	<#include '../common/header-org.html'>
+
+	<div class='container body'>
+		<div class='row'>
+			<div class='col-xs-3 new-style'><#include 'left.html'></div>
+			<div class='col-xs-9 fch '>
+				<div class="text">&nbsp;&nbsp;内容管理</div>
+				<input type="hidden" id="channellen" value="${len}" />
+					<span class="btn-span row-table">
+						<button class="btn btn-success btn-f button ">
+							<i class="icon-plus-sign-alt"></i>&nbsp;&nbsp;添加内容
+						</button>
+					</span>
+
+				<div class="btn-group dropdown ml5">
+					<button id="selCourse" value="${siteId}" class="selt2" data-delay="100" data-hover="dropdown"
+						data-toggle="dropdown"></button>
+					<ul id="opts" class="dropdown-menu">
+						<#list courses as course>
+						<li id=${course.siteid}><a href="${request.contextPath}/courseadmin/content/1/${course.siteid}">${course.name}</a>
+						</li> </#list>
+					</ul>
+				</div>
+
+				<!-- 列表 -->
+				<table class=' table table-bordered table-striped mar-bottom0' id="example">
+					<thead>
+						<tr>
+							<th class="tab-font disp">contentid</th>
+							<th class="tab-font ">所在栏目</th>
+							<th class="tab-font ">标题</th>
+							<th class="tab-font ">创建时间</th>
+							<th class="tab-font">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<#list contents as content>
+						<tr class="text-center">
+							<td class="disp">${content.id}</td>
+							<td>${content.channel.name}</td>
+							<td>${content.title}</td>
+							<td>${content.createtime}</td>
+
+							<td>
+								<div class='text-center'>
+									<a class='btn btn-success btn-xs edit-click' href='javascript:void(0)'
+										onclick="edit('${content.id}')">
+										<i class='icon-pencil'></i>
+									</a> <a class='btn btn-danger btn-xs' href='javascript:void(0)' onclick="del('${content.id}')"> <i
+										class=' icon-trash'></i>
+									</a>
+								</div>
+							</td>
+						</tr>
+						</#list>
+					</tbody>
+				</table>
+				<div style="text-align: center;margin-top: 20px;">
+					<ul id="pagination"></ul>
+				</div>
+				<!--列表 -->
+			</div>
+		</div>
+	</div>
+	<#include '../common/footer.html'>
+
+	<!-- 弹框 -->
+	<div class="push-background disp"></div>
+	<!-- 弹框结束 -->
+
+	<!-- 添加内容 -->
+	<div class='push2 disp'>
+		
+		<div class='form-group1'>
+			<div class='controls channeladd'>
+				<div class='control-label' for='validation_name' style="margin:10px 23px">
+					<input class='' name='type' type='radio' value="zy" style="margin:10px 0 10px 20px" onclick="chowdtw(this)">视频/文档
+					<input class='' name='type' type='radio' value="tw" style="margin:10px 0 10px 20px" onclick="chowdtw(this)">图文
+				</div>
+			</div>
+		</div>
+
+		<div class='form-actions5'>
+			<div class='controls channeladd'>
+				<div class='control-label auto2' for='validation_name'>标题：</div>
+				<div class='control-label auto2' for='validation_name'>
+					<input class='form-control link-name' data-rule-required='true' id='validation_name' name='validation_name'
+						type='text'>
+				</div>
+			</div>
+		</div>
+
+		<div class='form-group1'>
+			<div class='controls channeladd'>
+				<div class='control-label auto2' for='validation_name'>栏目：</div>
+				<div class='control-label auto2' for='validation_name'>
+					<input class=' link-url form-control1' id='pid' type='text' onclick="showMenu();" placeholder='顶级菜单'
+						readonly="true">
+					<!-- 					<input class=' link-url form-control1' id='pid' type='text' onclick="showMenu();" onblur="hideMenu()" placeholder='顶级菜单' readonly="true"> -->
+
+					<input type="hidden" id="parentid" />
+					<div id="menuContent" class="menuContent addchannel">
+						<ul id="treeDemo" class="ztree menuContentUl"></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class='form-group1'>
+			<div class='col-sm-12 controls channeladd'>
+				<div class='control-label auto2' for='validation_name'>摘要：</div>
+				<div class='control-label auto2' for='validation_name'>
+					<textarea rows="3" cols="151" id="describle" style="width:800px"></textarea>
+				</div>
+			</div>
+		</div>
+
+		<!-- 上传文档 -->
+		<div class='form-group1 wd' style="margin-top: 20px;">
+			<div class='controls channeladd'>
+				<div class='control-label auto2' for='validation_name'>上传资源：</div>
+				<div class='control-label auto2' for='validation_name'>
+					<div class="hide" style="margin-top:-30px;margin-left:80px">
+						<input type="hidden" id="newtype" value="1" /> <input type="radio" name="newtype" value="1" checked="checked"
+							style="margin-left:10px;margin-right:10px">文档 <input type="radio" name="newtype" value="2"
+							style="margin-left:30px;margin-right:10px">视频
+					</div>
+					<div id="result-uploader2" class="right upload-style" style="float:left;margin-right:20px"></div>
+				</div>
+				<input type="hidden" id="wdpath" value="path" />
+			</div>
+		</div>
+
+		<!-- 保存文档 -->
+
+		<div class='form-actions1 wd' style="text-align:center">
+			<div class='row'>
+				<div class='auto2'>
+					<button class='btn btn-success btn-edit btn-save' onclick="savewd('wd')" type='button'>保存</button>
+					<a href="javascript:void(0)" class="btn btn-success btn-edit btn-back">返回</a>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 图文 -->
+		<div class='form-group1 tw disp'>
+			<div class='control-label auto2' >内容：</div>
+			<div class='control-label auto2'>
+				<script id="editor" type="text/plain" style="width: 800px;height:500px"></script>
+			</div>
+		</div>
+		
+		<div class='form-actions1 tw disp' style="text-align:center">
+			<div class='row'>
+				<div class='auto2'>
+					<button class='btn btn-success btn-edit btn-save' onclick="savewd('tw')" type='button'>保存</button>
+					<a href="javascript:void(0)" class="btn btn-success btn-edit btn-back">返回</a>
+				</div>
+			</div>
+		</div>
+		<!-- 图文 -->
+	</div>
+
+	<!-- 添加内容end -->
+
+	<!-- 编辑内容 -->
+	<div class='edit-push2 disp'>
+		<div class="text">&nbsp;&nbsp;编辑内容</div>
+
+
+		<div class='form-group1 disp'>
+			<div class='col-sm-12 controls channeladd'>
+				<div class='control-label auto2' for='validation_name'>id：</div>
+				<div class='control-label auto2' for='validation_name'>
+					<input class='form-control link-name' data-rule-required='true' id='id1' name='validation_name' type='text'>
+				</div>
+			</div>
+		</div>
+
+		<div class='form-group1 '>
+			<div class='controls channeladd'>
+				<div class='control-label auto2' for='validation_name'>标题：</div>
+				<div class='control-label auto2' for='validation_name'>
+					<input class='form-control link-name' data-rule-required='true' id='title' name='validation_name' type='text'>
+				</div>
+			</div>
+		</div>
+
+		<div class='form-group1 '>
+			<div class='controls channeladd'>
+				<div class='control-label auto2' for='validation_name'>栏目：</div>
+				<div class='control-label auto2' for='validation_name'>
+					<input class=' link-url form-control1' id='pid1' type='text' onclick="showMenu1();" placeholder='顶级菜单'
+						readonly="true"> <input type="hidden" id="parentid1" /> <input type="hidden" id="channelid" />
+					<div id="menuContent1" class="menuContent" style="display:none;position: absolute;z-index:999">
+						<ul id="treeDemo1" class="ztree" style="margin-top:0; width:200px;"></ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class='form-group1 '>
+			<div class='controls channeladd'>
+				<div class='control-label auto2' for='validation_name'>摘要：</div>
+				<div class='control-label auto2' for='validation_name'>
+					<textarea rows="4" cols="151" id="describle1" style="width:800px"></textarea>
+				</div>
+			</div>
+		</div>
+
+		<div class='form-group1 wd' style="margin-top: 20px;">
+			<div class='controls channeladd'>
+				<div class='control-label auto2' for='validation_name'>上传资源：</div>
+				<div class='control-label auto2' for='validation_name'>
+					<div class="hide" style="margin-top:-30px;margin-left:80px">
+						<input type="hidden" id="type" value="1" /> <input type="radio" name="type" value="1" checked="checked"
+							style="margin-left:10px;margin-right:10px">文档 <input type="radio" name="type" value="2"
+							style="margin-left:30px;margin-right:10px">视频
+					</div>
+					<div id="result-uploader3" class="right upload-style" style="float:left;margin-right:30px"></div>
+				</div>
+				<input type="hidden" id="wdpath1" value="" /> <input type="hidden" id="oldwdpath1" value="" />
+			</div>
+		</div>
+
+		<div class='form-actions1 wd' style="text-align:center">
+			<div class='row'>
+				<div class='auto2'>
+					<button class='btn btn-success btn-edit btn-save' onclick="editsavewd()" type='button'>保存</button>
+					<a href="javascript:void(0)" class="btn btn-success btn-edit btn-back">返回</a>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 编辑图文 -->
+		<div class='form-group1 tw disp'>
+			<div class='control-label auto2' >内容：</div>
+			<div class='control-label auto2'>
+				<script id="editeditor" type="text/plain" style="width: 800px;height:500px"></script>
+			</div>
+		</div>
+		
+		<div class='form-actions1 tw disp' style="text-align:center">
+			<div class='row'>
+				<div class='auto2'>
+					<button class='btn btn-success btn-edit btn-save' onclick="editsavewd()" type='button'>保存</button>
+					<a href="javascript:void(0)" class="btn btn-success btn-edit btn-back">返回</a>
+				</div>
+			</div>
+		</div>
+		<!-- 编辑图文 -->
+
+	</div>
+	<!-- 编辑内容结束 -->
+	
+	<#include '../common/js.html'>
+	<script src="//imgcache.qq.com/open/qcloud/js/vod/sdk/ugcUploader.js"></script>
+	<script>
+	
+	allowWd=[ 'mp4','doc','ppt','xls','html','txt','pdf'];
+$(function() {
+	initpage();
+	wdUpLoader("result-uploader2",allowWd,"wdpath","wdname");
+	wdUpLoader("result-uploader3",allowWd,"wdpath1","wdname1");
+	
+	//添加内容对话框显示、删除
+	$( '.btn-f').click(function(){
+		var courseid=$("#selCourse").val();
+		var channellen=$("#channellen").val();
+   		if(courseid==0){alert("请先添加/选择课程");return;}
+   		if(channellen==0){alert("请先至-栏目管理-添加栏目");return;}
+		$(".push-background").removeClass("disp");
+		$(".push2").removeClass("disp");
+	});
+
+	$( '.btn-back').click(function(){
+	    $(".push-background").addClass("disp");
+	    $(".push2").addClass("disp");
+	    $(".edit-push2").addClass("disp");
+	});
+	
+	var option = {
+	            theme:'default',
+	            expandLevel : 3
+	        };
+      /*  $('#treeTable2').treeTable(option); */
+   	$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+   	$.fn.zTree.init($("#treeDemo1"), setting1, zNodes1);
+	
+	});
+	
+	function initpage() {
+	
+		var siteId = $("#selCourse").val();
+		var totalpage = "${totalpage}";
+		totalpage = parseInt(totalpage);
+	
+		<#list courses as course>
+		   if('${course.siteid}'==siteId){
+				 var name="${course.name?replace('\"',' ')}";
+				 var len=name.length;
+				 if(len>8){
+				 	name=name.substring(0,8);
+				 }
+				 var temp=name+"<span class='caret' style='margin-left: 8px'></span>";
+		   		$("#selCourse").html(temp);
+		   }
+	   	</#list>  
+	   	
+	   	if(siteId==0){
+	   		$("#selCourse").html("暂无课程<span class='caret' style='margin-left: 8px'></span>");
+		   $("#opts").html("<li><a>暂无课程</a></li>");
+	   	}
+		
+		if (totalpage == 0)
+		{
+			return;
+		}
+		var currentpage = "${currentpage}";
+		currentpage = parseInt(currentpage);
+		$.jqPaginator(
+			'#pagination',
+			{
+				totalPages : totalpage,
+				visiblePages : 5,
+				currentPage : currentpage,
+
+				wrapper : '<ul class="pagination lastspan"></ul>',
+				/* 		 first : '<li class="first"><a href="javascript:void(0);">首页</a></li>',
+				 */prev : '<li class="prev"><a href="javascript:void(0);">&laquo;</a></li>',
+				next : '<li class="next"><a href="javascript:void(0);">&raquo;</a></li>',
+				/*  last : '<li class="last"><a href="javascript:void(0);">尾页</a></li>', */
+				page : '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+				onPageChange : function(num) {
+					if (currentpage != num)
+					{
+						location.href="${request.contextPath}/courseadmin/content/"+num+"/"+siteId;
+					}
+				}
+			});
+	}
+	
+	function wdUpLoader(eleId,allow,wdpath,wdname) {
+		var uploader = new qq.FineUploader(
+				{
+					element : document.getElementById(eleId),
+					request : {
+						endpoint : '${request.contextPath}/courseadmin/uploadwd'
+					},
+					validation : {
+							allowedExtensions : [ 'mp4','doc','ppt','xls','html','txt','pdf']
+						},
+
+
+					text : {
+						uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+					},
+					template : '<div class="qq-uploader">'
+							+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+							+ '<div class="qq-upload-button btn btn-success" style="bottom:38px;left:95px">{uploadButtonText}</div>'
+							+ '<i id='+wdname+' style="bottom: 58px;left:230px;position: relative";post>上传需1-2分钟，请耐心等待</i>'
+							+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+							+ '<span class="qq-drop-processing-spinner"></span></span>'
+							+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+							+ '</div>',
+					classes : {
+						success : 'alert alert-success',
+						fail : 'alert alert-error'
+					},
+					callbacks : {
+						onComplete : function(id, fileName, responseJSON) {
+							if (responseJSON.success) {
+								var filepath = responseJSON.imgpath;
+								var filename = responseJSON.filename;
+								var suffix=responseJSON.suffix;
+								var type=1;
+								if(suffix==".mp4"){type=2};
+								
+								if(wdname=="wdname"){
+									$("#newtype").val(type);
+								}
+								if(wdname=="wdname1"){
+									$("#type").val(type);
+								}
+								
+								$("#"+wdpath).val(filepath);
+								$("#"+wdname).html(filename);
+								alert("上传成功");
+							}else{
+								alert("上传失败");
+							}
+						}
+					}
+				});
+	}
+	
+	
+    //	删除 
+ 	function del(id){
+ 		if(confirm("你确定删除吗?")){
+        var id=id;
+        var data={"id":id};
+        $.ajax({
+        	url:"${request.contextPath}/courseadmin/delcontent",
+        	type:"post",
+        	data:data,
+        	success:function(s){
+        		if(s.success){alert(s.msg);}
+        		else{alert(s.msg);}
+				location.reload();
+        	}
+        })
+ 	}
+ 	}
+ 	
+ 	var setting = {
+			view: {
+				dblClickExpand: false
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			callback: {
+				/* beforeClick: beforeClick, */
+				onClick: onClick
+			}
+		};
+
+	var zNodes =[
+	 			<#list channels as channel>   
+	 			{id:"${channel.id}", pId:"${(channel.parent.id)!0}", name:"${channel.name}"},
+	 			</#list>
+	 		 ];
+
+		function onClick(e, treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+			nodes = zTree.getSelectedNodes(),
+			v = "";
+			pv = "";
+		 
+			nodes.sort(function compare(a,b){return a.id-b.id;});
+			for (var i=0, l=nodes.length; i<l; i++) {
+				v += nodes[i].name + ",";
+				pv += nodes[i].id + ",";
+				
+			}
+			if (v.length > 0 ) v = v.substring(0, v.length-1);
+			var cityObj = $("#pid");
+			cityObj.attr("value", v);
+		
+			
+			if (pv.length > 0 ) pv = pv.substring(0, pv.length-1);
+			var cityObj2 = $("#parentid");
+			cityObj2.attr("value", pv);
+			
+			hideMenu();
+		}
+
+		function showMenu() {
+			var cityObj = $("#pid");
+			var cityOffset = $("#pid").offset();
+			//$("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+			$("#menuContent").slideDown("fast");
+			$("body").bind("mousedown", onBodyDown);
+		}
+		function hideMenu() {
+			$("#menuContent").fadeOut("fast");
+			$("body").unbind("mousedown", onBodyDown);
+		}
+		function onBodyDown(event) {
+			if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+				hideMenu();
+			}
+			if (!(event.target.id == "menuBtn1" || event.target.id == "menuContent1" || $(event.target).parents("#menuContent1").length>0)) {
+				hideMenu1();
+			}
+		}
+
+	 function savewd(wdtw){
+		var siteId = $("#selCourse").val();
+		var path = $("#wdpath").val();
+		var title=$(".link-name").val();
+		var channelid=$("#parentid").val();
+		var describle=$("#describle").val();
+		var describle=replaceTextarea1(describle);
+		var type=$("#newtype").val();
+		var content = ue.getContent();
+	
+		
+	    if(title==""){alert("请填写标题");return;}
+	    if(channelid==""){alert("请选择栏目");return;}
+	    
+	    if(wdtw=="wd"&&path=="path"){alert("请上传文档");return;}
+		if(wdtw=="tw"){type=3};
+		var data={"title":title,"channelid":channelid,"describle":describle,"path":path,"siteId":siteId,"type":type,"content":content};
+		$.ajax({
+			url:"${request.contextPath}/courseadmin/savewd",
+			type:"post",
+			data:data,
+			success:function(s){
+			if (s.success)
+				{
+					alert(s.msg);
+				}
+			else{alert(s.msg);}
+			location.reload();
+			}
+		});
+		
+	 }
+	 
+	 function edit(id){
+	 
+		var data={"id":id};
+		$.ajax({
+			url:"${request.contextPath}/courseadmin/getcontentbyid",
+			type:"post",
+			data:data,
+			success:function(s){
+			if (s.success){
+			 var content=s.other;
+					$(".push-background").removeClass("disp");
+					$(".edit-push2").removeClass("disp");
+					var type=$("#type").val(content.type);
+					if(content.type==1||content.type==2){
+						$(".wd").removeClass("disp");
+						$(".tw").addClass("disp");
+					}
+					if(content.type==3){
+						$(".wd").addClass("disp");
+						$(".tw").removeClass("disp");
+					}
+					$("#id1").val(content.id);
+					$("#wdpath1").val(content.path);
+					$("#oldwdpath1").val(content.path);
+					$("#title").val(content.title);
+					$("#pid1").val(content.channelname);
+					var describle=replaceTextarea2(content.describle);
+					document.getElementById("describle1").innerHTML=content.describle;
+					$("#parentid1").val(content.channelid);
+					$("input:radio[value="+content.type+"]").attr('checked','true');
+					editue.setContent(content.content);
+				}
+			
+			}
+		});
+	 }
+	
+	 function editsavewd(){
+		 var id=$("#id1").val();
+		 var title=$("#title").val();
+		 var channelid=$("#parentid1").val();
+		 var path=$("#wdpath1").val();
+		 var oldpath=$("#oldwdpath1").val();
+		 var describle=document.getElementById("describle1").value;
+		 var type=$("#type").val();
+		 var content=editue.getContent();
+		 describle=replaceTextarea1(describle);
+		 if((title=="")||(channelid=="")){alert("有栏目未填写内容");return;}
+		 if((type==1||type==2)&&path=="path"){alert("请上传资源");return;}
+		 else{
+			 var data={"id":id,"title":title,"channelid":channelid,"describle":describle,"path":path,"type":type,"oldpath":oldpath,"content":content}
+			$.ajax({
+				url:"${request.contextPath}/courseadmin/editwd",
+				type:"post",
+				data:data,
+				success:function(s){
+					{if (s.success)
+					{
+						alert(s.msg);
+						
+					}
+					else{alert(s.msg);}
+					location.reload();}
+					
+				}
+			}) 
+		 }
+	 }
+	 
+	 //编辑树
+	 var setting1 = {
+				view: {
+					dblClickExpand: false
+				},
+				data: {
+					simpleData: {
+						enable: true
+					}
+				},
+				callback: {
+					/* beforeClick: beforeClick, */
+					onClick: onClick2
+				}
+			};
+
+			var zNodes1 =[
+				<#list channels as channel>   
+				{id:${channel.id}, pId:${(channel.parent.id)!0}, name:"${channel.name}"},
+				</#list>
+			 ];
+
+			function onClick2(e, treeId, treeNode) {
+				var zTree1 = $.fn.zTree.getZTreeObj("treeDemo1"),
+				nodes = zTree1.getSelectedNodes(),
+				v = "";
+				pv = "";
+				nodes.sort(function compare(a,b){return a.id-b.id;});
+				for (var i=0, l=nodes.length; i<l; i++) {
+					v += nodes[i].name + ",";
+					pv += nodes[i].id + ",";
+				}
+				if (v.length > 0 ) v = v.substring(0, v.length-1);
+				var cityObj1 = $("#pid1");
+				cityObj1.attr("value", v);
+				
+				if (pv.length > 0 ) pv = pv.substring(0, pv.length-1);
+				var cityObj21 = $("#parentid1");
+				cityObj21.attr("value", pv);
+				
+				hideMenu1();
+			}
+
+			function showMenu1() {
+				var cityObj1 = $("#pid1");
+				var cityOffset1 = $("#pid1").offset();
+				//$("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+				$("#menuContent1").slideDown("fast");
+				$("body").bind("mousedown", onBodyDown);
+			}
+			function hideMenu1() {
+				$("#menuContent1").fadeOut("fast");
+				$("body").unbind("mousedown", onBodyDown);
+			}
+			
+			
+		var ue = UE.getEditor("editor", {
+			initialFrameWidth:800,
+			initialFrameHeight:400,
+			scaleEnabled : true,
+// 			toolbars : [ [ 'fullscreen', 'source', '|', 'bold', 'italic',
+// 					'underline', '|', 'fontsize', '|', 'attachment',
+// 					'justifyleft', 'justifycenter', 'justifyright',
+// 					'justifyjustify', '|', 'preview' ] ],
+		});
+		var editue = UE.getEditor("editeditor", {
+			initialFrameWidth:800,
+			initialFrameHeight:400,
+			scaleEnabled : true,
+// 			toolbars : [ [ 'fullscreen', 'source', '|', 'bold', 'italic',
+// 					'underline', '|', 'fontsize', '|', 'attachment',
+// 					'justifyleft', 'justifycenter', 'justifyright',
+// 					'justifyjustify', '|', 'preview' ] ],
+		});
+		
+		
+		function chowdtw(obj){
+			var zytw=obj.value;
+			if(zytw=="zy"){
+				$(".wd").removeClass("disp");
+				$(".tw").addClass("disp");
+			}
+			if(zytw=="tw"){
+				$(".wd").addClass("disp");
+				$(".tw").removeClass("disp");
+			}
+		}
+	</script>
+
+</body>
+</html>
+
+
+

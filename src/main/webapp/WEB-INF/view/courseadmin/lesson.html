@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>课时管理</title>
+
+
+
+<style type="text/css">
+.ledit {
+	color: #f8a326;
+}
+
+.lremove {
+	color: #f34541;
+}
+
+.tree {
+	width: 200px;
+	height: 600px;
+	margin-top: 30px;
+	margin-left: 20px;
+	float: left;
+}
+
+.tree_body {
+	margin-top: 30px;
+	border: 1px solid #d9dadc;
+	background: #ffffff;
+	width: 600px;
+	height: 900px;
+	float: left;
+}
+
+.tree_body_title {
+	width: 600px;
+	height: 60px;
+	line-height: 60px;
+	text-align: center;
+	border-bottom: 1px solid #d9dadc;
+}
+
+.tree_body_content {
+	width: 600px;
+	height: 50px;
+	line-height: 50px;
+}
+
+.push-zj {
+	background: #ffffff;
+	position: absolute;
+	width: 700px;
+	z-index: 10000;
+	top: 200.4px;
+	left: 36.3%;
+	border: 11px solid #e7e7eb;
+}
+
+.push-zzj {
+	background: #ffffff;
+	position: absolute;
+	width: 700px;
+	z-index: 10000;
+	top: 200.4px;
+	left: 36.3%;
+	border: 11px solid #e7e7eb;
+}
+
+.push-ks {
+	background: #ffffff;
+	position: absolute;
+	width: 800px;
+	z-index: 10000;
+	top: 200.4px;
+	left: 36.3%;
+	border: 11px solid #e7e7eb;
+}
+
+.tab {
+	width: 600px;
+	height: 50px;
+	margin: 0 auto;
+	border-bottom: 1px solid #e7e7eb;
+}
+
+.tab2 {
+	width: 600px;
+	border: 1px;
+	border-collapse: collapse;
+	border-color: #e7e7eb;
+	text-align: center;
+}
+
+.input_boder {
+	border: 0px;
+	color: red;
+}
+</style>
+<link href="${request.contextPath}/style/css/reset.css" rel="stylesheet"
+	type="text/css" />
+<link href="${request.contextPath}/style/css/main.css" rel="stylesheet"
+	type="text/css" />
+<#include '../common/css.html' >
+
+</head>
+
+<body>
+	<#include '../common/header-org.html'>
+
+	<div class='container body'>
+		<div class='row'>
+			<div class='col-xs-3 new-style'><#include 'left-chapter.html'>
+			</div>
+			<div class='col-xs-9 fch '>
+				<div class="text">&nbsp;&nbsp;课程资源目录</div>
+
+
+
+				<div class="tree">
+
+					<div id="menuContent" class="menuContent"
+						style="display:none;position: absolute;z-index:999;">
+						<ul id="treeDemo" class="ztree"
+							style="margin-top:0; width:200px; height: 500px;"></ul>
+					</div>
+				</div>
+				
+				<input type="hidden" id="totalcount" value="${totalcount}">
+				
+				<div class="tree_body">
+					<div class="tree_body_title">
+						<span class="btn-span row-table"><button
+								class="btn btn-success btn-ks button ">
+								<i class="icon-plus-sign-alt"></i>&nbsp;&nbsp;添加课时
+							</button></span> <span class="btn-span row-table"><button
+								class="btn btn-success btn-zj button ">
+								<i class="icon-plus-sign-alt"></i>&nbsp;&nbsp;添加章节
+							</button></span>
+
+					</div>
+					<div class="tree_body_content" id="bb">所有课程资源</div>
+
+					<div class="tree_body_content " id="cc">
+						<table class="tab" >
+							<tr>
+								<td></td>
+								<td><div id=sz>所在章节： <input class="input_boder" readonly="readonly"
+									id="pid" /> <input type="hidden" id="parentid" value="0"/> <input type="hidden" id="num" /> </div></td>
+								<td></td>
+								<td><a class='  has-tooltip ' href='#' onclick="edit()"
+									title='编辑'> <i class='icon-pencil ledit'></i></a></td>
+								<td><a class=' has-tooltip ' href=''
+									onclick="del('${course.id}')" title='删除'><i
+										class='icon-remove lremove'></i></a></td>
+								<td></td>
+							</tr>
+						</table>
+
+					</div>
+
+					<table class="tab2" border="1">
+						<thead>
+							<tr	style="height: 40px;font-size: 18px; color:#fff; background-color:#49bf67; ">
+							<td>名称</td>
+							<td>类型</td>
+							</tr>
+						</thead>
+
+						<tbody id="lid"></tbody>
+					</table>
+					
+					<div class="pagination-wrap">
+						<div id="Pagination" class="dib pagination clearfix"></div>
+						<ul id="Searchresult" style="display:none;"></ul>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<#include '../common/footer.html'>
+	<div class="push-background disp"></div>
+	<!-- 添加课时内容 -->
+	<div class='push-ks disp'>
+		<div class="push-header">
+			<span>&nbsp;&nbsp;添加课时</span>
+		</div>
+		<form class='form form-horizontal validate-form' id="form1">
+			<div class='form-group'>
+				<label class='control-label col-sm-3' for='validation_category'>类型:</label>
+				<div class='col-sm-8 controls'>
+
+					<span class="dib radio-control"> <input id="player1"
+						type="radio" name="identity" checked="checked"
+						style="float: left;margin-top: 15px;" /> <label for="player1"
+						class="dib radio" style="height:21px;float: left; width: 75px;">视频</label>
+					</span> <span class="dib radio-control"> <input id="player2"
+						type="radio" name="identity" style="float: left;margin-top: 15px;" />
+						<label for="player2" class="dib radio"
+						style="height:21px;float: left;width: 75px;">音频</label>
+					</span> <span class="dib radio-control"> <input id="player3"
+						type="radio" name="identity" style="float: left;margin-top: 15px;" />
+						<label for="player3" class="dib radio"
+						style="height:21px;float: left;width: 75px;">图片</label>
+					</span> <span class="dib radio-control"> <input id="player6"
+						type="radio" name="identity" style="float: left;margin-top: 15px;" />
+						<label for="player6" class="dib radio"
+						style="height:21px;float: left;width: 75px;">动画</label>
+					</span> <span class="dib radio-control"> <input id="player4"
+						type="radio" name="identity" style="float: left;margin-top: 15px;" />
+						<label for="player4" class="dib radio"
+						style="height:21px;float: left;width: 75px;">文档</label>
+					</span><br> <span class="dib radio-control"> <input
+						id="player7" type="radio" name="identity"
+						style="float: left;margin-top: 15px;" /> <label for="player7"
+						class="dib radio" style="height:21px;float: left;width: 120px;">web课件</label>
+					</span> <span class="dib radio-control"> <input id="player8"
+						type="radio" name="identity" style="float: left;margin-top: 15px;" />
+						<label for="player8" class="dib radio"
+						style="height:21px;float: left;width: 120px;">应用程序</label>
+					</span> <span class="dib radio-control"> <input id="player5"
+						type="radio" name="identity" style="float: left;margin-top: 15px;" />
+						<label for="player5" class="dib radio"
+						style="height:21px;float: left;width: 75px;">其他</label>
+					</span>
+
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='control-label col-sm-3 ' for='validation_name'>标题：</label>
+				<div class='col-sm-6 controls'>
+					<input class='form-control ' data-rule-required='true' id='ks_name'
+						placeholder='请输入课时名称' name='validation_name' type='text'>
+					<div class="yz hide">
+						<em class="login-font-red yzfont">标题不能为空</em>
+					</div>
+				</div>
+			</div>
+			<div id="sp">
+				<div class='form-group'>
+					<label class='control-label col-sm-3' for='validation_feature'>视频:</label>
+					<div class='col-sm-8 controls '>
+
+
+						<div id="result-uploader" class="right upload-style"
+							style="float:left;margin-right:20px"></div>
+						<p>
+							(支持MP4、flv、avi、rmvb、<br />3gp、mpeg、swf格式)
+						</p>
+						<input type="hidden" id="path" value="" />
+
+
+						<div class="spsc hide bmyz-sc">
+							<em class="login-font-red yzfont">上传成功</em>
+						</div>
+						<div class="yz1 hide bmyz-sc">
+							<em class="login-font-red yzfont">视频不能为空</em>
+						</div>
+
+					</div>
+				</div>
+				<div class='form-actions'>
+					<div class='row'>
+						<div class='col-sm-9 col-sm-offset-3'>
+							<button class='btn btn-success btn-edit btn-save'
+								onclick="spsave()" type='button'>保存</button>
+							<a href="javascript:void(0)"
+								class="btn btn-success btn-edit btn-back">返回</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div id="yp">
+				<div class='form-group'>
+					<label class='control-label col-sm-3' for='validation_feature'>音频:</label>
+					<div class='col-sm-8 controls '>
+						<div id="result-uploader1" class="right upload-style"
+							style="float:left;margin-right:20px"></div>
+						<p>(支持MP3、WAV格式)</p>
+						<input type="hidden" id="path1" value="" />
+
+						<div class="ypsc hide bmyz-sc">
+							<em class="login-font-red yzfont">上传成功</em>
+						</div>
+						<div class="yz2 hide bmyz-sc">
+							<em class="login-font-red yzfont">音频不能为空</em>
+						</div>
+					</div>
+				</div>
+				<div class='form-actions'>
+					<div class='row'>
+						<div class='col-sm-9 col-sm-offset-3'>
+							<button class='btn btn-success btn-edit btn-save'
+								onclick="ypsave()" type='button'>保存</button>
+							<a href="javascript:void(0)"
+								class="btn btn-success btn-edit btn-back">返回</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div id="text">
+				<div class='form-group'>
+					<label class='control-label col-sm-3' for='validation_feature'>文档:</label>
+					<div class='col-sm-8 controls '>
+						<div id="result-uploader2" class="right upload-style"
+							style="float:left;margin-right:20px"></div>
+						<p>(仅支持doc、docx、PPT、pptx格式)</p>
+						<input type="hidden" id="path2" value="" />
+
+						<div class="textsc hide bmyz-sc">
+							<em class="login-font-red yzfont">上传成功</em>
+						</div>
+						<div class="yz3 hide bmyz-sc">
+							<em class="login-font-red yzfont">音频不能为空</em>
+						</div>
+					</div>
+				</div>
+				<div class='form-actions'>
+					<div class='row'>
+						<div class='col-sm-9 col-sm-offset-3'>
+							<button class='btn btn-success btn-edit btn-save'
+								onclick="textsave()" type='button'>保存</button>
+							<a href="javascript:void(0)"
+								class="btn btn-success btn-edit btn-back">返回</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div id="other">
+				<div class='form-group'>
+					<label class='control-label col-sm-3' for='validation_feature'>其他:</label>
+					<div class='col-sm-8 controls '>
+						<div id="result-uploader3" class="right upload-style"
+							style="float:left;margin-right:20px"></div>
+						<p>(不限制格式)</p>
+						<input type="hidden" id="path3" value="" />
+
+						<div class="othersc hide bmyz-sc">
+							<em class="login-font-red yzfont">上传成功</em>
+						</div>
+						<div class="yz4 hide bmyz-sc">
+							<em class="login-font-red yzfont">不能为空</em>
+						</div>
+					</div>
+				</div>
+				<div class='form-actions'>
+					<div class='row'>
+						<div class='col-sm-9 col-sm-offset-3'>
+							<button class='btn btn-success btn-edit btn-save'
+								onclick="othersave()" type='button'>保存</button>
+							<a href="javascript:void(0)"
+								class="btn btn-success btn-edit btn-back">返回</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div id="img">
+				<div class='form-group'>
+					<label class='control-label col-sm-3' for='validation_feature'>图片:</label>
+					<div class='col-sm-8 controls '>
+
+
+						<div id="result-uploader4" class="right upload-style"
+							style="float:left;margin-right:20px"></div>
+						<p>(支持BMP、JPEG、JPG、PNG、GIF格式)</p>
+						<input type="hidden" id="path4" value="" />
+
+
+						<div class="imgsc hide bmyz-sc">
+							<em class="login-font-red yzfont">上传成功</em>
+						</div>
+						<div class="yz5 hide bmyz-sc">
+							<em class="login-font-red yzfont">图片不能为空</em>
+						</div>
+
+					</div>
+				</div>
+				<div class='form-actions'>
+					<div class='row'>
+						<div class='col-sm-9 col-sm-offset-3'>
+							<button class='btn btn-success btn-edit btn-save'
+								onclick="imgsave()" type='button'>保存</button>
+							<a href="javascript:void(0)"
+								class="btn btn-success btn-edit btn-back">返回</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div id="flash">
+				<div class='form-group'>
+					<label class='control-label col-sm-3' for='validation_feature'>动画:</label>
+					<div class='col-sm-8 controls '>
+
+
+						<div id="result-uploader5" class="right upload-style"
+							style="float:left;margin-right:20px"></div>
+						<p>(支持SWF、GIF、FLV、FLA、AVI格式)</p>
+						<input type="hidden" id="path5" value="" />
+
+
+						<div class="flashsc hide bmyz-sc">
+							<em class="login-font-red yzfont">上传成功</em>
+						</div>
+						<div class="yz6 hide bmyz-sc">
+							<em class="login-font-red yzfont">动画不能为空</em>
+						</div>
+
+					</div>
+				</div>
+				<div class='form-actions'>
+					<div class='row'>
+						<div class='col-sm-9 col-sm-offset-3'>
+							<button class='btn btn-success btn-edit btn-save'
+								onclick="flashsave()" type='button'>保存</button>
+							<a href="javascript:void(0)"
+								class="btn btn-success btn-edit btn-back">返回</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div id="web">
+				<div class='form-group'>
+					<label class='control-label col-sm-3' for='validation_feature'>web课件:</label>
+					<div class='col-sm-8 controls '>
+
+
+						<div id="result-uploader6" class="right upload-style"
+							style="float:left;margin-right:20px"></div>
+						<p>(支持html、htm格式)</p>
+						<input type="hidden" id="path6" value="" />
+
+
+						<div class="websc hide bmyz-sc">
+							<em class="login-font-red yzfont">上传成功</em>
+						</div>
+						<div class="yz7 hide bmyz-sc">
+							<em class="login-font-red yzfont">web课件不能为空</em>
+						</div>
+
+					</div>
+				</div>
+				<div class='form-actions'>
+					<div class='row'>
+						<div class='col-sm-9 col-sm-offset-3'>
+							<button class='btn btn-success btn-edit btn-save'
+								onclick="websave()" type='button'>保存</button>
+							<a href="javascript:void(0)"
+								class="btn btn-success btn-edit btn-back">返回</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div id="yy">
+				<div class='form-group'>
+					<label class='control-label col-sm-3' for='validation_feature'>应用程序:</label>
+					<div class='col-sm-8 controls '>
+
+
+						<div id="result-uploader7" class="right upload-style"
+							style="float:left;margin-right:20px"></div>
+						<p>(支持ZIP或者RAR格式)</p>
+						<input type="hidden" id="path7" value="" />
+
+
+						<div class="yysc hide bmyz-sc">
+							<em class="login-font-red yzfont">上传成功</em>
+						</div>
+						<div class="yz8 hide bmyz-sc">
+							<em class="login-font-red yzfont">应用程序不能为空</em>
+						</div>
+
+					</div>
+				</div>
+				<div class='form-actions'>
+					<div class='row'>
+						<div class='col-sm-9 col-sm-offset-3'>
+							<button class='btn btn-success btn-edit btn-save'
+								onclick="yysave()" type='button'>保存</button>
+							<a href="javascript:void(0)"
+								class="btn btn-success btn-edit btn-back">返回</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+
+		</form>
+	</div>
+	<!-- 添加章节 -->
+	<div class='push-zj disp'>
+		<div class="push-header">
+			<span>&nbsp;&nbsp;添加章节</span>
+		</div>
+		<form class='form form-horizontal validate-form' id="form1">
+			<div class='form-group'>
+				<label class='control-label col-sm-3' for='validation_email'>父章节:</label>
+				<div class='col-sm-6 controls'>
+					<input class=' link-url form-control1' id='pid1' type='text'
+						onclick="showMenu1();" placeholder='顶级菜单' readonly="true">
+					<input type="hidden" id="parentid1" />
+					<div id="menuContent1" class="menuContent"
+						style="display:none;position: absolute;z-index:999;">
+						<ul id="treeDemo1" class="ztree"
+							style="margin-top:0; width:200px;"></ul>
+					</div>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='control-label col-sm-3 col-sm-3' for='validation_name'>章节名称：</label>
+				<div class='col-sm-6 controls'>
+					<input class='form-control zj-name' data-rule-required='true'
+						id='validation_name' placeholder='请输入章节名称' name='validation_name'
+						type='text'>
+				</div>
+				<div id="yzname"></div>
+			</div>
+			<div class='form-group'>
+				<label class='control-label col-sm-3' for='validation_email'>排序:</label>
+				<div class='col-sm-6 controls'>
+					<input class='form-control  push-input-text'
+						data-rule-required='true' id='link-sortnumber'
+						name='link-sortnumber' value="10000" placeholder='请输入数值'
+						type='text'>
+				</div>
+			</div>
+			<div class='form-actions'>
+				<div class='row'>
+					<div class='col-sm-9 col-sm-offset-3'>
+						<button class='btn btn-success btn-edit btn-save' onclick="save()"
+							type='button'>保存</button>
+						<a href="javascript:void(0)"
+							class="btn btn-success btn-edit btn-back">返回</a>
+					</div>
+
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!--  编辑 -->
+	<div class='edit-push disp'>
+		<div class="push-header">
+			<span>&nbsp;&nbsp;编辑章节</span>
+		</div>
+		<form class='form form-horizontal validate-form' id="form1">
+			<div class='form-group'>
+				<label class='control-label col-sm-3 col-sm-3' for='validation_name'>章节名称：</label>
+				<div class='col-sm-6 controls'>
+					<input class='form-control ' id="link-name"
+						data-rule-required='true' placeholder='请输入章节名称'
+						name='validation_name' type='text'>
+				</div>
+			</div>
+
+			<div class='form-group'>
+				<label class='control-label col-sm-3' for='validation_email'>排序:</label>
+				<div class='col-sm-6 controls'>
+					<input class='form-control  push-input-text' id="sn"
+						data-rule-required='true' name='validation_email'
+						 value='10000' type='text'>
+				</div>
+			</div>
+
+			<div class='form-group disp'>
+				<label class='control-label col-sm-3' for='validation_email'>id:</label>
+				<div class='col-sm-6 controls'>
+					<input class='form-control  push-input-text'
+						data-rule-required='true' id='link-id' name='validation_email'
+						type='text'>
+				</div>
+			</div>
+			<div class='form-actions'>
+				<div class='row'>
+					<div class='col-sm-9 col-sm-offset-3'>
+						<button class='btn btn-success btn-edit btn-save'
+							onclick="editsave()" type='button'>保存</button>
+						<a href="javascript:void(0)"
+							class="btn btn-success btn-edit btn-back">返回</a>
+					</div>
+
+				</div>
+			</div>
+		</form>
+	</div>
+	<#include '../common/js.html'>
+	<script type="text/javascript" src="/style/js/lib/jquery.pagination.js"></script>
+	<script>
+	
+	
+		var setting = {
+			view: {
+				dblClickExpand: false
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			callback: {
+				/* beforeClick: beforeClick, */
+				onClick: onClick
+			}
+		};
+
+		var zNodes =[
+			<#list chapters as chapter>   
+			{id:${chapter.id}, pId:${(chapter.chapter.id)!0}, name:"${chapter.name}"},
+			</#list>
+		 ];
+		
+		
+		 //编辑树
+		 var setting1 = {
+					view: {
+						dblClickExpand: false
+					},
+					data: {
+						simpleData: {
+							enable: true
+						}
+					},
+					callback: {
+						/* beforeClick: beforeClick, */
+						onClick: onClick2
+					}
+				};
+
+				var zNodes1 =[
+                    <#list chapters as chapter>   
+                    {id:${chapter.id}, pId:${(chapter.chapter.id)!0}, name:"${chapter.name}"},
+                     </#list>
+				 ];
+
+		
+		
+		function onClick(e, treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+			nodes = zTree.getSelectedNodes(),
+			v = "";
+			pv = "";
+			nodes.sort(function compare(a,b){return a.id-b.id;});
+			for (var i=0, l=nodes.length; i<l; i++) {
+				v += nodes[i].name + ",";
+				pv += nodes[i].id + ",";
+				
+			}
+			if (v.length > 0 ) v = v.substring(0, v.length-1);
+			var cityObj = $("#pid");
+			cityObj.attr("value", v);
+			
+			if (pv.length > 0 ) pv = pv.substring(0, pv.length-1);
+		var cityObj2 = $("#parentid");
+			cityObj2.attr("value", pv);
+			
+			$("#cc").show();
+			$("#bb").hide();
+			//hideMenu();
+			resettable(pv);
+			
+		}
+        
+		function resettable(chid)
+		{
+		   
+			var courseid="${course.id}";
+  	        var data={courseid:courseid,chapterid:chid,pageNo:1};
+	        $.ajax({
+	        	url:"${request.contextPath}/courseadmin/getchapterunit",
+	        	type:"post",
+	        	data:data,
+	        	success:function(s){
+	        		if(s.success){
+	        			var totalcount = s.other;
+	        			$("#totalcount").val(totalcount);
+	        		}
+	        			initpage();
+	        	}
+	        });
+		}
+
+		function onClick2(e, treeId, treeNode) {
+			var zTree1 = $.fn.zTree.getZTreeObj("treeDemo1"),
+			nodes = zTree1.getSelectedNodes(),
+			v = "";
+			pv = "";
+			nodes.sort(function compare(a,b){return a.id-b.id;});
+			for (var i=0, l=nodes.length; i<l; i++) {
+				v += nodes[i].name + ",";
+				pv += nodes[i].id + ",";
+			}
+			if (v.length > 0 ) v = v.substring(0, v.length-1);
+			var cityObj1 = $("#pid1");
+			cityObj1.attr("value", v);
+			
+			if (pv.length > 0 ) pv = pv.substring(0, pv.length-1);
+			var cityObj21 = $("#parentid1");
+			cityObj21.attr("value", pv);
+			
+			hideMenu1();
+		}
+		
+		function onBodyDown(event) {
+			if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+				hideMenu();
+			}
+		}
+	
+		function showMenu1() {
+			var cityObj1 = $("#pid1");
+			var cityOffset1 = $("#pid1").offset();
+			//$("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+			$("#menuContent1").slideDown("fast");
+			$("body").bind("mousedown", onBodyDown);
+		}
+		function hideMenu1() {
+			$("#menuContent1").fadeOut("fast");
+			$("body").unbind("mousedown", onBodyDown);
+		}
+		function onBodyDown(event) {
+			if (!(event.target.id == "menuBtn" || event.target.id == "menuContent1" || $(event.target).parents("#menuContent1").length>0)) {
+				hideMenu1();
+			}
+		}
+		
+		
+		
+	$(function(){
+		$("#cc").hide();
+		var cityObj = $("#pid");
+		var cityOffset = $("#pid").offset();
+		//$("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+		$("#menuContent").slideDown("fast");
+		$("body").bind("mousedown", onBodyDown);
+		
+		createUploadersp();
+		createUploaderyp();
+		createUploadertext();
+		createUploaderother();
+		createUploaderimg();
+		createUploaderflash();
+		createUploaderweb();
+		createUploaderyy();
+		
+		    $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+		    $.fn.zTree.init($("#treeDemo1"), setting1, zNodes1);
+		   
+	    	  
+	    	$( '.btn-ks').click(function(){
+	    		 var chapterid=$("#parentid").val();
+	   	      if(chapterid==0){
+	   	    	  alert("请选择章节添加课时");
+	   	      }else{
+	   	    	// alert(chapterid);
+	    		$(".push-background").removeClass("disp");
+	    		$(".push-ks").removeClass("disp");	
+	   	      }
+	    	});
+	      
+	    	$( '.btn-zj').click(function(){
+	    		$(".push-background").removeClass("disp");
+	    		$(".push-zj").removeClass("disp");	
+	    	});
+	    	
+	    	$( '.btn-back').click(function(){
+	    		/*  location.reload(); */
+	    		$(".push-ks").addClass("disp");
+	    	 	$(".push-background").addClass("disp");
+	    		$(".push-zj").addClass("disp");
+	    		$(".edit-push").addClass("disp"); 
+	    	}); 
+	    	$("#sp").show();
+    		$("#yp").hide();
+    		$("#text").hide();
+    		$("#other").hide();
+    		$("#img").hide();
+    		$("#flash").hide();
+    		$("#web").hide();
+    		$("#yy").hide();
+	    	$("#player1").click(function(){
+	    		$("#sp").show();
+	    		$("#yp").hide();
+	    		$("#text").hide();
+	    		$("#other").hide();
+	    		$("#img").hide();
+	    		$("#flash").hide();
+	    		$("#web").hide();
+	    		$("#yy").hide();
+	    	});
+	    	$("#player2").click(function(){
+	    		$("#sp").hide();
+	    		$("#yp").show();
+	    		$("#text").hide();
+	    		$("#other").hide();
+	    		$("#img").hide();
+	    		$("#flash").hide();
+	    		$("#web").hide();
+	    		$("#yy").hide();
+	    	});
+	    	$("#player4").click(function(){
+	    		$("#sp").hide();
+	    		$("#yp").hide();
+	    		$("#text").show();
+	    		$("#other").hide();
+	    		$("#img").hide();
+	    		$("#flash").hide();
+	    		$("#web").hide();
+	    		$("#yy").hide();
+	    	});
+	    	$("#player5").click(function(){
+	    		$("#sp").hide();
+	    		$("#yp").hide();
+	    		$("#text").hide();
+	    		$("#other").show();
+	    		$("#img").hide();
+	    		$("#flash").hide();
+	    		$("#web").hide();
+	    		$("#yy").hide();
+	    	});
+	    	$("#player3").click(function(){
+	    		$("#sp").hide();
+	    		$("#yp").hide();
+	    		$("#text").hide();
+	    		$("#other").hide();
+	    		$("#img").show();
+	    		$("#flash").hide();
+	    		$("#web").hide();
+	    		$("#yy").hide();
+	    	});
+	    	$("#player6").click(function(){
+	    		$("#sp").hide();
+	    		$("#yp").hide();
+	    		$("#text").hide();
+	    		$("#other").hide();
+	    		$("#img").hide();
+	    		$("#flash").show();
+	    		$("#web").hide();
+	    		$("#yy").hide();
+	    	});
+	    	$("#player7").click(function(){
+	    		$("#sp").hide();
+	    		$("#yp").hide();
+	    		$("#text").hide();
+	    		$("#other").hide();
+	    		$("#img").hide();
+	    		$("#flash").hide();
+	    		$("#web").show();
+	    		$("#yy").hide();
+	    	});
+	    	$("#player8").click(function(){
+	    		$("#sp").hide();
+	    		$("#yp").hide();
+	    		$("#text").hide();
+	    		$("#other").hide();
+	    		$("#img").hide();
+	    		$("#flash").hide();
+	    		$("#web").hide();
+	    		$("#yy").show();
+	    	});
+	    	
+	    	initpage();
+	    });
+	    
+	    function save(){
+	    	var name=$(".zj-name").val();
+			var parentid=$("#parentid1").val();
+			var sortnumber=$("#link-sortnumber").val();
+			//alert(name);
+			//alert(sortnumber);
+			sortnumber=parseInt(sortnumber);
+			if(name==""){
+			
+			}else{
+			 if((parentid=="")){parentid=0;}
+			 var cid = "${course.id}";
+			var data={"name":name,"pid":parentid,"sortnumber":sortnumber,"cid":cid};
+			$.ajax({
+				url:"${request.contextPath}/courseadmin/savechapter",
+				type:"post",
+				data:data,
+				success:function(s){
+					
+					if (s.success)
+					{
+						alert(s.msg);
+						location.reload();
+					}
+					else{alert(s.msg);}
+					
+				}
+			});
+			}
+	    }
+	  
+	 
+	  
+	  
+	  //删除栏目 
+		function del(cid){
+		if(confirm("你确定要删除吗？\r（如果删除其子目录也会一起删除）"))	{
+			var id=$("#parentid").val();
+	    //  alert(id);
+	        var data={"id":id,"cid":cid};
+	        $.ajax({
+	        	url:"${request.contextPath}/courseadmin/del",
+	        	type:"post",
+	        	data:data,
+	        	success:function(s){
+	        		if(s.success){
+	        			alert(s.msg);
+	        			
+	        		}
+	        		else{alert(s.msg);}
+	        		location.reload();
+	        	}
+	        })   
+	 	}
+	   }
+		
+		 //保存子章节页面显示
+		 function show(id,name){
+		
+		    	$(".push-background").removeClass("disp");
+				$(".push-zzj").removeClass("disp");
+				$("#paid").val(id);
+				$("#pname").val(name);
+				
+			
+				//$("#pid1").val(pname);	
+				//$("#parentid1").val(parentid);	
+				
+		 }
+		
+       //编辑框显示
+		 function edit(){
+			
+		    var id=$("#parentid").val();
+		    var name=$("#pid").val();
+
+	        			$(".push-background").removeClass("disp");
+	    				$(".edit-push").removeClass("disp");
+	    				$("#link-id").val(id);
+	    				$("#link-name").val(name);
+	    			
+	          	
+				
+		 }
+       //视频上传
+		 function createUploadersp() {
+				var uploader = new qq.FineUploader(
+						{
+							element : document.getElementById('result-uploader'),
+							request : {
+								endpoint : '${request.contextPath}/courseadmin/upload'
+							},
+							validation : {
+								allowedExtensions : [ 'mp4', 'avi', 'rmvb','flv', '3gp', 'mpeg','swf' ]
+							},
+
+							text : {
+								uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+							},
+							template : '<div class="qq-uploader">'
+									+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+									+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#fff;background-color:#e75545" >{uploadButtonText}</div>'
+									+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+									+ '<span class="qq-drop-processing-spinner"></span></span>'
+									+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+									+ '</div>',
+							classes : {
+								success : 'alert alert-success',
+								fail : 'alert alert-error'
+							},
+							callbacks : {
+								onComplete : function(id, fileName, responseJSON) {
+									if (responseJSON.success) {
+										var filepath = responseJSON.imgpath;
+									
+										$("#path").val(filepath);
+										$(".spsc").removeClass("hide");
+									
+									}
+								}
+							}
+						});
+			}
+       //音频上传
+        function createUploaderyp() {
+				var uploader = new qq.FineUploader(
+						{
+							element : document.getElementById('result-uploader1'),
+							request : {
+								endpoint : '${request.contextPath}/courseadmin/upload'
+							},
+							validation : {
+								allowedExtensions : ['mp3','wav']
+							},
+
+							text : {
+								uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+							},
+							template : '<div class="qq-uploader">'
+									+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+									+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#fff;background-color:#e75545" >{uploadButtonText}</div>'
+									+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+									+ '<span class="qq-drop-processing-spinner"></span></span>'
+									+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+									+ '</div>',
+							classes : {
+								success : 'alert alert-success',
+								fail : 'alert alert-error'
+							},
+							callbacks : {
+								onComplete : function(id, fileName, responseJSON) {
+									if (responseJSON.success) {
+										var filepath = responseJSON.imgpath;
+									
+										$("#path1").val(filepath);
+										$(".ypsc").removeClass("hide");
+									
+									}
+								}
+							}
+						});
+			}
+       
+       //文档上传
+      function createUploadertext() {
+				var uploader = new qq.FineUploader(
+						{
+							element : document.getElementById('result-uploader2'),
+							request : {
+								endpoint : '${request.contextPath}/courseadmin/upload'
+							},
+							validation : {
+								allowedExtensions : ['doc','docx','ppt','pptx']
+							},
+
+							text : {
+								uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+							},
+							template : '<div class="qq-uploader">'
+									+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+									+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#fff;background-color:#e75545" >{uploadButtonText}</div>'
+									+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+									+ '<span class="qq-drop-processing-spinner"></span></span>'
+									+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+									+ '</div>',
+							classes : {
+								success : 'alert alert-success',
+								fail : 'alert alert-error'
+							},
+							callbacks : {
+								onComplete : function(id, fileName, responseJSON) {
+									if (responseJSON.success) {
+										var filepath = responseJSON.imgpath;
+									
+										$("#path2").val(filepath);
+										$(".textsc").removeClass("hide");
+									
+									}
+								}
+							}
+						});
+			}
+       
+       
+       //其他
+           function createUploaderother() {
+				var uploader = new qq.FineUploader(
+						{
+							element : document.getElementById('result-uploader3'),
+							request : {
+								endpoint : '${request.contextPath}/courseadmin/upload'
+							},
+							
+
+							text : {
+								uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+							},
+							template : '<div class="qq-uploader">'
+									+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+									+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#fff;background-color:#e75545" >{uploadButtonText}</div>'
+									+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+									+ '<span class="qq-drop-processing-spinner"></span></span>'
+									+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+									+ '</div>',
+							classes : {
+								success : 'alert alert-success',
+								fail : 'alert alert-error'
+							},
+							callbacks : {
+								onComplete : function(id, fileName, responseJSON) {
+									if (responseJSON.success) {
+										var filepath = responseJSON.imgpath;
+									
+										$("#path3").val(filepath);
+										$(".othersc").removeClass("hide");
+									
+									}
+								}
+							}
+						});
+			}
+       //图片上传
+       function createUploaderimg() {
+				var uploader = new qq.FineUploader(
+						{
+							element : document.getElementById('result-uploader4'),
+							request : {
+								endpoint : '${request.contextPath}/courseadmin/upload'
+							},
+							validation : {
+								allowedExtensions : ['bmp','jpeg','jpg','png','gif']
+							},
+
+							text : {
+								uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+							},
+							template : '<div class="qq-uploader">'
+									+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+									+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#fff;background-color:#e75545" >{uploadButtonText}</div>'
+									+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+									+ '<span class="qq-drop-processing-spinner"></span></span>'
+									+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+									+ '</div>',
+							classes : {
+								success : 'alert alert-success',
+								fail : 'alert alert-error'
+							},
+							callbacks : {
+								onComplete : function(id, fileName, responseJSON) {
+									if (responseJSON.success) {
+										var filepath = responseJSON.imgpath;
+									
+										$("#path4").val(filepath);
+										$(".imgsc").removeClass("hide");
+									
+									}
+								}
+							}
+						});
+			}
+       //动画上传
+       function createUploaderflash() {
+				var uploader = new qq.FineUploader(
+						{
+							element : document.getElementById('result-uploader5'),
+							request : {
+								endpoint : '${request.contextPath}/courseadmin/upload'
+							},
+							validation : {
+								allowedExtensions : ['swf','gif','flv','fla','avi']
+							},
+
+							text : {
+								uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+							},
+							template : '<div class="qq-uploader">'
+									+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+									+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#fff;background-color:#e75545" >{uploadButtonText}</div>'
+									+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+									+ '<span class="qq-drop-processing-spinner"></span></span>'
+									+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+									+ '</div>',
+							classes : {
+								success : 'alert alert-success',
+								fail : 'alert alert-error'
+							},
+							callbacks : {
+								onComplete : function(id, fileName, responseJSON) {
+									if (responseJSON.success) {
+										var filepath = responseJSON.imgpath;
+									
+										$("#path5").val(filepath);
+										$(".flashsc").removeClass("hide");
+									
+									}
+								}
+							}
+						});
+			}
+       //web课件上传
+           function createUploaderweb() {
+				var uploader = new qq.FineUploader(
+						{
+							element : document.getElementById('result-uploader6'),
+							request : {
+								endpoint : '${request.contextPath}/courseadmin/upload'
+							},
+							validation : {
+								allowedExtensions : ['html','htm']
+							},
+
+							text : {
+								uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+							},
+							template : '<div class="qq-uploader">'
+									+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+									+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#fff;background-color:#e75545" >{uploadButtonText}</div>'
+									+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+									+ '<span class="qq-drop-processing-spinner"></span></span>'
+									+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+									+ '</div>',
+							classes : {
+								success : 'alert alert-success',
+								fail : 'alert alert-error'
+							},
+							callbacks : {
+								onComplete : function(id, fileName, responseJSON) {
+									if (responseJSON.success) {
+										var filepath = responseJSON.imgpath;
+									
+										$("#path6").val(filepath);
+										$(".websc").removeClass("hide");
+									
+									}
+								}
+							}
+						});
+			}
+       //应用程序上传
+           function createUploaderyy() {
+				var uploader = new qq.FineUploader(
+						{
+							element : document.getElementById('result-uploader7'),
+							request : {
+								endpoint : '${request.contextPath}/courseadmin/upload'
+							},
+							validation : {
+								allowedExtensions : ['zip', 'rar']
+							},
+
+							text : {
+								uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+							},
+							template : '<div class="qq-uploader">'
+									+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+									+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#fff;background-color:#e75545" >{uploadButtonText}</div>'
+									+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+									+ '<span class="qq-drop-processing-spinner"></span></span>'
+									+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+									+ '</div>',
+							classes : {
+								success : 'alert alert-success',
+								fail : 'alert alert-error'
+							},
+							callbacks : {
+								onComplete : function(id, fileName, responseJSON) {
+									if (responseJSON.success) {
+										var filepath = responseJSON.imgpath;
+									
+										$("#path7").val(filepath);
+										$(".yysc").removeClass("hide");
+									
+									}
+								}
+							}
+						});
+			}
+       //编辑保存
+       function editsave(){
+    	   var name=$("#link-name").val();
+    	   //var parentid=$("#parentid1").val();
+    	    var sortnumber=$("#sn").val();
+    	  var id=$("#link-id").val();
+    //	 alert(name+","+id+","+sortnumber);
+    	   var data={"id":id,"name":name,"sortnumber":sortnumber};
+    	   $.ajax({
+    			url:"${request.contextPath}/courseadmin/editlesson",
+    			type:"post",
+    			data:data,
+    			success:function(s){
+    				if (s.success)
+    			     {alert(s.msg);
+    					}
+    					else{alert(s.msg);}
+    				location.reload();
+    			}
+    		});
+    	   
+    	   
+       }
+     //保存视频课时 
+       function spsave(){
+    	   var courseid="${course.id}";
+    	   var chapterid=$("#parentid").val();
+    	   var name=$("#ks_name").val();
+    	   var type=1;
+    	   var path=$("#path").val();
+    	   if(path==""||name==""){
+    		   if(path==""){ $(".yz1").removeClass('hide');}
+    		   if(name==""){ $(".yz").removeClass('hide'); }
+    		  }else{
+    			  $(".yz1").hide();
+    			  $(".yz").hide();
+    	   var data={"courseid":courseid,"chapterid":chapterid,"name":name,"type":type,"path":path};
+    	   $.ajax({
+    		   url:"${request.contextPath}/courseadmin/saveunit",
+    		   type:"post",
+    		   data:data,
+    		   success:function(s){
+    			   if (s.success)
+					{
+						alert(s.msg);
+						
+					}
+					else{alert(s.msg);}
+    			   
+    			   resettable(chapterid);
+    			   $(".push-ks").addClass("disp");
+   	    	 	$(".push-background").addClass("disp");
+    		   }
+    		   
+    	   });
+    	}
+       }
+       //保存音频课时 
+       function ypsave(){
+    	   var courseid="${course.id}";
+    	   var chapterid=$("#parentid").val();
+    	   var name=$("#ks_name").val();
+    	   var type=2;
+    	   var path=$("#path1").val();
+    	   if(path==""||name==""){
+    		   if(path==""){ $(".yz2").removeClass('hide');}
+    		   if(name==""){$(".yz").removeClass('hide');}
+    		  }else{
+    			  $(".yz2").hide();
+    			  $(".yz").hide();
+    	   var data={"courseid":courseid,"chapterid":chapterid,"name":name,"type":type,"path":path};
+    	   $.ajax({
+    		   url:"${request.contextPath}/courseadmin/saveunit",
+    		   type:"post",
+    		   data:data,
+    		   success:function(s){
+    			   if (s.success)
+					{
+						alert(s.msg);
+						
+					}
+					else{alert(s.msg);}
+    			   resettable(chapterid);
+    			   $(".push-ks").addClass("disp");
+   	    	 	$(".push-background").addClass("disp");
+    		   }
+    		   
+    	   });
+    	}
+       }
+       //保存文档课时 
+       function textsave(){
+    	   var courseid="${course.id}";
+    	   var chapterid=$("#parentid").val();
+    	   var name=$("#ks_name").val();
+    	   var type=4;
+    	   var path=$("#path2").val();
+    	   if(path==""||name==""){
+    		   if(path==""){ $(".yz3").removeClass('hide');}
+    		   if(name==""){$(".yz").removeClass('hide');}
+    		  }else{
+    			  $(".yz3").hide();
+    			  $(".yz").hide();
+    	   var data={"courseid":courseid,"chapterid":chapterid,"name":name,"type":type,"path":path};
+    	   $.ajax({
+    		   url:"${request.contextPath}/courseadmin/saveunit",
+    		   type:"post",
+    		   data:data,
+    		   success:function(s){
+    			   if (s.success)
+					{
+						alert(s.msg);
+						
+					}
+					else{alert(s.msg);}
+    			   resettable(chapterid);
+    			   $(".push-ks").addClass("disp");
+   	    	 	$(".push-background").addClass("disp");
+    		   }
+    		   
+    	   });
+    	}
+       }
+       //保存其他 
+       function othersave(){
+    	   var courseid="${course.id}";
+    	   var chapterid=$("#parentid").val();
+    	   var name=$("#ks_name").val();
+    	   var type=5;
+    	   var path=$("#path3").val();
+    	   if(path==""||name==""){
+    		   if(path==""){ $(".yz4").removeClass('hide');}
+    		   if(name==""){$(".yz").removeClass('hide');}
+    		  }else{
+    			  $(".yz4").hide();
+    			  $(".yz").hide();
+    	   var data={"courseid":courseid,"chapterid":chapterid,"name":name,"type":type,"path":path};
+    	   $.ajax({
+    		   url:"${request.contextPath}/courseadmin/saveunit",
+    		   type:"post",
+    		   data:data,
+    		   success:function(s){
+    			   if (s.success)
+					{
+						alert(s.msg);
+						
+					}
+					else{alert(s.msg);}
+    			   resettable(chapterid);
+    			   $(".push-ks").addClass("disp");
+   	    	 	$(".push-background").addClass("disp");
+    		   }
+    		   
+    	   });
+    	}
+       }		
+	    //保存图片
+	     function imgsave(){
+    	   var courseid="${course.id}";
+    	   var chapterid=$("#parentid").val();
+    	   var name=$("#ks_name").val();
+    	   var type=3;
+    	   var path=$("#path4").val();
+    	   if(path==""||name==""){
+    		   if(path==""){ $(".yz5").removeClass('hide');}
+    		   if(name==""){$(".yz").removeClass('hide');}
+    		  }else{
+    			  $(".yz5").hide();
+    			  $(".yz").hide();
+    	   var data={"courseid":courseid,"chapterid":chapterid,"name":name,"type":type,"path":path};
+    	   $.ajax({
+    		   url:"${request.contextPath}/courseadmin/saveunit",
+    		   type:"post",
+    		   data:data,
+    		   success:function(s){
+    			   if (s.success)
+					{
+						alert(s.msg);
+						
+					}
+					else{alert(s.msg);}
+    			   resettable(chapterid);
+    			   $(".push-ks").addClass("disp");
+   	    	 	$(".push-background").addClass("disp");
+    		   }
+    		   
+    	   });
+    	}
+       }		
+	    //保存动画
+	     function flashsave(){
+    	   var courseid="${course.id}";
+    	   var chapterid=$("#parentid").val();
+    	   var name=$("#ks_name").val();
+    	   var type=6;
+    	   var path=$("#path5").val();
+    	   if(path==""||name==""){
+    		   if(path==""){ $(".yz6").removeClass('hide');}
+    		   if(name==""){$(".yz").removeClass('hide');}
+    		  }else{
+    			  $(".yz6").hide();
+    			  $(".yz").hide();
+    	   var data={"courseid":courseid,"chapterid":chapterid,"name":name,"type":type,"path":path};
+    	   $.ajax({
+    		   url:"${request.contextPath}/courseadmin/saveunit",
+    		   type:"post",
+    		   data:data,
+    		   success:function(s){
+    			   if (s.success)
+					{
+						alert(s.msg);
+						
+					}
+					else{alert(s.msg);}
+    			   resettable(chapterid);
+    			   $(".push-ks").addClass("disp");
+   	    	 	$(".push-background").addClass("disp");
+    		   }
+    		   
+    	   });
+    	}
+       }		
+	    //保存web
+	     function websave(){
+    	   var courseid="${course.id}";
+    	   var chapterid=$("#parentid").val();
+    	   var name=$("#ks_name").val();
+    	   var type=7;
+    	   var path=$("#path6").val();
+    	   if(path==""||name==""){
+    		   if(path==""){ $(".yz7").removeClass('hide');}
+    		   if(name==""){$(".yz").removeClass('hide');}
+    		  }else{
+    			  $(".yz7").hide();
+    			  $(".yz").hide();
+    	   var data={"courseid":courseid,"chapterid":chapterid,"name":name,"type":type,"path":path};
+    	   $.ajax({
+    		   url:"${request.contextPath}/courseadmin/saveunit",
+    		   type:"post",
+    		   data:data,
+    		   success:function(s){
+    			   if (s.success)
+					{
+						alert(s.msg);
+						
+					}
+					else{alert(s.msg);}
+    			   resettable(chapterid);
+    			   $(".push-ks").addClass("disp");
+   	    	 	$(".push-background").addClass("disp");
+    		   }
+    		   
+    	   });
+    	}
+       }		
+	    //保存应用程序
+	     function yysave(){
+    	   var courseid="${course.id}";
+    	   var chapterid=$("#parentid").val();
+    	   var name=$("#ks_name").val();
+    	   var type=8;
+    	   var path=$("#path7").val();
+    	   if(path==""||name==""){
+    		   if(path==""){ $(".yz8").removeClass('hide');}
+    		   if(name==""){$(".yz").removeClass('hide');}
+    		  }else{
+    			  $(".yz8").hide();
+    			  $(".yz").hide();
+    	   var data={"courseid":courseid,"chapterid":chapterid,"name":name,"type":type,"path":path};
+    	   $.ajax({
+    		   url:"${request.contextPath}/courseadmin/saveunit",
+    		   type:"post",
+    		   data:data,
+    		   success:function(s){
+    			   if (s.success)
+					{
+						alert(s.msg);
+						
+					}
+					else{alert(s.msg);}
+    			   resettable(chapterid);
+    			   $(".push-ks").addClass("disp");
+   	    	 	$(".push-background").addClass("disp");
+    		   }
+    		   
+    	   });
+    	}
+       }		
+       
+       function initpage() {
+		var totalcount=$("#totalcount").val();
+		var num_entries = totalcount;
+		var showCount = 12;
+		$("#Pagination").pagination(num_entries, {
+			num_edge_entries: 1,
+			num_display_entries: 6,
+			callback: pageselectCallback,
+			items_per_page: showCount
+		});
+       
+       function pageselectCallback(page_index, jq) {
+			var tmp="";
+			var no = page_index + 1;
+			var courseid=${course.id};
+			var chapterid=$("#parentid").val();
+			var type=0;
+			var data = {courseid:courseid,chapterid:chapterid,type:type,pageNo:no};
+			
+			$.ajax({
+				url:"${request.contextPath}/course/reslist",
+				type:"post",
+				data:data,
+				success:function(s){
+	        		if(s.success){
+		        		var slist = s.other;
+						json = eval(slist);
+	        			for (var i=0;i<json.length; i++) {
+	        			
+	        				var type = json[i].type;
+		        			var typename = "";
+		        			if (type == 1){typename = "视频";}
+		        			if(type==2){typename = "音频";}
+		        			if (type == 3){typename = "图片";}
+		        			if(type==4){typename = "文档";}
+		        			if (type ==5){typename = "其他";}
+		        			if(type==6){typename = "动画";}
+		        			if (type == 7){typename = "web课件";}
+		        			if(type==8){typename = "应用程序";}
+		        			
+	        				tmp += '<tr style="height: 30px;">'+
+								'<td>'+json[i].name+'</td>'+
+								'<td>'+typename+'</td>'+
+								'</tr>';
+	        			
+	        			}
+	        			$("#lid").html(tmp);
+	        		}
+	        	}
+			});
+			return false;
+		}
+	}
+	
+	
+       
+	</script>
+</body>
+</html>

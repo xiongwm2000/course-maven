@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<#include '../common/css.html' >
+<body class='contrast-blue'>
+	<#include '../common/header.html'>
+
+	<div class='container body'>
+
+
+		<div class='row'>
+			<div class='col-xs-3 new-style'><#include 'left.html'></div>
+			<div class='col-xs-9 fch '>
+				<div class="text">&nbsp;&nbsp;角色管理</div>
+				<!-- <span class="btn-span"><button class="btn btn-success button btn-f">
+						<i class="icon-plus-sign-alt"></i>&nbsp;&nbsp;添加角色
+					</button></span> -->
+
+
+				<!-- 列表 -->
+				<div class='row' style="margin-top:10px">
+					<div class='col-sm-12'>
+						<div class='box bordered-box orange-border mar-bottom0'>
+
+							<div class='box-content box-no-padding'>
+								<div class='responsive-table'>
+									<div class='scrollable-area '>
+
+										<table class=' table table-bordered table-striped mar-bottom0'>
+											<thead>
+												<tr>
+
+													<th class="tab-font disp">id</th>
+
+													<th class="tab-font ">角色名称</th>
+													<th class="tab-font">角色key</th>
+													<th class="tab-font">操作</th>
+												</tr>
+											</thead>
+											<tbody>
+												<#list roles as role>
+												<tr class="text-center">
+													<td class="disp">${role.id}</td>
+													<td>${role.name}</td>
+													<td>${role.rolekey}</td>
+													<td>
+														<div class='text-center'>
+															<a class='btn btn-success btn-xs edit-click' href='javascript:void(0)'
+																onclick="edit('${role.name}','${role.id}')"> <i class='icon-pencil'></i>
+															</a>
+														</div>
+													</td>
+												</tr>
+												</#list>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--列表 -->
+			</div>
+		</div>
+	</div>
+	</div>
+	<#include '../common/footer.html'>
+	<!-- 弹框 -->
+	<div class="push-background disp"></div>
+	<!-- 编辑链接 -->
+	<div class="edit-push disp">
+		<div class="edit-push-header">
+			<span>&nbsp;&nbsp;编辑链接</span>
+		</div>
+		<div class="edit-push-content">
+			<div class="edit-push-content-input">
+				角色名称：<input type="text" class="form-control link-name push-input-text" id="link-name" value="">
+			</div>
+			<div class="edit-push-content-input disp">
+				id:<input type="text" class="form-control link-sortnumber push-input-text" id="link-id" value="">
+			</div>
+		</div>
+		<div class="edit">
+			<a href="javascript:void(0)" class="btn btn-success btn-edit btn-save" onclick="edit_save()">保存</a> <a
+				href="javascript:void(0)" class="btn btn-success btn-edit btn-back">返回</a>
+		</div>
+	</div>
+	<!-- 	编辑链接结束 -->
+
+
+	<#include '../common/js.html'>
+	<script>
+		$(function() {
+			$('.btn-f').click(function() {
+				$(".push-background").removeClass("disp");
+				$(".push").removeClass("disp");
+			});
+			$('.btn-back').click(function() {
+				$(".push-background").addClass("disp");
+				$(".push").addClass("disp");
+				$(".edit-push").addClass("disp");
+			});
+
+		});
+		function edit(name, id) {
+			$(".push-background").removeClass("disp");
+			$(".edit-push").removeClass("disp");
+			$('#link-name').val(name);
+			$('#link-id').val(id);
+		}
+		function edit_save() {
+			var name = $('#link-name').val();
+			var id = $('#link-id').val();
+			var data = {
+				"name" : name,
+				"id" : id
+			};
+			$.ajax({
+				url : "editrole",
+				type : "post",
+				data : data,
+				success : function(s) {
+					if (s.success) {
+						alert(s.msg);
+
+					} else {
+						alert(s.msg);
+					}
+					location.reload();
+				}
+			});
+		}
+	</script>
+</body>
+</html>
+
+
+

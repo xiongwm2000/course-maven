@@ -1,0 +1,470 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>微课大赛</title>
+		<meta name="description" content="" />
+		<#include '../common/hdcss.html'>
+		<#include '../common/hdjs.html'>
+	<script type="text/javascript" >
+  //联动地区选择
+ /*  function getValues(){
+  var p=document.getElementById('cmbProvince').value;
+  var c=document.getElementById('cmbCity').value;
+  var a=document.getElementById('cmbArea').value;  
+  document.getElementById('val').value=p+c+a;
+  } */
+</script>
+	</head>
+
+	<body>
+		<#include '../common/hdheader.html'>
+		<div class="w-1200">
+			<div>
+				<!-- <ul id="per_tab_hd" class="per-top" style="width:750px">
+				
+					<li class="per-top-item fl rel first active">
+						院校信息<em class="boult-red-right"></em>
+					</li>
+					<li class="per-top-item fl">
+						进入审核
+					</li>
+				</ul> -->
+				<ul id="per_tab_bd">
+		
+					<li id="per_form" class="per-form hdie">
+						<input type="hidden" id="id" value="${user.id}"/>
+						<div id="datumForm"  style="display:block">
+							<div class="school-msg-hd">
+								院校信息填写：
+							</div>
+							<ul class="school-msg">
+								<li class="per-info-item">
+								<em>*</em>
+									<label>院校名称：&nbsp;&nbsp;</label>
+									<div class="per-info-control">
+										<input class="form-input" type="text" id="orgname" name="Name" />
+									</div>
+									<div class="yz1 hide bmyz1">
+						         <em class="login-font-red yzfont">院校名称不能为空</em>
+						               </div>
+								</li>
+								
+								<li class="per-info-item">
+								<em>*</em>
+									<label>院校邮箱：&nbsp;&nbsp;</label>
+									<div class="per-info-control">
+										<input class="form-input" type="text" id="email" name="Name" />
+									</div>
+										<div class="hide bmyz1" id="yz9">
+						         <em class="login-font-red yzfont">院校邮箱不能为空</em>
+						               </div>
+						               <div class="hide bmyz1" id="yz10">
+						         <em class="login-font-red yzfont">院校邮箱格式错误</em>
+						               </div>
+								</li>
+								
+								<li class="per-info-item">
+								<em>*</em>
+									<label>院校概述：&nbsp;&nbsp;</label>
+									<div class="per-info-control">
+									         <textarea rows="6" cols="50"   name="describle"  id="orgdescr" style="width:423px"></textarea>
+									</div>
+									<div class="yz3 hide bmyz1">
+						         <em class="login-font-red yzfont">院校概述不能为空</em>
+						               </div>
+						               <div class="  bmyz3">
+						         <em class="login-font-gray yzfont">（请控制在一百字以内）</em>
+						               </div>
+								</li>
+
+								<li class="per-info-item">
+								<em>*</em>
+									<label>院校logo：&nbsp;&nbsp;</label>
+									<div class="per-info-control">
+								    <div class="per-pic" style="float:left"> 		
+					<input type="hidden" id="path"  /> <img  width="127" height="92" id="pathimg" class="img-style"/>
+								 </div> 
+								 <div id="result-uploader" class="right upload-style " style="float:left;margin-left:20px;margin-top:56px"></div>
+									</div>
+									 <div class="bmyz1">
+						         <em class="login-font-red yzfont">*(请上传200*200大小的图片)</em>
+						               </div>
+									<div class="yz4 hide bmyz1">
+						         <em class="login-font-red yzfont">院校logo不能为空</em>
+						               </div>
+								</li>
+								
+								<li class="per-info-item">
+								<em>*</em>
+									<label>院校资质图片：&nbsp;&nbsp;</label>
+									<div class="per-info-control">
+										<div class="per-pic" style="float:left"> 		
+					<input type="hidden" id="path1"  /> <img  width="127" height="92" id="pathimg1" class="img-style"/>
+								 </div> 
+								 <div id="result-uploader1" class="right upload-style " style="float:left;margin-left:20px;margin-top:56px"></div>
+									</div>
+									 <div class="bmyz1">
+						         <em class="login-font-red yzfont">*(请上传524*300大小的图片)</em>
+						               </div>
+									<div class="yz5 hide bmyz1">
+						         <em class="login-font-red yzfont">院校资质图不能为空</em>
+						               </div>
+								</li>
+								
+								<li class="per-info-item">
+								<em>*</em>
+									<label>院校展示图片：&nbsp;&nbsp;</label>
+									<div class="per-info-control">
+										<div class="per-pic" style="float:left"> 		
+					<input type="hidden" id="path3"  /> <img  width="127" height="92" id="pathimg3" class="img-style"/>
+								 </div> 
+								 <div id="result-uploader3" class="right upload-style " style="float:left;margin-left:20px;margin-top:56px"></div>
+									</div>
+									 <div class="bmyz1">
+						         <em class="login-font-red yzfont">*(请上传262*150大小的图片)</em>
+						               </div>
+									<div class="yz10 hide bmyz1">
+						         <em class="login-font-red yzfont">院校展示图不能为空</em>
+						               </div>
+								</li>
+								
+								<li class="per-info-item">
+								<em>*</em>
+									<label>院校宣传图：&nbsp;&nbsp;</label>
+									<div class="per-info-control">
+										<div class="per-pic" style="float:left"> 		
+					<input type="hidden" id="path2"  /> <img  width="127" height="92" id="pathimg2" class="img-style"/>
+								 </div> 
+								 <div id="result-uploader2" class="right upload-style " style="float:left;margin-left:20px;margin-top:56px"></div>
+									</div>
+									 <div class="bmyz1">
+						         <em class="login-font-red yzfont">*(请上传1800*560大小的图片)</em>
+						               </div>
+									<div class="yz6 hide bmyz1">
+						         <em class="login-font-red yzfont">院校宣传图不能为空</em>
+						               </div>
+						              
+								</li>
+								
+								<li class="per-info-item">
+								<em>*</em>
+									<label>院校性质：&nbsp;&nbsp;</label>
+									<div class="per-info-control">
+									 <select class="select-address fl" id="category">
+							  <option value='高职'>高职</option>
+                              <option value='中职'>中职</option>
+                              
+                          </select>
+									</div>
+									<div class="yz7 hide bmyz1">
+						         <em class="login-font-red yzfont">院校性质不能为空</em>
+						               </div>
+								</li>
+
+								<li class="per-info-item">
+								<em>*</em>
+									<label>院校地址：&nbsp;&nbsp;</label>
+									<div class="per-info-control clearfix">
+									<!-- 	<select id="cmbProvince" class="select-address fl"></select>
+										<select id="cmbCity" class="select-address fl"></select>
+										<select id="cmbArea" class="select-address fl"></select> -->
+						            	<!-- <script type="text/javascript">
+                                   addressInit('cmbProvince', 'cmbCity', 'cmbArea', '云南', '昆明', '西山区');
+                                    </script> -->
+										<input class="form-input fl" id="address" type="text" name="Name" placeholder="填写具体地址" />
+							
+
+									</div>
+									<div class="yz8 hide bmyz1">
+						         <em class="login-font-red yzfont">院校地址不能为空</em>
+						               </div>
+								</li>
+								<li class="per-info-item">
+									<div class="per-info-control per-agree">
+										<input id="agree2" type="checkbox" onclick="agree()"/>
+										<label for="agree2" class="dib checkbox">我同意凤凰云课堂协议条款</label>
+									</div>
+								</li>
+							</ul>
+							<div class="per-form-btns school-msg-btns">
+								<!-- <a class="font-color-red per-prev" href="javascript:void(0);">上一步</a> -->
+								<input class="btn btn-mr btn-datum" type="button" disabled="disabled" id="tj" onclick="orgsub();return false;" value="提交资料" />
+								
+							</div>
+					
+						</div>
+							
+					</li>
+					<li class="hide">
+						<p class="per-tip">
+							请耐心等待我们的审核，审核结果会第一时间通过邮箱通知您
+						</p>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<#include '../common/hdfooter.html'>
+		<script>
+		$(function(){
+			logoUploader();
+			zzUploader();
+			xcUploader();
+			fmUploader();
+		});
+		
+			function logoUploader() {
+				var uploader = new qq.FineUploader(
+						{
+							element : document.getElementById('result-uploader'),
+							request : {
+								endpoint : '${request.contextPath}/user/upload'
+							},
+							validation : {
+								allowedExtensions : [ 'jpeg', 'jpg', 'png','gif' ]
+							},
+
+							text : {
+								uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+							},
+							template : '<div class="qq-uploader">'
+									+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+									+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#e75545" >{uploadButtonText}</div>'
+									+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+									+ '<span class="qq-drop-processing-spinner"></span></span>'
+									+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+									+ '</div>',
+							classes : {
+								success : 'alert alert-success',
+								fail : 'alert alert-error'
+							},
+							callbacks : {
+								onComplete : function(id, fileName, responseJSON) {
+									if (responseJSON.success) {
+									
+											if((responseJSON.imgw!=200)&&(responseJSON.imgh!=200)){
+												alert("请上传200*200大小的图片");
+												return;}
+										
+										var filepath = responseJSON.imgpath;
+									
+										$("#path").val(filepath);
+										$("#pathimg")
+												.attr(
+														"src",
+														'${request.contextPath}'
+																+ filepath);
+									}
+								}
+							}
+						});
+			}
+			
+			function zzUploader(){
+				var uploader = new qq.FineUploader(
+						{
+							element : document.getElementById('result-uploader1'),
+							request : {
+								endpoint : '${request.contextPath}/user/upload'
+							},
+							validation : {
+								allowedExtensions : [ 'jpeg', 'jpg', 'png','gif' ]
+							},
+
+							text : {
+								uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+							},
+							template : '<div class="qq-uploader">'
+									+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+									+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#e75545" >{uploadButtonText}</div>'
+									+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+									+ '<span class="qq-drop-processing-spinner"></span></span>'
+									+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+									+ '</div>',
+							classes : {
+								success : 'alert alert-success',
+								fail : 'alert alert-error'
+							},
+							callbacks : {
+								onComplete : function(id, fileName, responseJSON) {
+									if (responseJSON.success) {
+										if((responseJSON.imgw!=524)&&(responseJSON.imgh!=300)){
+											alert("请上传524*300大小的图片");
+											return;}
+										var filepath = responseJSON.imgpath;
+										$("#path1").val(filepath);
+										$("#pathimg1")
+												.attr(
+														"src",
+														'${request.contextPath}'
+																+ filepath);
+									}
+								}
+							}
+						});
+				
+			}
+			function xcUploader(){
+				var uploader = new qq.FineUploader(
+						{
+							element : document.getElementById('result-uploader2'),
+							request : {
+								endpoint : '${request.contextPath}/user/upload'
+							},
+							validation : {
+								allowedExtensions : [ 'jpeg', 'jpg', 'png','gif' ]
+							},
+
+							text : {
+								uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+							},
+							template : '<div class="qq-uploader">'
+									+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+									+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#e75545" >{uploadButtonText}</div>'
+									+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+									+ '<span class="qq-drop-processing-spinner"></span></span>'
+									+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+									+ '</div>',
+							classes : {
+								success : 'alert alert-success',
+								fail : 'alert alert-error'
+							},
+							callbacks : {
+								onComplete : function(id, fileName, responseJSON) {
+									if (responseJSON.success) {
+										if((responseJSON.imgw!=1800)&&(responseJSON.imgh!=560)){
+											alert("请上传1800*560大小的图片");
+											return;}
+										var filepath = responseJSON.imgpath;
+										
+										$("#path2").val(filepath);
+										$("#pathimg2")
+												.attr(
+														"src",
+														'${request.contextPath}'
+																+ filepath);
+									}
+								}
+							}
+						});
+				
+			}
+			
+			function fmUploader(){
+				var uploader = new qq.FineUploader(
+						{
+							element : document.getElementById('result-uploader3'),
+							request : {
+								endpoint : '${request.contextPath}/user/upload'
+							},
+							validation : {
+								allowedExtensions : [ 'jpeg', 'jpg', 'png','gif' ]
+							},
+
+							text : {
+								uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+							},
+							template : '<div class="qq-uploader">'
+									+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+									+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#e75545" >{uploadButtonText}</div>'
+									+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+									+ '<span class="qq-drop-processing-spinner"></span></span>'
+									+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+									+ '</div>',
+							classes : {
+								success : 'alert alert-success',
+								fail : 'alert alert-error'
+							},
+							callbacks : {
+								onComplete : function(id, fileName, responseJSON) {
+									if (responseJSON.success) {
+										if((responseJSON.imgw!=262)&&(responseJSON.imgh!=150)){
+											alert("请上传262*150大小的图片");
+											return;}
+										var filepath = responseJSON.imgpath;									
+										$("#path3").val(filepath);
+										$("#pathimg3")
+												.attr(
+														"src",
+														'${request.contextPath}'
+																+ filepath);
+									}
+								}
+							}
+						});
+				
+			}
+			
+			
+			function agree(){
+				if($("#agree2").attr("checked")=="checked"){
+					
+					$('#tj').removeAttr("disabled");
+					$('#tj').addClass("btn-red");
+					}
+				if($("#agree2").attr("checked")!="checked"){
+					$('#tj').attr("disabled","disabled");
+					$('#tj').removeClass("btn-red");
+					}
+			}
+			
+			function orgsub(){
+				var userid=$("#id").val();
+				var name=$("#orgname").val();
+				var describle=$("#orgdescr").val();
+				var logoimg=$("#path").val();
+				var zzimg=$("#path1").val();
+				var xcimg=$("#path2").val();
+				var fmimg=$("#path3").val();
+				var address=$("#address").val();
+				var eamil = $("#email").val();
+				var category = $("#category").val();
+				if((name!="")||(describle!="")||(logoimg!="")||(eamil!="")||(zzimg!="")||(xcimg!="")||(address!="")||(category!="")||(fmimg!="")){
+					if(name!=""){$(".yz1").addClass('hide')};
+					if(describle!=""){$(".yz3").addClass('hide')};
+					if(logoimg!=""){$(".yz4").addClass('hide')};
+					if(zzimg!=""){$(".yz5").addClass('hide')};
+					if(xcimg!=""){$(".yz6").addClass('hide')};
+					if(address!=""){$(".yz8").addClass('hide')};
+					if(category!=""){$(".yz7").addClass('hide')};
+					if(eamil!=""){$("#yz9").addClass('hide')};
+					if(fmimg!=""){$(".yz10").addClass('hide')};
+				}
+
+				if((name=="")||(describle=="")||(logoimg=="")||(eamil=="")||(zzimg=="")||(xcimg=="")||(address=="")||(category=="")||(fmimg=="")){
+					if(name==""){$(".yz1").removeClass('hide')};
+					if(describle==""){$(".yz3").removeClass('hide')};
+					if(logoimg==""){$(".yz4").removeClass('hide')};
+					if(zzimg==""){$(".yz5").removeClass('hide')};
+					if(xcimg==""){$(".yz6").removeClass('hide')};
+					if(address==""){$(".yz8").removeClass('hide')};
+					if(category==""){$(".yz7").removeClass('hide')};
+					if(eamil==""){$("#yz9").removeClass('hide')};
+					if(fmimg==""){$(".yz10").removeClass('hide')};
+					return;
+				}
+				 var pattern = /^([\.a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/ ;
+				 if (!pattern.test(eamil)){
+				$("#yz10").removeClass('hide');
+				 return;
+				 }
+				 
+				var data={userid:userid,name:name,describle:describle,logoimg:logoimg,zzimg:zzimg,xcimg:xcimg,address:address,eamil:eamil,category:category,fmimg:fmimg}
+				$.ajax({
+					url : "${request.contextPath}/user/regorgadmin",
+					type : "post",
+					data : data,
+					success : function(s) {
+						if (s.success) {
+							alert(s.msg);
+						} else {
+							alert(s.msg);
+						}
+						location.href = "${request.contextPath}/user/tocenter";
+					}
+				})
+			}
+		</script>
+	</body>
+</html>

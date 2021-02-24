@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>腾讯云课程详情</title>
+<meta name="description" content="" />
+<link href="${request.contextPath}/style/css/index.css" rel="stylesheet" type="text/css" />
+<link href="${request.contextPath}/assets/stylesheets/bootstrap/bootstrap.css" rel="stylesheet" type="text/css" />
+<!-- / theme file [required] -->
+<link href="${request.contextPath}/assets/stylesheets/light-theme.css" media="all" id="color-settings-body-color" rel="stylesheet" type="text/css" />
+<!-- / coloring file [optional] (if you are going to use custom contrast color) -->
+<link href="${request.contextPath}/assets/stylesheets/theme-colors.css" media="all" rel="stylesheet" type="text/css" />
+<link href="${request.contextPath}/style/css/reset.css" rel="stylesheet" type="text/css" />
+<link href="${request.contextPath}/style/css/info.css" rel="stylesheet" type="text/css" />
+<link href="${request.contextPath}/style/css/video-js.min.css" rel="stylesheet" type="text/css">
+<link href='${request.contextPath}/assets/images/favicon.ico' rel='shortcut icon' type='image/x-icon'>
+</head>
+<body class="bodyhd" >
+	<#include '../common/hdheader.html'>
+	<hr class="line">
+
+	<!-- 具体内容 -->
+	<div class="course-infor">
+		<div class="course-container">
+			<div class="course-path">
+				<a href="${request.contextPath}/">首页</a> <span class="aaa">&nbsp;&gt;&nbsp;</span>
+				<a href="${request.contextPath}/course/cinfo">${course.prize}</a> <span
+					class="aaa">&nbsp;&gt;&nbsp;</span> <a href="">${course.name}</a>
+			</div>
+			<div class="course-infor-content">
+				<div class="course-img fl">
+					<img src="${(course.thumb)!'${request.contextPath}/assets/images/cu1.jpg'}"
+						width="392" height="218">
+				</div>
+				<div class="course-real-infor fl">
+					<h1 class="course-real-infor-title" title="${course.name}"
+						style="font-size: 18px;margin-bottom:30px;margin-top: 12px;font-family:'Microsoft Yahei'">${course.name}</h1>
+					<div class="course-real-infor-type" style="margin-bottom:30px;">
+						<span style="font-size: 13px">课程类型：</span> <span
+							style="font-size: 13px">${course.category}</span>
+					</div>
+					<div class="course-real-infor-admin" style="margin-bottom:50px;">
+						<span style="font-size: 13px">作者：</span> <span
+							style="font-size: 13px">${us.username}</span>
+					</div>
+					<div class="course-real-infor-heart">
+						<a id="js_fav" href="javaScript:void(0)"
+							class="course-real-infor-heart"
+							style="position:absolute;margin-top:-2px"
+							onclick="addfavorites()"> <img class="fav-img"
+							src="${request.contextPath}/style/img/fav.png"> <span
+							class="js-fav"
+							style="display: inline-block;vertical-align: middle;">收藏</span></a>
+						<div class="fx"
+							style="display: inline-block;vertical-align: middle;margin-left: 90px;height:55px">
+							<img class="fx-img" src="${request.contextPath}/style/img/fx.png">分享
+							<div class="bshare-custom"
+								style="margin-top: 12px;z-index: 12;position: absolute;margin-left:-40px">
+								<a title="分享到QQ空间" class="bshare-qzone"></a> <a title="分享到新浪微博"
+									class="bshare-sinaminiblog"></a> <a title="分享到人人网"
+									class="bshare-renren"></a> <a title="分享到腾讯微博"
+									class="bshare-qqmb"></a> <a title="分享到网易微博"
+									class="bshare-neteasemb"></a> <a title="更多平台"
+									class="bshare-more bshare-more-icon more-style-addthis"></a>
+							</div>
+						</div>
+						<a id="js_ask"
+							href="http://wpa.qq.com/msgrd?v=3&uin=793800738&site=qq&menu=yes"
+							target="_blank" class="course-real-infor-ask"
+							style="position:absolute;margin-top:-2px;margin-left: 40px">
+							<img class="zx-img" src="${request.contextPath}/style/img/zx.png">
+							<span class="js-ask" style="display: inline-block;vertical-align: middle;">咨询</span>
+
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="course-content">
+		<div class="course-content-tab">
+			<ul class="course-content-tab-ul hidden">
+				<#list channles as channel>
+				<li class="course-content-tab-li <#if channel.name='视频'>active</#if>" style="float:left"  onclick="getContent(${channel.id},'${channel.name}');"><a
+					href="javascript:void(0);" >${channel.name}</a></li>
+				</#list>
+				<li class="course-content-tab-li" id="pl" style="float:left"><a href="javascript:void(0);">评论</a></li>
+			</ul>
+
+			<div class="">
+				<!-- 视频内容 -->
+				<div id="id_video_container hidden" style="width:100%;height:100%;"></div>
+				<div class="" id="aa">
+					<div class="clearfloat2"></div>
+				</div>
+
+			<!-- <div class="course-pl hide" style="margin-top:50px">
+					
+					<div class="course-pl-list" style="margin-top: 20px;">
+						<div class="pl-grid">
+							<table cellpadding="0" cellspacing="0" class="pl-grid-data">
+								<tbody id="new_content">
+								
+									<#if evaluations??> <#list evaluations as evaluations>
+									<tr class="grid-row-1">
+										<td class="grid-col-1" style="width: 65px;padding-top:10px">
+											<div class="pl-list-col-1">
+												<div class="pl-list-img">
+													<img
+														src="${(evaluations.user.headimg)!'${request.contextPath}/style/img/head.png'}"
+														height="50px" width="50px">
+												</div>
+												<div class="pl-list-name" style="margin-top:10px"></div>
+											</div>
+										</td>
+										<td class="grid-col-2" style="width: 895px;">
+											<div class="pl-list-item">
+												<div class="pl-list-item-date" style="float:right">${evaluations.evatime}</div>
+												<div class="pl-list--item-content">${evaluations.ecommnent}</div>
+											</div>
+										</td>
+									</tr>
+									</#list> </#if>
+								</tbody>
+							</table>
+							<div class="loading-wrap" style="display: none;"></div>
+						</div>
+					</div>
+					<div class="course-pl-infor">
+						<div>
+							<textarea id="comment-content" 
+								style="margin-top:25px ;width:100%;height:150px" placeholder="请输入文字"></textarea>
+								<button onclick="addcomment()" class="course-pl-submit">发表</button>
+						</div>
+			
+					</div>
+				</div> -->
+
+			</div>
+		</div>
+		<!-- 左侧  -->
+		<div class="course-content-bar">
+			<div class="wldf">
+				<div style="float: left;margin-left: 10px;">
+					<button class="score1 btn-df">我来评分</button>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;共(&nbsp;<font size="3"
+						color="#fd7d28">${size}</font>&nbsp;)次评分
+				</div>
+				<div style="float: left;margin-top: 15px;margin-left: 12px;">
+					<div class="QuacorGrading" id="QuacorGrading">
+
+						<input name="1" type="button" /> <input name="2" type="button" />
+						<input name="3" type="button" /> <input name="4" type="button" />
+						<input name="5" type="button" /> <span id="QuacorGradingValue"><b><font
+								size="3" color="#fd7d28">${score}</font></b>&nbsp;分</span>
+					</div>
+				</div>
+				<div class="poptip disp">
+					<span class="poptip-arrow poptip-arrow-top"><em>◆</em><i>◆</i></span>
+					<div class="QuacorGrading" id="QuacorGrading2"
+						style="margin:0px 0 0 0px; font-size: 14px;position:relative;bottom:28px">
+
+						<input name="1" type="button" /> <input name="2" type="button" />
+						<input name="3" type="button" /> <input name="4" type="button" />
+						<input name="5" type="button" /> <span id="QuacorGradingValue2"><b><font
+								size="4" color="#fd7d28">3</font></b>分</span><br />
+						<button onclick="save();" class="score">确定</button>
+						<button onclick="" class="score btn-back">关闭</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="xxwz">
+				<h4 style="margin-top: 30px;margin-left: 16px;font-family:'Microsoft Yahei'">课程介绍：</h4>
+				<div class="xxwz-wz">
+					<a href="${(course.website)!''}" target="_blank" style="margin-left: 16px">${(course.describle)!""}</a>
+				</div>
+			</div>
+			<div class="cyjl">
+				<div>
+					<h4 class="cyjl-title"
+						style="height: 12px;margin-top: 20px;margin-left: 16px;font-family:'Microsoft Yahei'">参与记录 &nbsp;(<span id="countnumber"></span>)</h4>
+				</div>
+				<div class="cyjl-content"
+					style="padding-top:22px;padding-left: 16px;">
+
+
+					<ul class="cyjl-content-ul new_cyjl">
+					
+						<#if evaluations??> <#list evaluations as evaluations>
+						<li class="cyjl-content-li count-li"><img
+							src="${(evaluations.user.headimg)!'${request.contextPath}/style/img/head.png'}"
+							alt="no img" class="user-img"></li> </#list> </#if>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+<#include '../common/hdfooter.html'>
+    <script src="${request.contextPath}/assets/javascripts/jquery/jquery.min.js" type="text/javascript"></script>
+	<script src="${request.contextPath}/assets/javascripts/bootstrap/bootstrap.js" type="text/javascript"></script>
+	<!-- <script type="text/javascript" src="/style/js/lib/jquery.pagination.js"></script> -->
+	<script src="${request.contextPath}/assets/javascripts/share.js" type="text/javascript"></script>
+	<script src="${request.contextPath}/assets/javascripts/bshare.js" type="text/javascript"></script>
+ 	<script src="https://qzonestyle.gtimg.cn/open/qcloud/video/h5/h5connect.js" charset="utf-8"></script>
+	<!--  <script type="text/javascript" charset="utf-8"
+		src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=1&amp;lang=zh"></script> -->
+	<!-- <script type="text/javascript" charset="utf-8"
+		src="http://static.bshare.cn/b/bshareC0.js"></script> -->
+	<!--<noscript>
+		This content requires the Adobe Flash Player. <a
+			href="http://www.macromedia.com/go/getflash/">Get Flash</a>
+	</noscript> -->
+	<script>
+	/*  var requiredMajorVersion = 8;
+	 var requiredMinorVersion = 0;
+	 var requiredRevision = 0;
+	 var isIE  = (navigator.appVersion.indexOf("MSIE") != -1) ? true : false;
+	 var isWin = (navigator.appVersion.toLowerCase().indexOf("win") != -1) ? true : false;
+	 
+	 function JSGetSwfVer(i){
+	     if (navigator.plugins != null && navigator.plugins.length > 0) {
+	           if (navigator.plugins["Shockwave Flash 2.0"] || navigator.plugins["Shockwave Flash"]) {
+                  var swVer2 = navigator.plugins["Shockwave Flash 2.0"] ? " 2.0" : "";
+       			var flashDescription = navigator.plugins["Shockwave Flash" + swVer2].description;
+                  descArray = flashDescription.split(" ");
+                  tempArrayMajor = descArray[2].split(".");
+                  versionMajor = tempArrayMajor[0];
+                  versionMinor = tempArrayMajor[1];
+                  if ( descArray[3] != "" ) {
+                              tempArrayMinor = descArray[3].split("r");
+                  } else {
+                              tempArrayMinor = descArray[4].split("r");
+                  }
+	           versionRevision = tempArrayMinor[1] > 0 ? tempArrayMinor[1] : 0;
+	     flashVer = versionMajor + "." + versionMinor + "." + versionRevision;
+	     } else {
+	                            flashVer = -1;
+	                 }
+	     }
+	     else if (navigator.userAgent.toLowerCase().indexOf("webtv/2.6") != -1) flashVer = 4;
+	     else if (navigator.userAgent.toLowerCase().indexOf("webtv/2.5") != -1) flashVer = 3;
+	     else if (navigator.userAgent.toLowerCase().indexOf("webtv") != -1) flashVer = 2;
+	     else {                       
+             	 flashVer = -1;
+	     }
+	     return flashVer;
+	 } 
+	 
+	 function DetectFlashVer(reqMajorVer, reqMinorVer, reqRevision) 
+	 {
+	      reqVer = parseFloat(reqMajorVer + "." + reqRevision);
+	      for (i=25;i>0;i--) {       
+              versionStr = JSGetSwfVer(i);              
+              if (versionStr == -1 ) { 
+                         return false;
+              } else if (versionStr != 0) {
+                   versionArray      = versionStr.split(".");
+                   
+                   versionMajor      = versionArray[0];
+                   versionMinor      = versionArray[1];
+                   versionRevision   = versionArray[2];
+                   
+                   versionString     = versionMajor + "." + versionRevision;   
+                   versionNum        = parseFloat(versionString);
+                   if ( (versionMajor > reqMajorVer) && (versionNum >= reqVer) ) {
+                               return true;
+                   } else {
+                               return ((versionNum >= reqVer && versionMinor >= reqMinorVer) ? true : false );    
+                   }
+              }
+	      }          
+	      return (reqVer ? false : 0.0);
+	 } */
+	
+	
+	
+	function cyjl(){
+		var count= $(".count-li").length;
+		$("#countnumber").html(count);
+		}
+	
+	
+	/* function GetDoc(movieName) {
+        var isIE = navigator.appName.indexOf("Microsoft") != -1;
+        return (isIE) ? window[movieName] : document[movieName];
+    }
+
+    function Search() {
+        GetDoc('Print2FlashDoc').SearchText(document.all.searchbox.value);
+    }
+    
+    function onPageChanged() {
+        setTimeout("UpdatePageNumber()",1);
+    }
+    
+    function UpdatePageNumber() {
+        document.all.pagenum.value=GetDoc('Print2FlashDoc').getCurrentPage()+" of "+GetDoc('Print2FlashDoc').getNumberOfPages();
+    }  */
+    
+    
+    
+   var GradList = document.getElementById("QuacorGrading").getElementsByTagName("input");
+
+    for(var di=0;di<parseInt(document.getElementById("QuacorGradingValue").getElementsByTagName("font")[0].innerHTML);di++){
+    	GradList[di].style.backgroundPosition = 'left center';
+    }
+    
+    
+    var GradList2 = document.getElementById("QuacorGrading2").getElementsByTagName("input");
+
+    for(var di=0;di<parseInt(document.getElementById("QuacorGradingValue2").getElementsByTagName("font")[0].innerHTML);di++){
+    	GradList2[di].style.backgroundPosition = 'left center';
+    }
+
+    for(var i=0;i < GradList2.length;i++){
+    	GradList2[i].onmouseover = function(){
+    		
+    		for(var Qi=0;Qi<GradList2.length;Qi++){
+    			GradList2[Qi].style.backgroundPosition = 'right center';
+    		}
+    		for(var Qii=0;Qii<this.name;Qii++){
+    			GradList2[Qii].style.backgroundPosition = 'left center';
+    		}
+    		document.getElementById("QuacorGradingValue2").innerHTML = '<b><font size="4" color="#fd7d28">'+this.name+'</font></b>分';
+    	}
+    	
+    } 
+    
+    
+    function addfavorites() { 
+    	var sURL = document.URL; 
+    	var sTitle = document.title; 
+    	try { 
+    	window.external.addFavorite(sURL, sTitle); 
+    	} 
+    	catch (e) { 
+    	try { 
+    	window.sidebar.addPanel(sTitle, sURL, ""); 
+    	} 
+    	catch (e) { 
+    	alert("加入收藏失败，请使用Ctrl+D进行添加"); 
+    	} 
+    	} 
+
+    	} 
+ 
+	
+    $(function() {
+    	cyjl();
+    	
+		$('.course-content-tab-li').click(function(){
+			$('.course-content-tab-li').removeClass("active");
+			$(this).addClass('active');
+			
+			/* 静态页面时候使用，动态时候ajax调用 */
+			var id=this.id;
+	
+			if(id=='pl'){$("#aa").addClass('hide');$(".course-pl").removeClass('hide')}
+		});
+		
+		$( '.btn-df').click(function(){
+    		$(".push-background").removeClass("disp");
+    		$(".poptip").removeClass("disp");	
+    	});
+		$( '.btn-back').click(function(){
+    		/*  location.reload(); */
+    		$(".poptip").addClass("disp");
+    	 	$(".push-background").addClass("disp");
+    		
+    	});
+		
+		getContent(-1)
+    });
+   
+    function getContent(cid,cname)
+    {
+    	$("#aa").removeClass('hide');
+    	$(".course-pl").addClass('hide');
+    	var data = {courseid:"${course.id}",chapterid:cid};
+    	$.ajax({
+         	url:"${request.contextPath}/course/getContent",
+         	type:"post",
+         	data:data,
+         	success:function(s){
+         		if (s.success)
+    			{
+         			content=s.other;
+         			var tmp = '';
+         			var name=cname;
+         			if (content==null){$("#aa").html('');;return};
+         			if (s.other.type == 2) {
+         				var video = s.other.path;
+          				tmp = '<video src="'+video+'" controls="controls" width="900" height="506">'+
+         				 'your browser does not support the video tag'+
+         				 '</video><br></br><br></br>';
+         				/*  var option ={"auto_play":"0","file_id": video,"app_id":"1253440178","width":900,"height":506,"https":1};
+         				   //调用播放器进行播放
+       				   	new qcVideo.Player("id_video_container",
+  						   option
+      					); */
+         				
+       				}
+         			/* if (s.other.type == 1)
+       				{
+         				 //var width=800
+   					 var height=1050
+   					 var align="center"
+   					 var name="Print2FlashDoc"
+   					 //打开的swf文件路径
+   					 var url=s.other.swfpath;
+   					 if(isIE && isWin) {  
+   						tmp = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"'
+   					     + 'width="'+'100%'+'" height="'+height+'" align="'+align+'" id="'+name+'"'
+   					     + 'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version='+requiredMajorVersion+','+requiredMinorVersion+','+requiredRevision+',0">'
+   					     + '<param name="movie" value="'+url+'" /><param name="quality" value="best" />'
+   					     + '<param name="allowScriptAccess" value="sameDomain" />'
+   					     + '<param name="allowFullScreen" value="true" />'
+   					     + '<\/object>';
+   					    // document.write(oeTags);   
+   					   } else if(DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision)) {
+   						tmp = '<embed src="'+url+'" quality="best" '
+   					     + 'width="'+'100%'+'" height="'+height+'" align="'+align+'" name="'+name+'"'
+   					     + 'play="true"'
+   					     + 'loop="false"'
+   					     + 'quality="best"'
+   					     + 'allowScriptAccess="sameDomain"'
+   					     + 'allowFullScreen="true"'
+   					     + 'type="application/x-shockwave-flash"'
+   					     + 'pluginspage="http://www.macromedia.com/go/getflashplayer">'
+   					     + '<\/embed>'
+   					     //document.write(oeTags);   
+   					   } else {
+   						tmp = 'This content requires the Adobe Flash Player. '
+   					             + '<a href="http://www.macromedia.com/go/getflash/">Get Flash</a>';
+   					     //document.write(alternateContent);  
+   					   }
+       				} */
+         			if (s.other.type == 3){
+         				if(name=="成果创新"){
+         					var cg_content=content.content;
+         					var time=content.createtime;
+         					var tmp='<div class="course-cgzs" style="text-align:left">'+' <div class="course-cgzs-img">'+'<img src="${request.contextPath}/style/img/cgzs.png"/>'
+         					+'</div>'+' <div class="cgzs-content">'+cg_content+' <div style="text-align: right;padding-right: 25px;margin-bottom: 10px;">'
+         				    +time+'</div>'+'</div>'+'</div>'
+         				}
+         				
+         				if(name=="专家点评"){	
+         				var cg_content=content.content;
+     					var time=content.createtime;
+     					var tmp=' <div class="zjdp" style="margin-top:50px;text-align:left">'+' <img src="${request.contextPath}/style/img/sanjiao.png" height="100" width="290" style="margin-left:434px"/>'
+     					+' <div class="course-dp-img">'
+     					+'<img class="fl" src="${request.contextPath}/style/img/zjbj-title.png" height="80" style="bottom: 7px;position: relative;"/>'
+     					+'<img  class="fr zjbj-time" src="${request.contextPath}/style/img/zjbj-time.png" height="120" width="110" />'
+     				    +'</div>'+'<div class="course-dp">'+' <div class="zjdp-content">'+cg_content+'</div>'+'</div>'+'</div>'
+     				    
+     				    }
+         				
+         				
+         			}
+         			$("#aa").html(tmp);
+    			}
+         	}	
+         })
+    }
+    
+    function save(){
+   		var userid="${(user.id)!''}";
+       	var courseid="${course.id}";
+       	var score=document.getElementById("QuacorGradingValue2").getElementsByTagName("font")[0].innerHTML;
+       	if(userid==null){
+       		alert("请先登录，再评论！");
+       	}else{
+       		userid = parseInt(userid);
+       		courseid = parseInt(courseid);
+       		score = parseInt(score);
+       		 var data={"userid":userid,"courseid":courseid,"score":score};
+       	      $.ajax({
+      	         	url:"${request.contextPath}/course/saveevaluation",
+      	         	type:"post",
+      	         	data:data,
+      	         	success:function(s){
+      	         		if (s.success)
+   	         			{
+   	         				if(s.msg==""){
+   	         					location.reload();
+   	         				}
+      	         			alert(s.msg);
+          	 				location.reload();
+   	         			}
+      	         		else
+   	         			{
+   	         				location.href = "${request.contextPath}/course/tologin";
+   	         			}
+      	         	}	
+      	         })
+       	}
+    }
+    
+	function addcomment(){
+		var content=$("#comment-content").val();
+		if(content==''){alert('请输入内容');return}
+		var courseid="${course.id}";
+		var data={"courseid":courseid,"content":content};
+     
+		$.ajax({
+			url : "${request.contextPath}/course/commentsave",
+			type : "post",
+			data : data,
+			success : function(s) {
+				if (s.success) {
+					if(s.msg=="未登录"){
+						location.href = "${request.contextPath}/course/tologin";
+					}
+					var pl=s.other;
+					var headimg=pl.headimg;
+					if (headimg == null || headimg == undefined || headimg == '') { 
+						headimg = '${request.contextPath}/style/img/head.png';
+					} 
+
+					var content=pl.ecommnent;
+					var time=pl.evatime;
+					var tmp='<tr class="grid-row-1">'+'<td class="grid-col-1" style="width: 65px;padding-top:10px">'
+					    +'<div class="pl-list-col-1">'+'<div class="pl-list-img">'+'<img src="'+headimg+'" height="50px" width="50px"/>'
+					   +'</div>'+'<div class="pl-list-name" style="margin-top:10px">'+'</div>'+'</div>'+'</td>'
+					+'<td class="grid-col-2" style="width: 895px;">'+'<div class="pl-list-item">'+'<div class="pl-list-item-date" style="float:right">'
+					+time+'</div>'+'<div class="pl-list--item-content">'+content+'</div>'+'</div>'+'</td>'+'</tr>'
+					
+					var tmp1='<li class="cyjl-content-li count-li">'+'<img src="'+headimg+'" alt="no img" class="user-img">'+'</li>'
+					
+				
+					$('#new_content').prepend(tmp);
+					$('.new_cyjl').append(tmp1);
+					cyjl();
+
+				}
+			}
+		})
+	}
+	</script>
+
+</body>
+
+</html>

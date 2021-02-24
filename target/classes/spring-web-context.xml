@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+ 
+    <!-- 启动对@Aspectj的支持 -->
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+ 
+    <context:component-scan base-package="com.xd.cloud.web"/>
+ 
+    <mvc:annotation-driven/>
+ 	
+    <mvc:resources mapping="/assets/stylesheets/**" location="/assets/stylesheets/"/>  
+  	<mvc:resources mapping="/assets/stylesheets/bootstrap/**" location="/assets/stylesheets/bootstrap/"/>  
+    <mvc:resources mapping="/assets/images/**" location="/assets/images/"/>
+    <mvc:resources mapping="/assets/fonts/**" location="/assets/fonts/"/>
+    <mvc:resources mapping="/assets/javascripts/jquery/**" location="/assets/javascripts/jquery/"/>
+    <mvc:resources mapping="/assets/javascripts/bootstrap/**" location="/assets/javascripts/bootstrap/"/>
+    <mvc:resources mapping="/assets/javascripts/plugins/validate/**" location="/assets/javascripts/plugins/validate/"/>
+    <mvc:resources mapping="/assets/javascripts/**" location="/assets/javascripts/"/>
+    <mvc:resources mapping="/assets/javascripts/ie/**" location="/assets/javascripts/ie/"/>
+    <mvc:resources mapping="/assets/ueditor/**" location="/assets/ueditor/"/>
+    <mvc:resources mapping="/assets/ueditor/jsp/**" location="/assets/ueditor/jsp/"/>
+    
+    <mvc:resources mapping="/style/css/**" location="/style/css/"/>
+    <mvc:resources mapping="/style/js/**" location="/style/js/"/>
+    <mvc:resources mapping="/style/img/**" location="/style/img/"/>
+    <mvc:resources mapping="/style/echart/**" location="/style/echart/"/>
+    <mvc:resources mapping="/style/echart/chart/**" location="/style/echart/chart/"/>
+    <mvc:resources mapping="/style/echart/theme/**" location="/style/echart/theme/"/>
+    
+    <mvc:resources mapping="/WEB-INF/**" location="/WEB-INF/"/>  
+    
+    <mvc:resources mapping="/upload/**" location="/upload/"/>
+        
+    <!-- 默认访问跳转到登录页面 -->
+    <mvc:view-controller path="/" view-name="forward:/course/home" />
+    
+    <mvc:view-controller path="/admin" view-name="forward:/admin/tologin" />
+    
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>text/plain;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>text/plain;charset=UTF-8</value>
+                            <value>application/json;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    
+ 	<!--标签定义  -->
+ 	<bean id="channelListTag" class="com.xd.cloud.directive.ChannelListDirective"></bean>
+ 	<bean id="linkListTag" class="com.xd.cloud.directive.LinkListDirective"></bean>
+ 	<bean id="hdOrgTag" class="com.xd.cloud.directive.HdOrgDirective"></bean>
+ 	<bean id="hdCourseTag" class="com.xd.cloud.directive.HdCourseDirective"></bean>
+ 	<bean id="hdUserTag" class="com.xd.cloud.directive.HdUserDirective"></bean>
+ 	<bean id="conTag" class="com.xd.cloud.directive.ContentDirective"></bean>
+ 	
+    <!-- freemarker的配置 -->
+    <bean id="freemarkerConfigurer"
+          class="com.xd.cloud.common.util.ShiroTagFreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/view/" />
+        <property name="defaultEncoding" value="UTF-8" />
+        <property name="freemarkerVariables">
+            <map >
+                <entry key="channelListTag" value-ref="channelListTag" />
+                <entry key="linkListTag" value-ref="linkListTag" />
+                <entry key="hdOrgTag" value-ref="hdOrgTag" />
+                <entry key="hdCourseTag" value-ref="hdCourseTag" />
+                <entry key="hdUserTag" value-ref="hdUserTag" />
+                <entry key="conTag" value-ref="conTag" />
+            </map>
+        </property>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="template_update_delay">10</prop>
+                <prop key="locale">zh_CN</prop>
+                <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+                <prop key="date_format">yyyy-MM-dd</prop>
+                <prop key="number_format">#.##</prop>
+            </props>
+        </property>
+    </bean>
+ 
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="contentType" value="text/html; charset=UTF-8"/>
+        <property name="cache" value="true"/>
+        <property name="prefix" value=""/>
+        <property name="suffix" value=".html"/>
+        <property name="exposeSpringMacroHelpers" value="true"/>
+        <property name="exposeRequestAttributes" value="true"/>
+        <property name="exposeSessionAttributes" value="true"/>
+        <property name="requestContextAttribute" value="request"/>
+    </bean>
+    
+    
+     <!-- 开启Shiro注解的Spring配置方式的beans。在lifecycleBeanPostProcessor之后运行 -->
+    <bean
+        class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+        depends-on="lifecycleBeanPostProcessor" />
+    <bean
+        class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager" />
+    </bean>
+    
+    <bean id="lifecycleBeanPostProcessor"
+        class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+    <!-- shiro为集成spring -->
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.apache.shiro.authz.UnauthorizedException">/error</prop>
+            </props>
+        </property>
+    </bean>
+    
+   	<bean id="multipartResolver"
+	class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+	
+	<bean id="mailtool"
+	class="com.xd.cloud.web.MailSender"/>
+	
+	<!--邮件发送实现类-->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	  <property name="javaMailProperties">
+	    <props>
+	      <prop key="mail.smtp.auth">true</prop>
+	    </props>
+	  </property>
+	  <property name="host" value="smtp.qq.com" />
+	  <property name="username" value="3177319355@qq.com" />
+	  <property name="password" value="cetc552015" />
+	</bean>
+    <!-- <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.sina.com"/>
+        <property name="port" value="25"/>
+        <property name="username" value="tevop@sina.com"/>
+        <property name="password" value="123456"/>
+        <property name="javaMailProperties">
+            <props >
+                <prop key="mail.smtp.auth">true</prop>
+            </props>
+        </property>
+    </bean> -->
+    <bean id="simpleMailMessage" class="org.springframework.mail.SimpleMailMessage">
+        <property name="from" value="3177319355@qq.com" />
+        <property name="subject" value="凤凰微课大赛注册激活" />
+        
+        <property name="text" value="邮件内容" />
+       
+    </bean>
+   <!--线程池异步发送邮件-->
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="5" />
+        <property name="maxPoolSize" value="10" />
+        <property name="queueCapacity" value="25" />
+    </bean>
+</beans>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<#include '../common/css.html' >
+<body class='contrast-blue'>
+	<#include '../common/header-org.html'>
+	<div class='container body'>
+		<div class='row'>
+			<div class='col-xs-3 new-style'><#include 'left.html'></div>
+
+			<div class='col-xs-9 fch'>
+				<div class="text">&nbsp;&nbsp;机构信息</div>
+				<div class="main">
+
+					<div class="hd-message">
+						<div class="box hd-name">
+							<div class="icon hd-name hd">
+								<i class="icon-fire align-right"></i>&nbsp;机构名称：
+								<p>${(user.org.name)!''}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="setting">
+
+					<div class="setting-title">信息设置</div>
+					<input type="hidden" id="orgid" value="${(user.org.id)!''}" />
+					<div class="setting-main">
+						<ul>
+							<li>
+								<h2>院校名称:</h2>
+								<div class="setting-content">${(user.org.name)!''}</div>
+								<div class="setting-content1 disp">
+									<input type="text" value="${(user.org.name)!''}" id="orgname" class="form-control input-text input-text1">
+								</div>
+							</li>
+<!-- 							<li> -->
+<!-- 								<h2>院校邮箱:</h2> -->
+<!-- 								<div class="setting-content">${(user.org.email)!''}</div> -->
+<!-- 								<div class="setting-content1 disp"> -->
+<!-- 									<input type="text" value="${(user.org.email)!''}" id="email" class="form-control input-text input-text1" -->
+<!-- 										disabled="disabled"> -->
+<!-- 								</div> -->
+<!-- 							</li> -->
+							<li>
+								<h2>院校概述:</h2>
+								<div class="setting-content ">${(user.org.describle)!''}</div>
+								<div class="setting-content1 disp">
+									<textarea rows="3" cols="90" id="orgdescr" class="form-control  input-text input-text2" id="input-text2"></textarea>
+								</div>
+							</li>
+
+							<li>
+								<h2>院校性质:</h2>
+								<div class="setting-content ">${(user.org.category)!''}</div>
+								<div class="setting-content1 disp">
+									<div class="per-info-control">
+										<select class="select-address fl select-style" id="category">
+											<option value='高职'>高职</option>
+											<option value='中职'>中职</option>
+										</select>
+									</div>
+								</div>
+							</li>
+							<li>
+								<h2>院校地址:</h2>
+								<div class="setting-content ">${(user.org.address)!''}</div>
+								<div class="setting-content1 disp">
+									<input type="text" value="${(user.org.address)!''}" id="address" class="form-control input-text input-text1">
+								</div>
+							</li>
+						</ul>
+						<div class="edit mb10">
+							<a class="btn btn-success btn-edit btn-edit1" href="javascript:void(0);" onclick="edit()">修改</a> <a
+								class="btn btn-success btn-edit btn-edit2 disp" href="javascript:void(0);" onclick="saveedit()">保存</a> <a
+								class="btn btn-success btn-edit btn-edit3 disp" href="javascript:void(0);" onclick="backedit()">返回</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<#include '../common/footer.html'> <#include '../common/js.html'>
+	<script>
+		$(function() {
+			var describle = '${(user.org.describle)!'
+			'}';
+			describle = replaceTextarea2(describle);
+			$("#orgdescr").val(describle);
+		});
+		function edit() {
+			$('.setting-content').addClass('disp');
+			$('.btn-edit1').addClass('disp');
+			$('.btn-edit2').removeClass('disp');
+			$('.btn-edit3').removeClass('disp');
+			$('.setting-content1').removeClass('disp');
+			$('.fch1').addClass('orgleft-height');
+		};
+
+		function backedit() {
+			location.reload();
+		};
+
+		function saveedit() {
+			var id = $("#orgid").val();
+			var name = $("#orgname").val();
+			var describle = $("#orgdescr").val();
+			describle = replaceTextarea1(describle);
+			var address = $("#address").val();
+			var email = $("#email").val();
+			var category = $("#category").val();
+			var data = {
+				id : id,
+				name : name,
+				describle : describle,
+				address : address,
+				email : email,
+				category : category,
+			}
+			$.ajax({
+				url : "${request.contextPath}/admin/editorg",
+				type : "post",
+				data : data,
+				success : function(s) {
+					if (s.success) {
+						location.reload();
+					} else {
+						return;
+					}
+
+				}
+			})
+		}
+	</script>
+</body>
+</html>
+
+
+

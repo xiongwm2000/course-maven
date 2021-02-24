@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<#include '../common/css.html' >
+<body class='contrast-blue'>
+	<#include '../common/header-org.html'>
+	
+			<div class='container body'>
+		
+		
+		<div class='row'>
+		 <div class='col-xs-3 new-style'>
+		
+		<#include 'left.html'></div>
+		<div class='col-xs-9 fch ' >
+		<div class="text" >&nbsp;&nbsp;广告位</div>
+		<span class="btn-span" ><button class="btn btn-success button btn-f"  ><i class="icon-plus-sign-alt"></i>&nbsp;&nbsp;添加广告</button></span>
+         
+         	
+<!-- 列表 -->
+<div class='row' style="margin-top:10px">
+                <div class='col-sm-12'>
+                  <div class='box bordered-box orange-border mar-bottom0' >
+                  
+                    <div class='box-content box-no-padding'>
+                      <div class='responsive-table'>
+                        <div class='scrollable-area ' >
+                       
+                     <table class=' table table-bordered table-striped mar-bottom0'  >
+                            <thead>
+                              <tr>
+                              
+                                <th class="tab-font disp">
+                                                                                        广告id                                                      
+                                </th >
+                               
+                                <th class="tab-font ">
+                                                                                        广告名称                                                         
+                                </th >
+                                <th class="tab-font">
+                                                                                   广告url
+                                </th>
+                                   <th class="tab-font ">
+                                                                                       排序                                                     
+                                </th >
+                                <th class="tab-font">操作</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <#list adverts as advert>
+                              <tr class="text-center">
+                               <td class="disp">${advert.id}</td>
+                                <td>${advert.name}</td>
+                                <td>${advert.linkurl}</td>
+                                <td>${advert.sortnumber}</td>
+                                <td>
+                                  <div class='text-center'>
+                                    <a class='btn btn-success btn-xs edit-click' href='javascript:void(0)' onclick="edit('${advert.name}','${advert.linkurl}','${advert.id}','${advert.sortnumber}')"  >
+                                      <i class='icon-pencil'></i>
+                                    </a>
+                                    <a class='btn btn-danger btn-xs' href='javascript:void(0)' onclick="del('${advert.id}')">
+                                      <i class=' icon-trash'></i>
+                                    </a>
+                                  </div>
+                                </td>
+                              </tr>
+                              </#list>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+             <!--列表 -->
+	</div>
+		</div>
+		</div>
+		</div>
+    <#include '../common/footer.html'>
+    <!-- 弹框 -->
+		<div class="push-background disp"></div>
+	<!-- 添加链接 -->
+	<!-- <div class="push disp">
+		<div class="push-header"><span>&nbsp;&nbsp;添加链接</span></div>
+		<div class="push-content">
+		<div class="push-content-input">链接名称：<input type="text" class="form-control link-name" ></div>
+		<div class="push-content-input">链接url:<input type="text" class="form-control link-url" ></div>
+		<div class="push-content-input">排序:<input type="text" class="form-control link-sortnumber push-input-text" ></div>
+		</div>
+		<div class="edit">
+		<a href="javascript:void(0)" class="btn btn-success btn-edit btn-save"  onclick="save()">保存</a>
+		<a href="javascript:void(0)" class="btn btn-success btn-edit btn-back" >返回</a>
+		</div>
+		</div> -->
+		
+				   <div class='push disp'>
+				   <div class="push-header"><span>&nbsp;&nbsp;添加广告</span></div>
+                      <form class='form form-horizontal validate-form' style='margin-bottom: 0;'>
+                        <div class='form-group'>
+                          <label class='control-label col-sm-3 col-sm-3' for='validation_name'>广告名称：</label>
+                          <div class='col-sm-6 controls'>
+                            <input class='form-control link-name'  data-rule-required='true' id='validation_name' placeholder='请输入链接名称' name='validation_name'  type='text'>
+                          </div>
+                        </div>
+                        <div class='form-group'>
+                          <label class='control-label col-sm-3' for='validation_email'>广告url:</label>
+                          <div class='col-sm-6 controls'>
+                            <input class='form-control link-url'  data-rule-required='true' id='validation_email' placeholder='请输入链接url' name='validation_email' type='text'>
+                          </div>
+                        </div>
+                        <div class='form-group'>
+                          <label class='control-label col-sm-3' for='validation_email'>排序:</label>
+                          <div class='col-sm-6 controls'>
+                            <input class='form-control link-sortnumber push-input-text'  data-rule-required='true' id='validation_email' name='validation_email' value="10000" placeholder='请输入数值' type='text'>
+                          </div>
+                        </div>
+                       
+                        <div class='form-actions' style='margin-bottom:0'>
+                          <div class='row'>
+                            <div class='col-sm-9 col-sm-offset-3'>
+                              <button class='btn btn-success btn-edit btn-save' onclick="save()" type='button'>           
+                                                                              保存
+                              </button>
+                             <a href="javascript:void(0)" class="btn btn-success btn-edit btn-back" >返回</a>
+                            </div>
+                            
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+				
+		
+	<!-- 添加链接结束 -->
+	<!-- 编辑链接 -->
+	<!-- 	<div class="edit-push disp">
+		<div class="edit-push-header"><span>&nbsp;&nbsp;编辑链接</span></div>
+		<div class="edit-push-content">
+		<div class="edit-push-content-input">链接名称：<input type="text" class="form-control link-name push-input-text" id="link-name" value=""></div>
+		<div class="edit-push-content-input">链接url:<input type="text" class="form-control link-url push-input-text" id="link-url" value="" ></div>
+		<div class="edit-push-content-input">排序:<input type="text" class="form-control link-sortnumber push-input-text" id="link-sortnumber" value=""></div>
+		<div class="edit-push-content-input disp">id:<input type="text" class="form-control link-sortnumber push-input-text" id="link-id" value=""></div>
+		</div>
+		<div class="edit">
+		<a href="javascript:void(0)" class="btn btn-success btn-edit btn-save"  onclick="edit_save()">保存</a>
+		<a href="javascript:void(0)" class="btn btn-success btn-edit btn-back" >返回</a>
+		</div>
+		</div> -->
+		 <div class='edit-push disp'>
+					<div class="edit-push-header"><span>&nbsp;&nbsp;编辑广告</span></div>
+                      <form class='form form-horizontal validate-form' style='margin-bottom: 0;'>
+                        <div class='form-group'>
+                          <label class='control-label col-sm-3 col-sm-3' for='validation_name'>广告名称：</label>
+                          <div class='col-sm-6 controls'>
+                            <input class='form-control link-name push-input-text'   data-rule-required='true' id='link-name'  name='validation_name'  type='text'>
+                          </div>
+                        </div>
+                        <div class='form-group'>
+                          <label class='control-label col-sm-3' for='validation_email'>广告url:</label>
+                          <div class='col-sm-6 controls'>
+                            <input class='form-control link-url push-input-text'  data-rule-required='true' id='link-url' name='validation_email' type='text'>
+                          </div>
+                        </div>
+                        <div class='form-group'>
+                          <label class='control-label col-sm-3' for='validation_email'>排序:</label>
+                          <div class='col-sm-6 controls'>
+                            <input class='form-control link-sortnumber push-input-text'  data-rule-required='true' id='link-sortnumber' name='validation_email'  type='text'>
+                          </div>
+                        </div>
+                        <div class='form-group disp'>
+                          <label class='control-label col-sm-3' for='validation_email'>id:</label>
+                          <div class='col-sm-6 controls'>
+                            <input class='form-control link-id push-input-text'  data-rule-required='true' id='link-id' name='validation_email'  type='text'>
+                          </div>
+                        </div>
+                       
+                        <div class='form-actions' style='margin-bottom:0'>
+                          <div class='row'>
+                            <div class='col-sm-9 col-sm-offset-3'>
+                              <button class='btn btn-success btn-edit btn-save' onclick="edit_save()" type='button'>           
+                                                                              保存
+                              </button>
+                             <a href="javascript:void(0)" class="btn btn-success btn-edit btn-back" >返回</a>
+                            </div>
+                            
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+		
+	<!-- 	编辑链接结束 -->
+		
+		
+		
+		<!-- 弹框结束 -->
+	<#include '../common/js.html'>
+	<script>
+	$(function() {
+	$('#example').dataTable( {
+		"bRetrieve":true,
+		"bDestory":true,
+		"bLengthChange":true,
+		"bFilte":true,
+		
+		"oLanguage": {
+			"sLengthMenu": "每页显示 _MENU_ 条记录",
+			"sZeroRecords": "抱歉， 没有找到",
+			"sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+			"sInfoEmpty": "没有数据",
+			"sInfoFiltered": "(从 _MAX_ 条数据中检索)",
+			"oPaginate": {  
+                    "sFirst": "首页",  
+                    "sPrevious": "前一页",
+                    "sNext": "后一页",  
+                    "sLast": "尾页"  
+                }, 
+			"sZeroRecords": "没有检索到数据",  
+			"sFilter":"筛选",
+			"sProcessing": "<img src='./loading.gif' />"
+		},
+	} ); 	
+	//添加广告对话框显示、删除
+	$( '.btn-f').click(function(){
+		$(".push-background").removeClass("disp");
+		$(".push").removeClass("disp");
+	});
+	
+	$( '.btn-back').click(function(){
+		$(".push-background").addClass("disp");
+		$(".push").addClass("disp");
+		$(".edit-push").addClass("disp");
+	}); 
+	
+	
+	
+
+	
+	});  
+	
+	//编辑广告对话框显示、默认数值
+    function edit(name,linkurl,id,sortnumber){
+    	$(".push-background").removeClass("disp");
+		$(".edit-push").removeClass("disp");
+		$('#link-name').val(name);
+		$('#link-url').val(linkurl);
+		$('#link-sortnumber').val(sortnumber);
+		$('#link-id').val(id);
+	}
+	//编辑广告保存
+	function edit_save(id){
+	var name=$('#link-name').val();
+	var linkurl=$('#link-url').val();
+	var sortnumber=$('#link-sortnumber').val();
+	sortnumber=parseInt(sortnumber);
+	var id=$('#link-id').val();
+	if((name=="")||(linkurl=="")){return;}
+	else{
+	var data={"name":name,"linkurl":linkurl,"sortnumber":sortnumber,"id":id};
+	$.ajax({
+		url:"${request.contextPath}/orgadmin/editadvert",
+		type:"post",
+		data:data,
+		success:function(s){if (s.success)
+				{
+					alert(s.msg);
+					
+				}
+				else{alert(s.msg);}
+				location.reload();}
+	});
+	}
+	}
+	
+	//新增广告
+ 	function save(){
+		var name=$(".link-name").val();
+		var linkurl=$(".link-url").val();
+		var sortnumber=$(".link-sortnumber").val();
+		sortnumber=parseInt(sortnumber);
+		
+		if((name=="")||(linkurl=="")){return;}
+		else{
+		var data={"name":name,"linkurl":linkurl,"sortnumber":sortnumber};
+		
+		$.ajax({
+			url:"${request.contextPath}/orgadmin/saveadvert",
+			type:"post",
+			data:data,
+			success:function(s){
+				
+				if (s.success)
+				{
+					alert(s.msg);
+					
+				}
+				else{alert(s.msg);}
+				location.reload();
+			}
+		});
+		}
+	} 
+ 	
+ 	function del(id){
+        var id=id;
+        var data={"id":id};
+        $.ajax({
+        	url:"${request.contextPath}/orgadmin/deladvert",
+        	type:"post",
+        	data:data,
+        	success:function(s){
+        		if(s.success){
+        			alert(s.msg);
+        		}
+        		else{alert(s.msg);}
+				location.reload();
+        	}
+        	
+        })
+        
+        
+ 	}
+/* 	function edit(name,linkurl){
+		var name1='qq';
+		    name=name1;
+		var    sortnumber='1';
+		    sortnumber=parseInt(sortnumber);
+		 var   siteid='2';
+		 siteid=parseInt(siteid);
+		  var  data={"name":name,"linkurl":linkurl,"siteid":siteid,"sortnumber":
+		sortnumber};
+		
+		 $.ajax({
+		 url:"editlink.action",
+		 type:"post",
+		 data:data,
+		 success:function(s){
+		 var a=eval("("+s+")");	
+		 if (a.sucess=="sucess")
+		 {
+		 location.reload();
+		 alert("保存成功");
+		 }
+		 }
+		 });
+		 }; */
+	</script>
+
+</body>
+</html>
+
+
+

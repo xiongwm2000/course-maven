@@ -1,0 +1,231 @@
+body {
+	font-family: "微软雅黑","Microsoft yahei", "Times New Roman", "Times", "serif"!important;
+	background-color: #fbfbfb!important;
+	min-width:1200px!important;
+}
+
+ul,li {
+	margin: 0;
+	padding: 0;
+}
+li {
+	list-style: none;
+}
+
+p {
+	font: 14px Arial, Helvetica, sans-serif;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	color: #FFF;
+}
+
+/*CSS Code for Menu Begin:*/
+/* Root = Horizontal, Secondary = Vertical */
+ul#navmenu {
+	margin: 0 auto;
+	border: 0 none;
+	padding: 0;
+	width: 1200px; /*For KHTML*/
+	list-style: none;
+	height: 33px;
+}
+
+ul#navmenu li {
+	margin: 0;
+	border: 0 none;
+	padding: 0;
+	width: 133.3333px;
+	text-align: center;
+	float: left; /*For Gecko*/
+	display: inline;
+	list-style: none;
+	position: relative;
+}
+
+/* ul#navmenu li:hover{
+background-color:black;
+} */
+ul#navmenu ul {
+	margin: 0;
+	border: 0 none;
+	padding: 0;
+	width: 143px;
+	list-style: none;
+	display: none;
+	position: absolute;
+	top: 33px;
+	left: 0;
+}
+
+.container1{padding:0;width:1200px;margin:0 auto;height:1095px}
+
+ul#navmenu ul li {
+	float: none; /*For Gecko*/
+	display: block;
+	display: inline; /*For IE*/
+}
+
+/* Root Menu */
+ul#navmenu a {
+	border-right-color: #CCC; /*灰色，银灰或者灰白*/
+	border-bottom-color: #CCC;
+	padding: 0 6px;
+	float: none !important; /*For Opera*/
+	float: left; /*For IE*/
+	display: block;
+	 background: #EAEDEF;  /*藏蓝色*/
+	 color: #3D7675; /*白灰色*/
+	font: bold 14px/33px Microsoft YaHei;
+	text-decoration: none;
+	height: auto !important;
+	height: 1%; /*For IE*/
+}
+/* Root Menu Hover Persistence */
+ul#navmenu li a:hover,ul#navmenu li:hover a,ul#navmenu li.iehover a {
+	background: #526577;
+	color: #FFF;
+}
+
+ul#navmenu li a:hover{color: #FFF!important;}
+
+/* 2nd Menu */
+ul#navmenu li:hover li a,ul#navmenu li.iehover li a {
+	float: none;
+	background: #EEE; /*灰色*/
+	color: #666; /*灰黑色*/
+}
+/* 2nd Menu Hover Persistence */
+ul#navmenu li:hover li a:hover,ul#navmenu li:hover li:hover a,ul#navmenu li.iehover li a:hover,ul#navmenu li.iehover li.iehover a
+	{
+	background: #CCC; /*灰色，银灰或者灰白*/
+	color: #FFF;
+}
+/* 3rd Menu */
+ul#navmenu li:hover li:hover li a,ul#navmenu li.iehover li.iehover li a
+	{
+	background: #EEE;
+	color: #666;
+}
+/* 3rd Menu Hover Persistence */
+ul#navmenu li:hover li:hover li a:hover,ul#navmenu li:hover li:hover li:hover a,ul#navmenu li.iehover li.iehover li a:hover,ul#navmenu li.iehover li.iehover li.iehover a
+	{
+	background: #CCC;
+	color: #FFF;
+}
+
+ul#navmenu ul ul {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 120px;
+}
+
+/* Do Not Move - Must Come Before display:block for Gecko */
+ul#navmenu li:hover ul ul,ul#navmenu li.iehover ul ul {
+	display: none;
+}
+
+ul#navmenu li:hover ul,ul#navmenu li.iehover ul,ul#navmenu ul li:hover ul,ul#navmenu ul li.iehover ul
+	{
+	display: block;
+}
+
+ul#navmenu li:hover ul li,ul#navmenu li.iehover ul li,ul#navmenu ul li:hover ul li,ul#navmenu ul li.iehover ul li
+	{
+	display: block;
+	border-bottom: 1px solid #8397aa;
+	padding: 0px;
+}
+
+@media ( min-width : 1200px) {
+	.container {
+		width: 1200px;
+	}
+}
+
+.a1:hover{
+	
+	
+	color:#526577;
+	padding-bottom:5px;
+   /*  border-bottom:1px solid #526577; */
+   /* background:#ccc */
+   
+	}
+	a:link{text-decoration:none;}
+	a:visited{text-decoration:none;}
+	a:hover{text-decoration:none;}
+	.a1>span {color:#526577; /*默认为灰色*/}
+	.a1:hover>span {color:#FE8504; transition:all 0.2s/*鼠标在a上面时，span变白色*/}
+	
+	.margin-pho{margin:10px 2px}
+	
+	#footer {
+	text-align: center;
+	width: 580px;
+	margin-top: 9px;
+	padding: 4.5px 0 18px;
+	border-top: 1px solid #dfdfdf;
+}
+
+#footer p {
+	margin: 4.5px 0;
+	font-size: 1.0em;
+}
+	.footer {
+  padding-top: 36px;
+  width: 100%;
+  height: 184px;
+  text-align: center;
+  background: #1490F2;
+  border-bottom: 24px solid #0E80D8;
+}
+
+.footer p {
+	line-height: 26px;
+	font-size: 16px;
+	color: #fff;
+}
+
+
+
+#footer
+{
+text-align
+:
+center;
+width
+:
+580px;
+margin-top
+:
+9px;
+padding
+:
+4.5px
+0
+18px;
+border-top
+:
+1px
+solid
+#dfdfdf;
+}
+#footer
+ 
+p
+{
+margin
+:
+4.5px
+0;
+font-size
+:
+1.0em;
+}
+	

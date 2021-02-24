@@ -1,0 +1,188 @@
+/* body {
+	background-color: #fff;
+} */
+.w-1200 {
+	width: 1200px;
+	margin: 0 auto;
+}
+.wkds-font,
+/* body {
+	font-family: "Microsoft Yahei","Microsoft YaHei",STHeiti,Arial,sans-serif
+} */
+/*
+头部鼠标经过和选中背景色
+ */
+.bg-0091ff {
+	background-color: #0091ff;
+}
+/*
+ * 头部文字颜色
+ */
+.font-size-16 {
+	font-size: 16px;
+}
+.font-size-18 {
+	font-size: 18px;
+}
+.font-color-f {
+	color: #fff;
+}
+.font-color-1d {
+	color: #1d1d1d;
+}
+.font-color-43 {
+	color: #434343;
+}
+.font-color-30bc44 {
+	color: #30bc44;
+}
+.bdr-c5 {
+	border: 1px solid #c5c5c5;
+}
+.font-color-red {
+	color: #d93523;
+}
+/*
+ * 底部边框色
+ */
+.bdb-c6 {
+	border-bottom: 1px solid #c6c6c6;
+}
+/*按钮*/
+.btn {
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	padding: 6px 24px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	border: 1px solid transparent;
+	border-radius: 2px;
+	outline: 0;
+}
+.btn:hover {
+	text-decoration: none;
+}
+/*
+ * 按钮颜色
+ */
+.btn-red {
+	font-size: 18px;
+	color: #fff;
+	background-color: #e75545;
+	border-color: #e75545;
+}
+
+.btn-mr{font-size: 18px;
+	    color: #fff;}
+
+.btn-red:hover {
+	background-color: #c52413;
+	border-color: #c52413;
+}
+/*输入框*/
+.form-input, .textarea {
+	padding: 5px;
+	width: 411px;
+	vertical-align: middle;
+	/* font-size: 14px; */
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #c5c5c5;
+	outline: 0;
+}
+/* .form-input {
+	height: 26px;
+	line-height: 26px;
+} */
+/*单选复选框*/
+.radio, .checkbox {
+	position: relative;
+	padding-left: 20px;
+	margin-bottom: 0;
+	vertical-align: middle;
+	cursor: pointer;
+}
+.radio input[type=radio], .checkbox input[type=checkbox] {
+	position: absolute;
+	top: 50%;
+	margin-top: -6px;
+	margin-left: -20px;
+	*margin-top: -10px;
+}
+
+.form-input1{height: 36px;
+	line-height: 26px;
+		padding: 5px;
+	width: 411px;
+	vertical-align: middle;
+	font-size: 14px;
+	color: #555;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #c5c5c5;
+	outline: 0;}
+	
+	/* 添加的css */
+.swiper-container {
+	margin: 0 auto;
+	position: relative;
+	overflow: hidden;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-ms-backface-visibility: hidden;
+	backface-visibility: hidden;
+	z-index: 1;
+}
+.swiper-wrapper {
+	position: relative;
+	width: 100%;
+	-webkit-transition-property: -webkit-transform, left, top;
+	-webkit-transition-duration: 0s;
+	-webkit-transform: translate3d(0px, 0, 0);
+	-webkit-transition-timing-function: ease;
+	-moz-transition-property: -moz-transform, left, top;
+	-moz-transition-duration: 0s;
+	-moz-transform: translate3d(0px, 0, 0);
+	-moz-transition-timing-function: ease;
+	-ms-transition-property: -ms-transform, left, top;
+	-ms-transition-duration: 0s;
+	-ms-transform: translate3d(0px, 0, 0);
+	-ms-transition-timing-function: ease;
+	transition-property: transform, left, top;
+	transition-duration: 0s;
+	transform: translate3d(0px, 0, 0);
+	transition-timing-function: ease;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+.swiper-free-mode > .swiper-wrapper {
+	-webkit-transition-timing-function: ease-out;
+	-moz-transition-timing-function: ease-out;
+	-ms-transition-timing-function: ease-out;
+	transition-timing-function: ease-out;
+	margin: 0 auto;
+}
+.swiper-slide {
+	float: left;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+.swiper-wp8-horizontal {
+	-ms-touch-action: pan-y;
+}
+.swiper-wp8-vertical {
+	-ms-touch-action: pan-x;
+}

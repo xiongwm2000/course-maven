@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>个人中心</title>
+<meta name="description" content="">
+<link href="${request.contextPath}/style/css/index.css" rel="stylesheet" type="text/css" />
+<link href="${request.contextPath}/assets/stylesheets/bootstrap/bootstrap.css" rel="stylesheet" type="text/css" />
+<!-- / theme file [required] -->
+
+<link href="${request.contextPath}/style/css/reset.css" rel="stylesheet" type="text/css" />
+<link href="${request.contextPath}/style/css/main.css" rel="stylesheet" type="text/css">
+<link href="${request.contextPath}/style/css/common.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<#include '../common/hdheader.html'>
+	<div class="full person-info-content">
+		<div class="w-1200 clearfix">
+			<div class="person-head-img fl">
+				<img src="${(user.headimg)!'${request.contextPath}/style/img/headimg.png'}" width="128" height="128" />
+				<div class="person-head-bg"></div>
+				<div class="person-info">
+					<div class="person-info-name">${(user.realname)!user.username}</div>
+					<!-- <a class="person-info-edit" href="${request.contextPath}/user/touseredit" target="_blank">修改个人信息</a> -->
+				</div>
+			</div>
+			<!-- <ul class="person-head-right clearfix fr">
+					<li>
+						<a class="person-head-right-item" href="javascript: void(0);">
+							<div class="per-item-top txt-overflow">0次</div>
+							<div class="per-item-bottom">浏览量</div>
+						</a>
+					</li>
+					<li>
+						<a class="person-head-right-item" href="javascript: void(0);">
+							<div class="per-item-top txt-overflow">0次</div>
+							<div class="per-item-bottom">我上传的微课</div>
+						</a>
+					</li>
+					<li class="last">
+						<a class="person-head-right-item" href="javascript: void(0);">
+							<div class="per-item-top txt-overflow">0次</div>
+							<div class="per-item-bottom">我评分的微课</div>
+						</a>
+					</li>
+				</ul> -->
+		</div>
+	</div>
+	<div class="w-1200 center clearfix">
+		<div class="center-nav fl">
+			<ul id="userleft">
+				<li class="on"><a href="${request.contextPath}/user/tocenter"><img
+						src="${request.contextPath}/style/img/information-white.png" class="mt10" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;个人信息</a>
+				</li>
+				<li><a href="${request.contextPath}/user/editpassword"> <img
+						src="${request.contextPath}/style/img/wdds.png" class="mt10" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;修改密码
+				</a></li>
+				<!-- 	<li>
+						<a href="javascript:void(0);">
+						<img src="${request.contextPath}/style/img/wdcj.png" class="mt10"/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我的成绩</a>
+					</li> -->
+			</ul>
+		</div>
+
+		<div class="center-content fl">
+			<input type="hidden" id="id" value="${user.id}" />
+			<form id="eidtForm" method="post">
+				<ul class="per-form" style="margin: 20px 0 20px 175px">
+					<li class="per-info-item"><label>个人头像：</label>
+						<div class="per-info-control">
+							<div class="per-pic5" style="float:left">
+								<!-- <input type="file" validata-options="validType:'Custom',regexp:'.+\.(jpg|jpeg|jpg|gif)$',msg:'只能上传jpg|jpeg|jpg|gif文件在'"/> -->
+
+								<input type="hidden" id="path" value="${(user.headimg)!'${request.contextPath}/style/img/headimg.png'}" /> <img
+									src="${(user.headimg)!'${request.contextPath}/style/img/headimg.png'}" width="100px" height="100px" id="pathimg"
+									class="img-style" />
+							</div>
+							<div id="result-uploader" class="right upload-style " style="float:left;margin-left:20px;margin-top:56px"></div>
+
+						</div>
+						<div class=" bmyz5">
+							<em class="login-font-red yzfont">推荐上传1:1大小图片</em>
+						</div></li>
+					<li class="per-info-item"><label>姓名：</label>
+						<div class="per-info-control">
+							<input class="form-input" type="text" name="Name" id="name" value="${(user.realname)!user.username}" />
+						</div>
+						<div class="yz1 hide bmyz2">
+							<em class="login-font-red yzfont">姓名不能为空</em>
+						</div></li>
+					<li class="per-info-item"><label>性别：</label>
+						<div class="per-info-control">
+
+							<#if user.sex = 0> <span class="dib radio-control" style="height:21px;line-height:21px;"> <input id="man"
+								type="radio" name="identity" value="0" checked="checked"> <label for="man" class="dib radio">男</label></span> <span
+								class="dib radio-control" style="height:21px;line-height:21px;"> <input id="women" type="radio"
+								name="identity" value="1"> <label for="women" class="dib radio">女</label></span> <#else> <span
+								class="dib radio-control" style="height:21px;line-height:21px;"> <input id="man" type="radio"
+								name="identity" value="0"> <label for="man" class="dib radio">男</label></span> <span class="dib radio-control"
+								style="height:21px;line-height:21px;"> <input id="women" type="radio" name="identity" value="1"
+								checked="checked"> <label for="women" class="dib radio">女</label></span> </#if>
+						</div></li>
+					<li class="per-info-item"><label>邮箱：</label>
+						<div class="per-info-control">
+							<input class="form-input mrys" type="text" name="email" id="email" value="${(user.email)!''}" />
+						</div></li>
+				</ul>
+				<div class="per-form-btns ml320">
+					<input class="btn btn-blue btn-edit" onclick="submitme();return false;" type="button" value="保存" />
+				</div>
+			</form>
+		</div>
+	</div>
+	<#include '../common/hdfooter.html'> <#include '../common/hdjs.html'>
+	<script>
+		$(function() {
+			createUploader();
+			$(".cl").click(function() {
+				$(".show").removeClass("hide")
+			});
+
+			$(".center-nav").css("height", "1050px")
+		});
+
+		function createUploader() {
+			var uploader = new qq.FineUploader(
+					{
+						element : document.getElementById('result-uploader'),
+						request : {
+							endpoint : '${request.contextPath}/user/upload'
+						},
+						validation : {
+							allowedExtensions : [ 'jpeg', 'jpg', 'png', 'gif' ]
+						},
+
+						text : {
+							uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+						},
+						template : '<div class="qq-uploader">'
+								+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+								+ '<div class="qq-upload-button btn" style="border:1px solid #e75545;color:#e75545" >{uploadButtonText}</div>'
+								+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+								+ '<span class="qq-drop-processing-spinner"></span></span>'
+								+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+								+ '</div>',
+						classes : {
+							success : 'alert alert-success',
+							fail : 'alert alert-error'
+						},
+						callbacks : {
+							onComplete : function(id, fileName, responseJSON) {
+								if (responseJSON.success) {
+									var filepath = responseJSON.imgpath;
+
+									$("#path").val(filepath);
+									$("#pathimg")
+											.attr(
+													"src",
+													'${request.contextPath}'
+															+ filepath);
+								}
+							}
+						}
+					});
+		}
+
+		function submitme() {
+			var id = $("#id").val();
+			var headimg = $("#path").val();
+			var realname = $("#name").val();
+			var email = $("#email").val();
+			var sex = $('input[name="identity"]:checked').val();//0男，1女
+			var data = {
+				id : id,
+				headimg : headimg,
+				realname : realname,
+				sex : sex,
+				email : email
+			};
+			$.ajax({
+				url : "${request.contextPath}/user/useredit",
+				type : "post",
+				data : data,
+				success : function(s) {
+					if (s.success) {
+						alert(s.msg);
+						location.href = "${request.contextPath}/user/tocenter";
+					}
+				}
+			});
+		}
+	</script>
+</body>
+</html>

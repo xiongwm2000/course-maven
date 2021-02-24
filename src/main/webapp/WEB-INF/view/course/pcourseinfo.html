@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<!--[if IE 7]><html class="ie7 lte9 lte8 lte7" lang="zh-cn"><![endif]-->
+<!--[if IE 8]><html class="ie8 lte9 lte8" lang="zh-cn"><![endif]-->
+<!--[if IE 9]><html class="ie9 lte9" lang="zh-cn"><![endif]-->
+<!--[if gt IE 9]><!-->
+<html lang="zh-cn">
+<!--<![endif]-->
+<head>
+<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+<meta content='text/html;charset=utf-8' http-equiv='content-type'>
+<title>课程详情</title>
+<meta name="description" content="" />
+
+<link href="${request.contextPath}/assets/stylesheets/plugins/bootstrap_daterangepicker/bootstrap-daterangepicker.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="${request.contextPath}/assets/stylesheets/plugins/fullcalendar/fullcalendar.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="${request.contextPath}/assets/stylesheets/plugins/common/bootstrap-wysihtml5.css" media="all" rel="stylesheet" type="text/css" />
+    <!-- / END - page related stylesheets [optional] -->
+    <!-- / bootstrap [required] -->
+    <link href="${request.contextPath}/assets/stylesheets/bootstrap/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
+    <!-- / theme file [required] -->
+    <link href="${request.contextPath}/assets/stylesheets/light-theme.css" media="all" id="color-settings-body-color" rel="stylesheet" type="text/css" />
+    <!-- / coloring file [optional] (if you are going to use custom contrast color) -->
+    <link href="${request.contextPath}/assets/stylesheets/theme-colors.css" media="all" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+.bottom_title{
+
+	height: 40px;
+	margin:0 auto;
+	font-size: 16px;
+	margin-top:20px;
+	padding-left: 50px;
+	line-height:40px;
+	border-bottom: 1px solid #e4e5e6;
+	margin-bottom: 20px;
+}
+.wkds-icon4 {
+  background: url(${request.contextPath}/style/img/wkds-icon4.png) no-repeat 0 0px;
+}
+.sp{margin-top: 20px;border-radius:5px 5px 5px 5px;margin-bottom: 10px;color: #fff;text-align: center;border: 1px solid #FE8504;height: 30px;float: left; line-height: 30px;}
+.sp a{
+    display:block;
+	text-decoration:none;
+	height: 28px;width: 100%;
+	}
+.cc{
+	background-color: #FE8504;
+	color: #fff !important;
+}
+
+</style>
+
+</head>
+
+<body class="bodyhd">
+
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 ">
+				<div class="bottom_title wkds-icon4">${course.prize}</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-6">
+				<img src="${(course.thumb)!'${request.contextPath}/assets/images/cu1.jpg'}" width="100%" class='img-responsive' />
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6">
+				<p></p>
+				<p>${course.name}</p>
+				<p>课程类型： ${course.category}</p>
+				<p>作者：${us.username}</p>
+
+			</div>
+		</div>
+
+		</br>
+		<!-- <div class="row" >
+<#list channles as channel>
+<div class="col-xs-3 col-sm-3 col-md-3 sp">
+<a href="javascript:void(0);" onclick="getContent(${channel.id});" >${channel.name}</a>
+</div>
+</#list>
+</div> -->
+
+		<div class="row">
+
+			<div class="col-xs-12 col-sm-12 col-md-12" id="aa"></div>
+		</div>
+	</div>
+
+	<script language="JavaScript1.1" type="text/javascript">
+					 var requiredMajorVersion = 8;
+					 var requiredMinorVersion = 0;
+					 var requiredRevision = 0;
+					
+					 var isIE  = (navigator.appVersion.indexOf("MSIE") != -1) ? true : false;
+					 var isWin = (navigator.appVersion.toLowerCase().indexOf("win") != -1) ? true : false;
+					 
+					 function JSGetSwfVer(i){
+					             if (navigator.plugins != null && navigator.plugins.length > 0) {
+					                         if (navigator.plugins["Shockwave Flash 2.0"] || navigator.plugins["Shockwave Flash"]) {
+					                                    var swVer2 = navigator.plugins["Shockwave Flash 2.0"] ? " 2.0" : "";
+					                         			var flashDescription = navigator.plugins["Shockwave Flash" + swVer2].description;
+					                                    descArray = flashDescription.split(" ");
+					                                    tempArrayMajor = descArray[2].split(".");
+					                                    versionMajor = tempArrayMajor[0];
+					                                    versionMinor = tempArrayMajor[1];
+					                                    if ( descArray[3] != "" ) {
+					                                                tempArrayMinor = descArray[3].split("r");
+					                                    } else {
+					                                                tempArrayMinor = descArray[4].split("r");
+					                                    }
+					                         versionRevision = tempArrayMinor[1] > 0 ? tempArrayMinor[1] : 0;
+					             flashVer = versionMajor + "." + versionMinor + "." + versionRevision;
+					             } else {
+					                                    flashVer = -1;
+					                         }
+					             }
+					             else if (navigator.userAgent.toLowerCase().indexOf("webtv/2.6") != -1) flashVer = 4;
+					             else if (navigator.userAgent.toLowerCase().indexOf("webtv/2.5") != -1) flashVer = 3;
+					             else if (navigator.userAgent.toLowerCase().indexOf("webtv") != -1) flashVer = 2;
+					             else {                       
+					                         flashVer = -1;
+					             }
+					             return flashVer;
+					 } 
+					 
+					 function DetectFlashVer(reqMajorVer, reqMinorVer, reqRevision) 
+					 {
+					             reqVer = parseFloat(reqMajorVer + "." + reqRevision);
+					             for (i=25;i>0;i--) {       
+					                         versionStr = JSGetSwfVer(i);              
+					                         if (versionStr == -1 ) { 
+					                                    return false;
+					                         } else if (versionStr != 0) {
+					                                    versionArray      = versionStr.split(".");
+					                                    
+					                                    versionMajor      = versionArray[0];
+					                                    versionMinor      = versionArray[1];
+					                                    versionRevision   = versionArray[2];
+					                                    
+					                                    versionString     = versionMajor + "." + versionRevision;   
+					                                    versionNum        = parseFloat(versionString);
+					                                    if ( (versionMajor > reqMajorVer) && (versionNum >= reqVer) ) {
+					                                                return true;
+					                                    } else {
+					                                                return ((versionNum >= reqVer && versionMinor >= reqMinorVer) ? true : false );    
+					                                    }
+					                         }
+					             }          
+					             return (reqVer ? false : 0.0);
+					 }
+					</script>
+
+
+
+	<script src="${request.contextPath}/assets/javascripts/jquery/jquery.min.js"
+		type="text/javascript"></script>
+	<!-- / jquery mobile (for touch events) -->
+	<script src="${request.contextPath}/assets/javascripts/jquery/jquery.mobile.custom.min.js"
+		type="text/javascript"></script>
+	<!-- / jquery migrate (for compatibility with new jquery) [required] -->
+	<script src="${request.contextPath}/assets/javascripts/jquery/jquery-migrate.min.js"
+		type="text/javascript"></script>
+	<!-- / jquery ui -->
+	<script src="${request.contextPath}/assets/javascripts/jquery/jquery-ui.min.js"
+		type="text/javascript"></script>
+	<!-- / jQuery UI Touch Punch -->
+	<script
+		src="${request.contextPath}/assets/javascripts/plugins/jquery_ui_touch_punch/jquery.ui.touch-punch.min.js"
+		type="text/javascript"></script>
+	<!-- / bootstrap [required] -->
+	<script src="${request.contextPath}/assets/javascripts/bootstrap/bootstrap.js"
+		type="text/javascript"></script>
+	<!-- / modernizr -->
+	<script src="${request.contextPath}/assets/javascripts/plugins/modernizr/modernizr.min.js"
+		type="text/javascript"></script>
+	<!-- / theme file [required] -->
+	<script src="${request.contextPath}/assets/javascripts/theme.js" type="text/javascript"></script>
+
+
+
+	<script>
+ 
+    $(function() {
+       
+
+		getContent(-1)
+    });
+    
+    /* var GradList = document.getElementById("QuacorGrading").getElementsByTagName("input");
+
+    for(var di=0;di<parseInt(document.getElementById("QuacorGradingValue").getElementsByTagName("font")[0].innerHTML);di++){
+    	GradList[di].style.backgroundPosition = 'left center';
+    } */
+    
+
+    
+    
+    
+    function getContent(cid)
+    {
+    
+    	var data = {courseid:"${course.id}",chapterid:cid};
+    	$.ajax({
+         	url:"${request.contextPath}/course/getContent",
+         	type:"post",
+         	data:data,
+         	success:function(s){
+         		if (s.success)
+    			{
+         			var tmp = '';
+         			if (s.other.type == 2)
+       				{
+         				var video = s.other.path;
+         				tmp = '<video width="100%"   controls="controls" autoplay="autoplay"  style="clear:both;display:block;margin:auto">'+
+         				  '<source src="'+video+'" type="video/mp4" />'+
+         				  '<object data="'+video+'" width="100%">'+
+         				   ' <embed src="'+video+'" width="100%" />'+
+         				  '</object>'+
+         				'</video>';
+         				
+       				}
+         			else
+       				{
+         				 //var width=800
+   					 var height=500
+   					 var align="center"
+   					 var name="Print2FlashDoc"
+   					 //打开的swf文件路径
+   					 var url=s.other.swfpath;
+   					 if(isIE && isWin) {  
+   						tmp = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"'
+   					     + 'width="'+'100%'+'" height="'+height+'" align="'+align+'" id="'+name+'"'
+   					     + 'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version='+requiredMajorVersion+','+requiredMinorVersion+','+requiredRevision+',0">'
+   					     + '<param name="movie" value="'+url+'" /><param name="quality" value="best" />'
+   					     + '<param name="allowScriptAccess" value="sameDomain" />'
+   					     + '<param name="allowFullScreen" value="true" />'
+   					     + '<\/object>';
+   					    // document.write(oeTags);   
+   					   } else if(DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision)) {
+   						tmp = '<embed src="'+url+'" quality="best" '
+   					     + 'width="'+'100%'+'" height="'+height+'" align="'+align+'" name="'+name+'"'
+   					     + 'play="true"'
+   					     + 'loop="false"'
+   					     + 'quality="best"'
+   					     + 'allowScriptAccess="sameDomain"'
+   					     + 'allowFullScreen="true"'
+   					     + 'type="application/x-shockwave-flash"'
+   					     + 'pluginspage="http://www.macromedia.com/go/getflashplayer">'
+   					     + '<\/embed>'
+   					     //document.write(oeTags);   
+   					   } else {
+   						tmp = 'This content requires the Adobe Flash Player. '
+   					             + '<a href="http://www.macromedia.com/go/getflash/">Get Flash</a>';
+   					     //document.write(alternateContent);  
+   					   }
+       				}
+         			$("#aa").html(tmp);
+    			}
+         	}	
+         })
+    }
+
+	  
+    </script>
+
+</body>
+
+</html>

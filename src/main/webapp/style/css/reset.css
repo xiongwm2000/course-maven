@@ -1,0 +1,163 @@
+html{-webkit-text-size-adjust:none;}
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */
+dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
+pre, /* text formatting elements 文本格式元素 */
+form, fieldset, legend, button, input, textarea, /* form elements 表单元素 */
+th, td/* table elements 表格元素 */ {
+	margin: 0;
+	padding: 0;
+}
+/** 设置默认字体 **/
+body, button, input, select, textarea/* for ie */ {
+	font-family: 微软雅黑, "Times New Roman", Times, serif;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-size: 100%;
+}
+address, cite, dfn, em, var {
+	font-style: normal;
+}/* 将斜体扶正 */
+code, kbd, pre, samp {
+	font-family: courier new, courier, monospace;
+}/* 统一等宽字体 */
+small {
+	font-size: 12px;
+}/* 小于 12px 的中文很难阅读，让 small 正常化 */
+/** 重置列表元素 **/
+
+ul, ol {
+	list-style: none;
+}
+/** 重置文本格式元素 **/
+
+a {
+	text-decoration: none;
+}
+a:hover{text-decoration:none ; }
+sup {
+	vertical-align: text-top;
+}/* 重置，减少对行高的影响 */
+sub {
+	vertical-align: text-bottom;
+}
+/** 重置表单元素 **/
+
+legend {
+	color: #000;
+}/* for ie6 */
+fieldset, img {
+	border: 0;
+}/* img 搭车：让链接里的 img 无边框 */
+button, input, select, textarea {
+	font-size: 100%;
+	outline: 0;
+}/* 使得表单元素在 ie 下能继承字体大小 */
+/** 重置表格元素 **/
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/* 重置 HTML5 元素 */
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+mark {
+	background: #ff0;
+}
+/* ximing
+ * 此文件放置全 局通用样式，跨站点、与具体业务UI无关的样式定义
+/* 清除浮动  */
+.clearfix:after {
+	content: '\20';
+	display: block;
+	height: 0;
+	clear: both;
+}
+
+.clearfix {
+	*zoom: 1;
+}
+body {
+	min-width: 1200px;
+	
+}
+/* 解决IE6不缓存css背景图的bug */
+html{
+	zoom:expression(function(ele){ele.style.zoom = "1";document.execCommand("BackgroundImageCache",false,true);}(this));
+}
+/* 常用样式设定 */
+.clr{clear:both;}
+.w-full{width:100%;}
+.w-auto{width:auto;}
+.hide{display:none !important;}
+.unvisible{visibility:hidden;}
+.m-clear{margin:0 !important;}
+.m-auto{margin:auto !important;}
+.p-clear{padding:0 !important;}
+.placeholder{color:#999 !important;}
+.hideSubmit{position:absolute;width:0 !important;height:0 !important;padding:0 !important;margin:0 !important;background-color:transparent !important;border:0 !important;line-height:0 !important;font-size:0 !important;}
+.em1{padding-right:1em;}
+.em2{padding-right:2em;}
+.emhalf{padding-right:0.5em;}
+.fl {float:left}
+.fr{float:right}
+.rel{position:relative}
+.abs{position:absolute}
+.txt-overflow{overflow: hidden;text-overflow: ellipsis;white-space: nowrap}
+.db {display: block}
+.dib {display: inline-block;*display: inline;*zoom: 1;vertical-align: middle;}
+.yzfont{font-size:6px!important}
+.bmyz{margin-left:135px!important;margin-top:10px!important}
+.bmyz1{margin-left:121px!important;margin-top:10px!important}
+.bmyz2{margin-left:145px!important;margin-top:10px!important}
+.bmyz3{margin-left:421px!important;margin-top:5px!important}
+.bmyz4{margin-left:109px!important;margin-top:5px!important}
+.bmyz5{margin-left:135px!important;margin-top:20px!important}
+.bmyz-sc{margin-left:146px!important;margin-top:10px!important}
+.push-background {z-index: 1987; position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; overflow: hidden;  background: #000;
+  opacity: 0.7;}
+  .push1{  
+  background: #ffffff;
+  position: absolute;
+  width: 37%;
+  z-index: 10000;
+  top: 212.4px;
+  left: 32.3%;
+  border: 8px solid #e7e7eb;
+  height:350px}
+  .t-head{height: 30px;
+  line-height: 29px;
+  background-color: #d93523;
+  padding-left: 20px;
+  font-size: 16px;
+  color:#ffffff}
+  .t-close{float:right;margin-right:20px;color:#ffffff}
+  .t-close >a{color:#ffffff}
+  .t-body{margin-top:10px;margin-left:10px;font-size:14px}
+  .t-body1{margin-top:3px;margin-left:10px;font-size:14px}
+  .btnemail {
+  width: 150px;  
+  position: relative;
+  display: inline-block;
+  height: 30px;
+  line-height: 30px!important;
+  padding-left: 40px;
+  text-align: center;
+  min-width: 90px;
+  background-color: #d93523;
+  color: #fff;
+  white-space: nowrap;
+  font-size: 14px;
+  border-radius: 2px;
+  overflow: hidden;
+  transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  vertical-align: middle;
+  margin-left:10px;
+  margin-top:10px}
+  .t-body3{padding-top:20px;margin-left:10px;font-size:14px;margin-top:15px;  border-top: 1px solid #d0d6dc;}
+  .t-body1>a{color: #16a1a4;margin-left:5px}

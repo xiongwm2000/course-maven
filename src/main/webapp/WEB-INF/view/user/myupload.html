@@ -1,0 +1,663 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>微课大赛</title>
+		<meta name="description" content="" />
+		<link rel="stylesheet" href="${request.contextPath}/assets/stylesheets/zTreeStyle.css" type="text/css">
+		<#include '../common/hdcss.html'>
+		<#include '../common/hdjs.html'>
+	</head>
+
+	<body>
+		<#include '../common/hdheader.html'>
+		<div class="w-1200 center clearfix" style="margin-bottom:120px;min-height: 432px;">
+           <div class="f1-title3 wkds-icon8">
+					上传微课作品
+			</div>
+			<div class="center-content fl per-tip" style="margin:0 150px;display:none;width:70%" id="con1">
+							您已经上传过作品，无法再次上传作品！
+			</div>
+			<div class="center-content fl per-tip" style="margin:0 150px;display:none;width:70%" id="con3">
+							您还没有报名参赛或者还没有审核通过，无法上传作品！
+			</div>
+			<div class="center-content fl" style="margin:0 150px;display:none" id="con2">
+				
+				<input type="hidden" id="id" value=""/>
+				<form id="eidtForm" method="post">
+					<ul class="per-form" style="margin: 20px 0 56px 175px">
+						<li class="per-info-item">
+							<label>微课名称：<em class="up-em">*</em></label>
+							<div class="per-info-control">
+								<input class="form-input form-input3" type="text" name="Name" id="name" value="" />
+							</div>
+								<div class="yz1 hide bmyz2">
+						         <em class="login-font-red yzfont">微课名称不能为空</em>
+						               </div>
+						</li>
+					
+					<li class="per-info-item">
+							<label>内容说明：<em class="up-em">*</em></label>
+							<div class="per-info-control">
+							<textarea class="textarea form-input3"  id="describle" rows="4" type="text" style="width:411px" ></textarea>
+							</div>
+							<div class="yz2 hide bmyz2">
+						         <em class="login-font-red yzfont">微课内容不能为空</em>
+						               </div>
+						</li>
+						
+					<li class="per-info-item">
+							<label>教学目标：<em class="up-em">*</em></label>
+							<div class="per-info-control">
+							<textarea class="textarea form-input3"  id="target" rows="4" type="text"  style="width:411px" ></textarea>
+							</div>
+								<div class="yz3 hide bmyz2">
+						         <em class="login-font-red yzfont">教学目标不能为空</em>
+						               </div>
+						</li>
+					
+					
+					
+					
+						<li class="per-info-item">
+							<label>教学视频：<em class="up-em">*</em></label>
+							<div class="per-info-control">
+								 <div class="fl uploadzs">
+								 <div id="result-uploader" class="right upload-style" style="float:left;margin-right:20px"></div>
+								<p >(支持MP4、flv、avi、rmvb、<br/>3gp、mpeg、swf格式) </p>
+								 <input type="hidden" id="path" value="" />
+								</div>
+							</div>
+							<div class="spsc hide bmyz-sc">
+						         <em class="login-font-red yzfont">上传成功</em>
+						               </div>
+						               <div class="yz4 hide bmyz-sc">
+						         <em class="login-font-red yzfont">教学视频不能为空</em>
+						               </div>
+						</li>
+						
+							<li class="per-info-item">
+							<label>教学课件：<em class="up-em">*</em></label>
+							<div class="per-info-control">
+								 <div class="fl uploadzs">
+								 <div id="result-uploaderkj" class="right upload-style" style="float:left;margin-right:20px"></div>
+								<p >(仅支持ppt格式) </p>
+								 <input type="hidden" id="pathkj" value="" />
+								</div>
+							</div>
+								<div class="kjsc hide bmyz-sc">
+						         <em class="login-font-red yzfont">上传成功</em>
+						               </div>
+						                  <div class="yz5 hide bmyz-sc">
+						         <em class="login-font-red yzfont">教学视频不能为空</em>
+						               </div>
+						</li>
+						
+						<li class="per-info-item">
+							<label>辅助材料：<em class="up-em">*</em></label>
+							<div class="per-info-control">
+								 <div class="fl uploadzs">
+								 <div id="result-uploaderfz" class="right upload-style" style="float:left;margin-right:20px"></div>
+								<p >(仅支持ZIP或者RAR格式) </p>
+								 <input type="hidden" id="pathfz" value="" />
+								</div>
+							</div>
+							<div class="fzsc hide bmyz-sc">
+						         <em class="login-font-red yzfont">上传成功</em>
+						               </div>
+						               	<div class="yz6 hide bmyz-sc">
+						         <em class="login-font-red yzfont">辅助材料不能为空</em>
+						               </div>
+						</li>
+						
+						<li class="per-info-item">
+							<label>教学设计：<em class="up-em">*</em></label>
+							<div class="per-info-control">
+								 <div class="fl uploadzs">
+								 <div id="result-uploaderjxsj" class="right upload-style" style="float:left;margin-right:20px"></div>
+								<p >(仅支持doc或者docx格式) </p>
+								 <input type="hidden" id="pathjxsj" value="" />
+								</div>
+							</div>
+							<div class="jxsjsc hide bmyz-sc">
+						         <em class="login-font-red yzfont">上传成功</em>
+						               </div>
+						                	<div class="yz7 hide bmyz-sc">
+						         <em class="login-font-red yzfont">教学设计不能为空</em>
+						               </div>
+						</li>
+						
+							<li class="per-info-item">
+							<label>微课图片：<em class="up-em">*</em></label>
+							<div class="per-info-control">
+							 <div class="per-pic5" style="float:left"> 
+							 			
+					            <input type="hidden" id="pathtp" value="" />
+					            <img src="" width="110" height="92" id="pathimg1" class="img-style"/>
+								 </div>
+								 <div class="fl uploadtp">
+								 
+								<p >(图片尺寸：259*150) </p>
+								<div id="result-uploadertp" class="right upload-style" style="float:left;margin-right:20px"></div>
+								
+								</div>
+							</div>
+								<div class="yz8 hide bmyz-sc">
+						         <em class="login-font-red yzfont">教学设计不能为空</em>
+						               </div>
+						</li>
+						
+						
+					
+						<li class="per-info-item">
+							<label>学校类型：<em class="up-em">*</em></label>
+							<div class="per-info-control">
+								<select class="form-input1 schooltype" style="width:97px" onchange="getcategory()">
+								<option >请选择</option>
+								 <#list cgroups as cgroup>
+								<option value="${cgroup.id}">${cgroup.name}</option>
+								</#list>
+								</select>
+							</div>
+							<div class="yz9 hide bmyz2">
+						         <em class="login-font-red yzfont">请选择学校类型</em>
+						               </div>
+						</li>
+
+						<li class="per-info-item">
+							<label>选择学科：<em class="up-em">*</em></label>
+							<div class="per-info-control">
+								<!-- <input class="btn btn-red btn-edit"  type="button"   value="点击选择" style="font-size:13px" onclick="getcategory(id)"/> -->
+								<select class="form-input1" id="schooltype1" style="width:160px" onchange="getcategory1()">
+								<option value="">请选择</option>
+								</select>
+								<select class="form-input1 hide" id="schooltype2" style="width:160px;" onchange="getcategory2()"  >
+								<option value="">请选择</option>
+								</select>
+									<select class="form-input1 hide" id="schooltype3" style="width:130px" >
+								<option value="">请选择</option>
+								</select>
+							
+							</div>
+							
+						<!-- 	<div class="xk-mar140 hide"  id="category_list">
+							
+                           <div class="fl wi186 marl5 xkmt10" >
+                           <div class="border_xk" >
+                            <ul class="xkul">
+                            
+                            <li><a href="javaScript:void(0)"  onclick="getcategory(id)">德育课程</a></li>
+                            <li><a href="javaScript:void(0)"  onclick="getcategory(id)">德育课程</a></li>
+                              <li><a href="javaScript:void(0)"  onclick="getcategory(id)">德育课程</a></li>
+                            </ul>
+                            </div>
+                             </div> 
+                           
+                           
+                             </div> -->
+
+
+							<!-- <div class="yz3 hide bmyz2">
+						         <em class="login-font-red yzfont">请选择学科</em>
+						               </div> -->
+						</li>
+						
+
+						<li class="per-info-item">
+							<div class="per-info-control per-agree">
+								<input id="agree" type="checkbox" onclick="agree1()"/>
+								<label for="agree" class="dib checkbox">我同意凤凰职教杯微课大赛协议条款</label>
+							</div>
+						</li>
+					</ul>
+					<div class="per-form-btns ml320">
+						<input class="btn btn-mr btn-datum" id="tj1" disabled="disabled" onclick="submitme();return false;" type="button" value="完成并上传" />
+						
+					</div>
+						<div class="per-form-btns ml369">
+						<input class="btn btn-red btn-edit" onclick="qx();return false;" type="button" value="取消" />
+						
+					</div>
+				</form>
+			</div>
+		</div>
+		<#include '../common/hdfooter.html'>
+		
+	
+	 <script type="text/javascript" src="${request.contextPath}/assets/javascripts/jquery.ztree.core-3.5.min.js"></script>  
+	<script>
+	$(function(){
+		createUploadersp();
+		createUploaderkj();
+	   createUploaderfz();
+	   createUploaderjxsj();
+	   createUploadertp();
+	   
+		var hdid=1;
+		var data={hdid:hdid};
+		$.ajax({
+			url : "${request.contextPath}/user/myhdcourse",
+			type : "post",
+			data : data,
+			success : function(s) {
+				if (s.success) {
+					$("#con2").css('display','block'); 
+					$("#con1").css('display','none'); 
+					$("#con3").css('display','none'); 
+				} 
+				else 
+				{
+					if (s.msg == "1")
+					{
+						$("#con2").css('display','none'); 
+						$("#con1").css('display','none'); 
+						$("#con3").css('display','block'); 
+					}
+					else
+					{
+						$("#con2").css('display','none'); 
+						$("#con1").css('display','block'); 
+						$("#con3").css('display','none'); 
+					}
+				}
+			}
+		});
+		
+	});
+
+	function agree1(){
+		if($("#agree").attr("checked")=="checked"){
+			
+			$('#tj1').removeAttr("disabled");
+			$('#tj1').addClass("btn-red");
+			}
+		if($("#agree").attr("checked")!="checked"){
+			$('#tj1').attr("disabled","disabled");
+			$('#tj1').removeClass("btn-red");
+			}
+	}
+	
+	    function qx(){
+	    	location.reload();
+	    	}
+		function createUploadersp() {
+			var uploader = new qq.FineUploader(
+					{
+						element : document.getElementById('result-uploader'),
+						request : {
+							endpoint : '${request.contextPath}/user/upload'
+						},
+						validation : {
+							allowedExtensions : [ 'mp4', 'avi', 'rmvb','flv', '3gp', 'mpeg','swf' ]
+						},
+
+						text : {
+							uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+						},
+						template : '<div class="qq-uploader">'
+								+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+								+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#fff;background-color:#e75545" >{uploadButtonText}</div>'
+								+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+								+ '<span class="qq-drop-processing-spinner"></span></span>'
+								+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+								+ '</div>',
+						classes : {
+							success : 'alert alert-success',
+							fail : 'alert alert-error'
+						},
+						callbacks : {
+							onComplete : function(id, fileName, responseJSON) {
+								if (responseJSON.success) {
+									var filepath = responseJSON.imgpath;
+								
+									$("#path").val(filepath);
+									$(".spsc").removeClass("hide");
+								
+								}
+							}
+						}
+					});
+		}
+		
+		function createUploaderkj() {
+			var uploader = new qq.FineUploader(
+					{
+						element : document.getElementById('result-uploaderkj'),
+						request : {
+							endpoint : '${request.contextPath}/user/upload'
+						},
+						validation : {
+							allowedExtensions : [ 'ppt' , 'pptx']
+						},
+
+						text : {
+							uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+						},
+						template : '<div class="qq-uploader">'
+								+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+								+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#fff;background-color:#e75545" >{uploadButtonText}</div>'
+								+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+								+ '<span class="qq-drop-processing-spinner"></span></span>'
+								+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+								+ '</div>',
+						classes : {
+							success : 'alert alert-success',
+							fail : 'alert alert-error'
+						},
+						callbacks : {
+							onComplete : function(id, fileName, responseJSON) {
+								if (responseJSON.success) {
+									var filepath = responseJSON.imgpath;
+								
+									$("#pathkj").val(filepath);
+									$(".kjsc").removeClass("hide");
+								}
+							}
+						}
+					});
+		}
+		
+		function createUploaderfz() {
+			var uploader = new qq.FineUploader(
+					{
+						element : document.getElementById('result-uploaderfz'),
+						request : {
+							endpoint : '${request.contextPath}/user/upload'
+						},
+						validation : {
+							allowedExtensions : [ 'zip', 'rar' ]
+						},
+
+						text : {
+							uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+						},
+						template : '<div class="qq-uploader">'
+								+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+								+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#fff;background-color:#e75545" >{uploadButtonText}</div>'
+								+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+								+ '<span class="qq-drop-processing-spinner"></span></span>'
+								+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+								+ '</div>',
+						classes : {
+							success : 'alert alert-success',
+							fail : 'alert alert-error'
+						},
+						callbacks : {
+							onComplete : function(id, fileName, responseJSON) {
+								if (responseJSON.success) {
+									var filepath = responseJSON.imgpath;
+								
+									$("#pathfz").val(filepath);
+									$(".fzsc").removeClass("hide");
+								
+								}
+							}
+						}
+					});
+		}
+
+		
+		function createUploaderjxsj() {
+			var uploader = new qq.FineUploader(
+					{
+						element : document.getElementById('result-uploaderjxsj'),
+						request : {
+							endpoint : '${request.contextPath}/user/upload'
+						},
+						validation : {
+							allowedExtensions : [ 'doc', 'docx' ]
+						},
+
+						text : {
+							uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+						},
+						template : '<div class="qq-uploader">'
+								+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+								+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#fff;background-color:#e75545" >{uploadButtonText}</div>'
+								+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+								+ '<span class="qq-drop-processing-spinner"></span></span>'
+								+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+								+ '</div>',
+						classes : {
+							success : 'alert alert-success',
+							fail : 'alert alert-error'
+						},
+						callbacks : {
+							onComplete : function(id, fileName, responseJSON) {
+								if (responseJSON.success) {
+									var filepath = responseJSON.imgpath;
+								
+									$("#pathjxsj").val(filepath);
+									$(".jxsjsc").removeClass("hide");
+								
+								}
+							}
+						}
+					});
+		}
+		
+		function createUploadertp() {
+			var uploader = new qq.FineUploader(
+					{
+						element : document.getElementById('result-uploadertp'),
+						request : {
+							endpoint : '${request.contextPath}/user/upload'
+						},
+						validation : {
+							allowedExtensions : [ 'jpeg','jpg', 'png', 'gif']
+						},
+
+						text : {
+							uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+						},
+						template : '<div class="qq-uploader">'
+								+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+								+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#fff;background-color:#e75545" >{uploadButtonText}</div>'
+								+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+								+ '<span class="qq-drop-processing-spinner"></span></span>'
+								+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+								+ '</div>',
+						classes : {
+							success : 'alert alert-success',
+							fail : 'alert alert-error'
+						},
+						callbacks : {
+							onComplete : function(id, fileName, responseJSON) {
+								if (responseJSON.success) {
+									if((responseJSON.imgw!=259)&&(responseJSON.imgh!=150)){
+										alert("请上传259*150大小的图片");
+										return;}
+									var filepath = responseJSON.imgpath;
+									$("#pathtp").val(filepath);
+									$("#pathimg1")
+											.attr(
+													"src",
+													'${request.contextPath}'
+															+ filepath);
+								}
+							}
+						}
+					});
+		}
+		
+	/* 	function getcategory(id){
+			var cid=$("#schooltype").val();
+			var id=id;
+			var data={id:id,cid:cid}; 
+			$.ajax({
+				url:"${request.contextPath}/user/category",
+				type:"post",
+				data:data,
+				success:function(s){
+					$("#category_list").removeClass("hide");
+					var categorylist = s.other;
+					var json = eval(categorylist) ;
+					if (json.length==0){return}
+					var tmp='<div class="fl wi186 marl5 xkmt10">'
+						+'<div class="border_xk" >'+'<ul class="xkul">';
+						
+					for(var i=0; i<json.length; i++) {
+					tmp += '<li>'+'<a href="javaScript:void(0)" id="'+json[i].id+'" onclick="getcategory(id)">'+json[i].name+'</a>'
+					+'</li>';
+					}
+					tmp +='</ul>'+'</div>'+'</div>';
+					$("#category_list").append(tmp);
+					
+				}
+			});
+			
+		} */
+		
+		function getcategory(){
+			var id="";
+			var cid=$(".schooltype").val();
+			var data={id:id,cid:cid}; 
+			$.ajax({
+				url:"${request.contextPath}/user/category",
+				type:"post",
+				data:data,
+				success:function(s){
+					var categorylist = s.other;
+					var json = eval(categorylist) ;
+					var tmp='<option >请选择</option>';
+					var tmp1='<option >请选择</option>';
+					var tmp2='<option >请选择</option>';
+					for(var i=0; i<json.length; i++) {
+						tmp+='<option value="'+json[i].id+'">'+json[i].name+'</option>'
+					}
+					$("#schooltype1").html(tmp);
+					/* $("#schooltype2").html(tmp1); */
+					$("#schooltype2").addClass('hide');
+					$("#schooltype3").addClass('hide');
+				}
+			});
+		}
+		
+		
+		function getcategory1(){
+			var id=$("#schooltype1").val();
+			var cid=$(".schooltype").val();
+			var data={id:id,cid:cid}; 
+			$.ajax({
+				url:"${request.contextPath}/user/category",
+				type:"post",
+				data:data,
+				success:function(s){
+					var categorylist = s.other;
+					var json = eval(categorylist) ;
+					var tmp='<option >请选择</option>';
+					var tmp1='<option >请选择</option>';
+					for(var i=0; i<json.length; i++) {
+						$("#schooltype2").removeClass('hide');
+						tmp+='<option value="'+json[i].id+'">'+json[i].name+'</option>'
+					}
+					$("#schooltype2").html(tmp);
+					$("#schooltype3").addClass('hide');
+				}
+			});
+		}
+		
+		function getcategory2(){
+			var id=$("#schooltype2").val();
+			var cid=$(".schooltype").val();
+			var data={id:id,cid:cid}; 
+			$.ajax({
+				url:"${request.contextPath}/user/category",
+				type:"post",
+				data:data,
+				success:function(s){
+					var categorylist = s.other;
+					var json = eval(categorylist) ;
+					var tmp='<option >请选择</option>';
+					
+					for(var i=0; i<json.length; i++) {
+						$("#schooltype3").removeClass('hide');
+						tmp+='<option value="'+json[i].id+'">'+json[i].name+'</option>'
+					}
+					
+					$("#schooltype3").html(tmp);
+				}
+			});
+		}
+		
+		function submitme(){
+			var name=$("#name").val();
+			var describle=$("#describle").val();
+			describle=replaceTextarea1(describle);
+			var target=$("#target").val();
+			target=replaceTextarea1(describle);
+			var path=$("#path").val();
+			var thumb=$("#pathtp").val();
+		    var hdid=1;
+		    var pptpath=$("#pathkj").val();
+            var zippath=$("#pathfz").val();
+            var wordpath=$("#pathjxsj").val();
+            var category=$(".schooltype  option:selected").text();
+		
+			
+			/* 验证是否为空 */
+			 if((name!="")||(describle!="")||(target!="")||(path!="")||(thumb!="")||(pptpath!="")||(zippath!="")||(wordpath!="")||(category!="请选择")){
+				if(name!=""){$(".yz1").addClass('hide')};
+				if(describle!=""){$(".yz2").addClass('hide')};
+				if(target!=""){$(".yz3").addClass('hide')};
+				if(path!=""){$(".yz4").addClass('hide')};
+				if(thumb!=""){$(".yz8").addClass('hide')};
+				if(pptpath!=""){$(".yz5").addClass('hide')};
+				if(zippath!=""){$(".yz6").addClass('hide')};
+				if(wordpath!=""){$(".yz7").addClass('hide')};
+				if(category!=""){$(".yz9").addClass('hide')};
+				}
+			 if((name=="")||(describle=="")||(target=="")||(path=="")||(thumb=="")||(pptpath=="")||(zippath=="")||(wordpath=="")||(category=="请选择")){
+					if(name==""){$(".yz1").removeClass('hide')};
+					if(describle==""){$(".yz2").removeClass('hide')};
+					if(target==""){$(".yz3").removeClass('hide')};
+					if(path==""){$(".yz4").removeClass('hide')};
+					if(thumb==""){$(".yz8").removeClass('hide')};
+					if(pptpath==""){$(".yz5").removeClass('hide')};
+					if(zippath==""){$(".yz6").removeClass('hide')};
+					if(wordpath==""){$(".yz7").removeClass('hide')};
+					if(category=="请选择"){$(".yz9").removeClass('hide')};
+					return;
+					}
+			
+				/* 课程id */
+				var categoryid=$("#schooltype3").val();
+				if($("#schooltype3").hasClass("hide")){
+					categoryid=$("#schooltype2").val();
+					 if($("#schooltype2").hasClass("hide")||categoryid=="请选择"){alert("请选择学科课程");return;} 
+					}
+				else{if(categoryid=="请选择"){alert("请选择学科课程");return}} 
+			
+			
+			var data={hdid:hdid,name:name,describle:describle,path:path,thumb:thumb,pptpath:pptpath,zippath:zippath,wordpath:wordpath,categoryid:categoryid,category:category};
+			$.ajax({
+				url : "${request.contextPath}/user/uploadmycourse",
+				type : "post",
+				data : data,
+				success : function(s) {
+						alert(s.msg);
+						location.reload();
+				}
+			});
+		}
+		
+		function replaceTextarea1(str){
+		    var reg=new RegExp("\r\n","g");
+		    var reg1=new RegExp("\n","g");
+		    str = str.replace(reg,"</iebr>");
+		    str = str.replace(reg1,"</br>");
+		    return str;
+		}
+		function replaceTextarea2(str){
+		    var reg=new RegExp("</iebr>","g");
+		    var reg1=new RegExp("</br>","g");
+		    str = str.replace(reg,"\r\n");
+		    str = str.replace(reg1,"\n");
+		    return str;
+		}
+	
+	</script>
+	</body>
+
+</html>

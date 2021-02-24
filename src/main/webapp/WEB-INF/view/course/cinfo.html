@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>课程分类</title>
+<meta name="description" content="" />
+<style type="text/css">
+</style>
+<link href="${request.contextPath}/style/css/index.css" rel="stylesheet" type="text/css" />
+<link href="${request.contextPath}/assets/stylesheets/bootstrap/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="${request.contextPath}/assets/stylesheets/light-theme.css" media="all" id="color-settings-body-color"
+	rel="stylesheet" type="text/css" />
+<link href="${request.contextPath}/assets/stylesheets/theme-colors.css" media="all" rel="stylesheet" type="text/css" />
+<link href="${request.contextPath}/style/css/reset.css" rel="stylesheet" type="text/css" />
+<link href='${request.contextPath}/assets/images/favicon.ico' rel='shortcut icon' type='image/x-icon'>
+</head>
+<body class="bodyhd" >
+	<#include '../common/hdheader.html'>
+	<hr class="line">
+	<div class="header_background1"></div>
+	<div class="div_top">
+		<div class="div_bb">
+			<a href="javascript:void(0);" onclick="qb();" id="qb">全部</a>
+		</div>
+		<div class="div_bb">
+			<a href="javascript:void(0);" onclick="gj();" id="gj">产品入门</a>
+		</div>
+		<div class="div_bb">
+			<a href="javascript:void(0);" onclick="sj();" id="sj">产品进阶</a>
+		</div>
+		<div class="div_bb">
+			<a href="javascript:void(0);" onclick="share();" id="share">大咖分享</a>
+		</div>
+	</div>
+	<input type="hidden" id="totalcount" value="${totalcount}">
+	<div class="content2">
+		<div id="lid"></div>
+		<div class="clearfloat"></div>
+		<div class="pagination-wrap">
+			<div id="Pagination" class="dib pagination clearfix"></div>
+			<ul id="Searchresult" style="display:none;"></ul>
+		</div>
+	</div>
+
+
+	<#include '../common/hdfooter.html'>
+    <script src="${request.contextPath}/assets/javascripts/jquery/jquery.min.js"
+	type="text/javascript"></script>
+	<script src="${request.contextPath}/assets/javascripts/bootstrap/bootstrap.js"
+	type="text/javascript"></script>
+	<script type="text/javascript" src="/style/js/lib/jquery.pagination.js"></script>
+	<script>
+		$(function() {
+			initpage();
+			$("#qb").addClass("bb");
+			$("#gj").removeClass("bb");
+			$("#sj").removeClass("bb");
+			$("#share").removeClass("bb");
+		});
+
+		var level = "";
+		var prize = "";
+		function qb() {
+
+			$("#qb").addClass("bb");
+			$("#gj").removeClass("bb");
+			$("#sj").removeClass("bb");
+			$("#share").removeClass("bb");
+			
+			level = "";
+			prize = "";
+			resettable();
+		}
+		function gj() {
+
+			$("#qb").removeClass("bb");
+			$("#gj").addClass("bb");
+			$("#sj").removeClass("bb");
+			$("#share").removeClass("bb");
+			var x = document.getElementById("gj");
+			prize = x.innerHTML;
+			resettable();
+		}
+		function share() {
+
+			$("#qb").removeClass("bb");
+			$("#gj").removeClass("bb");
+			$("#sj").removeClass("bb");
+			$("#share").addClass("bb");
+			var x = document.getElementById("share");
+			prize = x.innerHTML;
+			resettable();
+		}
+		function sj() {
+
+			$("#qb").removeClass("bb");
+			$("#gj").removeClass("bb");
+			$("#share").removeClass("bb");
+			$("#sj").addClass("bb");
+			var x = document.getElementById("sj");
+			prize = x.innerHTML;
+			resettable();
+		}
+		function tdj(){
+			var x=document.getElementById("tdj");
+		    if(prize==x.innerHTML){
+				 $("#tdj").removeClass("dd");
+					$("#ydj").removeClass("dd");
+					prize="";
+				 resettable();
+			 }else{
+				 $("#tdj").addClass("dd");
+					$("#ydj").removeClass("dd");
+					prize=x.innerHTML;
+					 resettable();
+			 }
+
+		}
+		function ydj(){
+			var x=document.getElementById("ydj");
+		    if(prize==x.innerHTML){
+				 $("#tdj").removeClass("dd");
+					$("#ydj").removeClass("dd");
+					prize="";
+				 resettable();
+			 }else{
+				 $("#tdj").removeClass("dd");
+					$("#ydj").addClass("dd");
+					prize=x.innerHTML;
+					 resettable();
+			 }
+		}
+		function resettable() {
+
+			var data = {
+				level : level,
+				prize : prize,
+				pageNo : 1
+			};
+			$.ajax({
+				url : "${request.contextPath}/course/getcourses",
+				type : "post",
+				data : data,
+				success : function(s) {
+					if (s.success) {
+						var totalcount = s.other;
+						$("#totalcount").val(totalcount);
+					}
+					initpage();
+				}
+			});
+		}
+
+		function initpage() {
+			var totalcount = $("#totalcount").val();
+			var num_entries = totalcount;
+			var showCount = 16;
+			$("#Pagination").pagination(num_entries, {
+				num_edge_entries : 1,
+				num_display_entries : 6,
+				callback : pageselectCallback,
+				items_per_page : showCount
+			});
+
+			function pageselectCallback(page_index, jq) {
+				var tmp = "";
+				var no = page_index + 1;
+
+				var data = {
+					level : level,
+					prize : prize,
+					pageNo : no
+				};
+
+				$
+						.ajax({
+							url : "${request.contextPath}/course/getcourselist",
+							type : "post",
+							data : data,
+							success : function(s) {
+								if (s.success) {
+									var slist = s.other;
+									json = eval(slist);
+									for ( var i = 0; i < json.length; i++) {
+
+										tmp += '<div class="bottom_content1 mod-course-card mod-course-card_lu ">'
+												+ '<a href="${request.contextPath}/course/tocourseinfo/'+json[i].id+'">'
+												+ '<img src="'+json[i].thumb +'"/>'
+												+ '</a>'
+												+ '<div class="font1">'
+												+ json[i].name
+												+ '</div>'
+												+ ' <div class="font2">课程类型：'
+												+ json[i].category
+												+ '</div>'
+												+ '<div class="font2">课程时间：'+json[i].createtime+'</div>'
+												+ '</div>'
+									}
+									$("#lid").html(tmp);
+								}
+							}
+						});
+				return false;
+			}
+		}
+	</script>
+</body>
+
+</html>

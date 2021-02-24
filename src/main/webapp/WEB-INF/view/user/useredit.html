@@ -1,0 +1,398 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>微课大赛</title>
+		<meta name="description" content="" />
+		<#include '../common/hdcss.html'>
+		<#include '../common/hdjs.html'>
+	</head>
+
+	<body>
+		<#include '../common/hdheader.html'>
+		<div class="full person-info-content">
+			<div class="w-1200 clearfix">
+				<div class="person-head-img fl">
+					<img src="${(user.headimg)!'${request.contextPath}/style/img/head.png'}"  width="128" height="128"/>
+					<div class="person-head-bg"></div>
+					<div class="person-info">
+						<div class="person-info-name">
+							${(user.realname)!user.username}
+						</div>
+					</div>
+				</div>
+				<ul class="person-head-right clearfix fr">
+					<li>
+						<a class="person-head-right-item" href="javascript: void(0);">
+						<div class="per-item-top txt-overflow">
+							0次
+						</div>
+						<div class="per-item-bottom">
+							浏览量
+						</div> </a>
+					</li>
+					<li>
+						<a class="person-head-right-item" href="javascript: void(0);">
+						<div class="per-item-top txt-overflow">
+							0次
+						</div>
+						<div class="per-item-bottom">
+							我上传的微课
+						</div> </a>
+					</li>
+					<li class="last">
+						<a class="person-head-right-item" href="javascript: void(0);">
+						<div class="per-item-top txt-overflow">
+							0次
+						</div>
+						<div class="per-item-bottom">
+							我评分的微课
+						</div> </a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="w-1200 center clearfix">
+			<div class="center-nav fl">
+				<ul>
+					<li class="on" >
+					
+						<a href="${request.contextPath}/user/tocenter"><img src="${request.contextPath}/style/img/information-white.png" class="mt10"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;个人信息</a>
+					</li>
+					<li>
+						<a href="${request.contextPath}/user/tomyhd">
+						<img src="${request.contextPath}/style/img/wdds.png" class="mt10"/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我的大赛</a>
+					</li>
+					<li>
+						<a href="javascript:void(0);">
+						<img src="${request.contextPath}/style/img/wdcj.png" class="mt10"/>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我的成绩</a>
+					</li>
+				</ul>
+			</div>
+			<div class="center-content fl">
+				<div class="center-content-title rel">个人信息填写：
+					<div class="school-in abs">
+						<@shiro.lacksRole name="orgadmin">
+						<#if user.org??>
+						<#else>
+							<a href="${request.contextPath}/user/toorgenter" class="btn btn-blue">院校入驻</a>
+						</#if>
+						</@shiro.lacksRole> 
+						<@shiro.hasRole name="orgadmin"><a href="${request.contextPath}/orgadmin/index" target="_blank" class="btn btn-blue">院校管理</a></@shiro.hasRole>
+					
+					</div>
+				</div>
+				<input type="hidden" id="id" value="${user.id}"/>
+				<form id="eidtForm" method="post">
+					<ul class="per-form" style="margin: 20px 0 20px 175px">
+						<li class="per-info-item">
+							<label>个人头像：</label>
+							<div class="per-info-control">
+								 <div class="per-pic5" style="float:left"> 
+									<!-- <input type="file" validata-options="validType:'Custom',regexp:'.+\.(jpg|jpeg|jpg|gif)$',msg:'只能上传jpg|jpeg|jpg|gif文件在'"/> -->
+								
+					<input type="hidden" id="path" value="${(user.headimg)!'${request.contextPath}/style/img/head.png'}" /> <img src="${(user.headimg)!'${request.contextPath}/style/img/head.png'}" width="110" height="110" id="pathimg" class="img-style"/>
+				
+							
+								 </div> 
+								 <div id="result-uploader" class="right upload-style " style="float:left;margin-left:20px;margin-top:56px"></div>
+								
+							</div>
+							<div class=" bmyz5">
+						         <em class="login-font-red yzfont">请上传172*172大小图片</em>
+						               </div>
+						</li>
+						<li class="per-info-item">
+							<label>真实姓名：<em>*</em></label>
+							<div class="per-info-control">
+								<input class="form-input" type="text" name="Name" id="name" value="${(user.realname)!''}"  />
+							</div>
+								<div class="yz1 hide bmyz2">
+						         <em class="login-font-red yzfont">真实姓名不能为空</em>
+						               </div>
+						</li>
+						<li class="per-info-item">
+							<label>性别：</label>
+							<div class="per-info-control">
+							
+							<#if user.sex = 0>
+								<span class="dib radio-control" style="height:21px;line-height:21px;">
+									<input id="man" type="radio" name="identity" value="0" checked="checked">
+									<label for="man" class="dib radio">男</label>
+								</span>
+								<span class="dib radio-control" style="height:21px;line-height:21px;">
+									<input id="women" type="radio" name="identity" value="1" >
+									<label for="women" class="dib radio">女</label>
+								</span>
+								<#else>
+								<span class="dib radio-control" style="height:21px;line-height:21px;">
+									<input id="man" type="radio" name="identity" value="0" >
+									<label for="man" class="dib radio">男</label>
+								</span>
+								<span class="dib radio-control" style="height:21px;line-height:21px;">
+									<input id="women" type="radio" name="identity" value="1" checked="checked">
+									<label for="women" class="dib radio">女</label>
+								</span>
+								</#if>
+							
+								
+							
+								
+							</div>
+						</li>
+						<li class="per-info-item">
+							<label>邮箱：</label>
+							<div class="per-info-control">
+								<input class="form-input mrys" type="text" name="Email" id="Email" value="${user.email}"  disabled="disabled" />
+							</div>
+						</li>
+						<li class="per-info-item">
+							<label>学校名称：<em>*</em></label>
+							<div class="per-info-control">
+								<!-- <input class="form-input" type="text" name="Name" id="schoolname"/> -->
+								<select class="form-input1" id="schoolname" style="width:423px">
+								<option value="${(user.org.id)!''}"  class="optval">${(user.org.name)!''}</option>
+								 <#list orgs as org>
+								<option value="${org.id}">${org.name}</option>
+								</#list>
+								</select>
+							</div>
+							<div class="yz2 hide bmyz2">
+						         <em class="login-font-red yzfont">请选择学校</em>
+						               </div>
+						               <div class=" bmyz2">
+						         <em class="login-font-gray yzfont">（请注意学校只能选择一次）</em>
+						               </div>
+						</li>
+						
+						 <li class="per-info-item">
+							<label>职位：</label>
+							<div class="per-info-control">
+								<input class="form-input" type="text" name="job" id="job" value="${(user.job)!''}"   />
+							</div>
+						</li> 
+					
+						<li class="per-info-item">
+							<label>个人简介：</label>
+							<div class="per-info-control">
+							<textarea class="textarea" id="describle" rows="4" type="text" name="Description" style="width:411px"></textarea>
+							</div>
+						</li>
+						
+						
+						
+						<li class="per-info-item">
+							<label>个人身份证：<em>*</em></label>
+							<div class="per-info-control">
+								<input class="form-input" id="card" type="text" name="Card" validata-options="validType:'IdCard',msg:'身份证号码不正确'" value="${(user.code)!''}"/>
+							</div>
+							<div class="yz3 hide bmyz2">
+						         <em class="login-font-red yzfont">请输入身份证号</em>
+						               </div>
+						</li>
+						<li class="per-info-item">
+							<label>身份证照片：<em>*</em></label>
+							<div class="per-info-control">
+								<div class="per-pic3 fl" > 
+								<img src="${(user.codeimg)!'${request.contextPath}/style/img/identify1.png'}" id="pathimg1" width="219" height="80"></img></div>
+								<div class="fl ident">
+								<p style="color:#da1515">(请上传219*80大小图片)</p> 
+								<!-- <a href="javascript:void(0)" class="color-blue cl" >身份证上传范例</a> -->
+								<div id="result-uploader1" class="right upload-style" style="margin-top:7px"></div>
+								<input type="hidden" id="path1" value="${(user.codeimg)!'${request.contextPath}/style/img/identify1.png'}"/>
+								</div>
+							<!-- 	<div class="per-pic2 fl show hide" > 
+								<img src="${request.contextPath}/style/img/identify1.png"  width="123" height="135"></img></div> -->
+							</div>
+								<div class="yz4 hide bmyz2">
+						         <em class="login-font-red yzfont">请上传身份证图片</em>
+						               </div>
+						</li>
+
+					<!-- 	<li class="per-info-item">
+							<div class="per-info-control per-agree">
+								<input id="agree" type="checkbox" />
+								<label for="agree" class="dib checkbox">我同意凤凰云课堂协议条款</label>
+							</div>
+						</li> -->
+					</ul>
+					<div class="per-form-btns ml320">
+						<input class="btn btn-red btn-edit" onclick="submitme();return false;" type="button" value="提交资料" />
+					</div>
+				</form>
+			</div>
+		</div>
+		<#include '../common/hdfooter.html'>
+		
+	</body>
+	<script>
+	$(function(){
+		createUploader();
+		codeUploader();
+		$(".cl").click(function(){
+			$(".show").removeClass("hide")
+		});
+		var describle='${(user.describle)!''}';
+		describle=replaceTextarea2(describle);
+		$("#describle").val(describle);
+		
+		$(".center-nav").css("height","1050px")
+	});
+	
+	var a=$(".optval").val();
+	if(a!=''){$("#schoolname").attr("disabled","disabled")}
+		function createUploader() {
+			var uploader = new qq.FineUploader(
+					{
+						element : document.getElementById('result-uploader'),
+						request : {
+							endpoint : '${request.contextPath}/user/upload'
+						},
+						validation : {
+							allowedExtensions : [ 'jpeg', 'jpg', 'png','gif' ]
+						},
+
+						text : {
+							uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+						},
+						template : '<div class="qq-uploader">'
+								+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+								+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#e75545" >{uploadButtonText}</div>'
+								+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+								+ '<span class="qq-drop-processing-spinner"></span></span>'
+								+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+								+ '</div>',
+						classes : {
+							success : 'alert alert-success',
+							fail : 'alert alert-error'
+						},
+						callbacks : {
+							onComplete : function(id, fileName, responseJSON) {
+								if (responseJSON.success) {
+									if((responseJSON.imgw!=172)&&(responseJSON.imgh!=172)){
+										alert("请上传172*172大小的图片");
+										return;}
+									var filepath = responseJSON.imgpath;
+								
+									$("#path").val(filepath);
+									$("#pathimg")
+											.attr(
+													"src",
+													'${request.contextPath}'
+															+ filepath);
+								}
+							}
+						}
+					});
+		}
+		
+		function codeUploader(){
+			var uploader = new qq.FineUploader(
+					{
+						element : document.getElementById('result-uploader1'),
+						request : {
+							endpoint : '${request.contextPath}/user/upload'
+						},
+						validation : {
+							allowedExtensions : [ 'jpeg', 'jpg', 'png','gif' ]
+						},
+
+						text : {
+							uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+						},
+						template : '<div class="qq-uploader">'
+								+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+								+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#e75545" >{uploadButtonText}</div>'
+								+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+								+ '<span class="qq-drop-processing-spinner"></span></span>'
+								+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+								+ '</div>',
+						classes : {
+							success : 'alert alert-success',
+							fail : 'alert alert-error'
+						},
+						callbacks : {
+							onComplete : function(id, fileName, responseJSON) {
+								if (responseJSON.success) {
+									if((responseJSON.imgw!=219)&&(responseJSON.imgh!=80)){
+										alert("请上传219*80大小的图片");
+										return;}
+									var filepath = responseJSON.imgpath;
+									$("#path1").val(filepath);
+									$("#pathimg1")
+											.attr(
+													"src",
+													'${request.contextPath}'
+															+ filepath);
+								}
+							}
+						}
+					});
+			
+		}
+		
+		
+		function submitme(){
+		var id=$("#id").val();
+		var headimg=$("#path").val();	
+		var realname=$("#name").val();
+		var sex=$('input[name="identity"]:checked').val();//0男，1女
+		var describle=$("#describle").val();
+		describle=replaceTextarea1(describle);
+		var code=$("#card").val();
+		var job=$("#job").val();
+		var codeimg=$("#path1").val();	
+		var orgid=$("#schoolname").val();	
+		if((realname!="")||(code!="")||(codeimg!="${request.contextPath}/style/img/identify1.png")||(orgid!="")){
+			  if(realname!=""){$(".yz1").addClass('hide')};
+				if(orgid!=""){$(".yz2").addClass('hide')};
+				 if(code!=""){$(".yz3").addClass('hide')};
+					if(codeimg!="${request.contextPath}/style/img/identify1.png"){$(".yz4").addClass('hide')};
+			    
+		  }
+		 if((realname=="")||(code=="")||(codeimg=="${request.contextPath}/style/img/identify1.png")||(orgid=="")){
+			  if(realname==""){$(".yz1").removeClass('hide')};
+				if(orgid==""){$(".yz2").removeClass('hide')};
+				 if(code==""){$(".yz3").removeClass('hide')};
+					if(codeimg=="${request.contextPath}/style/img/identify1.png"){$(".yz4").removeClass('hide')};
+			     return;
+		  }
+		var data={id:id,headimg:headimg,realname:realname,sex:sex,describle:describle,code:code,codeimg:codeimg,orgid:orgid,job:job};
+		$.ajax({
+			url : "${request.contextPath}/user/useredit",
+			type : "post",
+			data : data,
+			success : function(s) {
+				if (s.success) {
+					alert(s.msg);
+					location.href = "${request.contextPath}/user/tocenter";
+					
+				} else {
+					alert(s.msg);
+				}
+				/* location.reload(); */
+			}
+		})
+		}
+		
+		function replaceTextarea1(str){
+		    var reg=new RegExp("\r\n","g");
+		    var reg1=new RegExp("\n","g");
+		    str = str.replace(reg,"</iebr>");
+		    str = str.replace(reg1,"</br>");
+		    return str;
+		}
+		function replaceTextarea2(str){
+		    var reg=new RegExp("</iebr>","g");
+		    var reg1=new RegExp("</br>","g");
+		    str = str.replace(reg,"\r\n");
+		    str = str.replace(reg1,"\n");
+		    return str;
+		}
+	
+	</script>
+
+</html>

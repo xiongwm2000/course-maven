@@ -1,0 +1,62 @@
+<div class="header" style="padding:0 0">
+	<div class="content_left">
+		<a href="${request.contextPath}/"><img src="${request.contextPath}/style/img/tenlent.png" height="80px;" /></a>
+	</div>
+	<div class="content_right">
+		<div class="search-content clearfix">
+			<input type="text" class="fl form-input input-search" id="key" placeholder='请输入关键词' onkeydown="ChangePress()"/>
+			<button class="btn-search" onclick="search();">搜索</button>
+		</div>
+
+	</div>
+	<#if user??>
+	<div class="content_right2 ">
+		<div class="user-in">
+			<div class="dib user-name" style="width: 200px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
+				${(user.realname)!user.username}<i class="dib wkds-icon"></i>
+			</div>
+			<ul class="user-in-bd">
+				<li class="user-in-item"><a href="${request.contextPath}/user/tocenter">个人中心</a></li>
+				<li class="user-in-item"><a href="${request.contextPath}/courseadmin/index">管理中心</a></li>
+				<li class="user-in-item last"><a href="${request.contextPath}/course/logout">退出</a></li>
+			</ul>
+		</div>
+	</div>
+	<#else>
+	<div class="content_right2">
+		<a href="${request.contextPath}/course/tologin">登录</a> / <a href="${request.contextPath}/course/toregeister">注册</a>
+	</div>
+	</#if>
+</div>
+<script>
+	
+	    function trim(str){ //删除左右两端的空格
+	 　　     return str.replace(/(^\s*)|(\s*$)/g, "");
+	 　　 }
+		function search()
+		{
+			var key = $("#key").val();
+			if (key)
+			{
+				key = trim(key);
+				if (key == '')
+				{
+					alert("请输入关键字");
+				}
+				else
+				{
+					location.href = "${request.contextPath}/course/search/"+encodeURIComponent(key,"utf-8");	
+				}
+					
+			}
+			else
+			{
+				alert("请输入关键字");	
+			}
+		}
+		   function ChangePress() {
+               var keys;
+               keys = event.keyCode;
+               if (keys == 13 ) { search(); }
+       }
+	</script>

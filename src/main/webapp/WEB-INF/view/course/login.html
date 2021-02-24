@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>登录</title>
+<meta name="description" content="">
+<link href="/assets/stylesheets/bootstrap/bootstrap.css" rel="stylesheet" type="text/css">
+<link href="/assets/stylesheets/light-theme.css" media="all" id="color-settings-body-color" rel="stylesheet" type="text/css">
+<link href="/assets/stylesheets/theme-colors.css" media="all" rel="stylesheet" type="text/css">
+<link href="/style/css/index.css" rel="stylesheet" type="text/css">
+<link href="/style/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/style/css/common.css" rel="stylesheet" type="text/css" />
+<link href="/style/css/reset.css" rel="stylesheet" type="text/css">
+<link href='${request.contextPath}/assets/images/favicon.ico' rel='shortcut icon' type='image/x-icon'>
+</head>
+
+<body>
+	<#include '../common/hdheader.html'>
+	<div class="w-1200">
+		<div class="login-content clearfix">
+			<div class="left-background fl"></div>
+			<div class="login-right fr">
+				<div id="loginForm" class="login-form" method="post">
+					<label><em class="login-font-red">*</em>登录账户</label> <label> <input id="username" name="username"
+						type="text" /> <em class="login-icon login-man wkds-icon"></em> <!--<div class="txt-userMeg txt-msg">用户名不能为空！</div>-->
+					</label> <label class="yz1 hide"> <em class="login-font-red yzfont">用户名不能为空</em>
+					</label> <label><em class="login-font-red">*</em>登录密码</label> <label> <em class="login-icon login-key wkds-icon"></em>
+						<input id="password" name="password" type="password" /> <!--<div class="txt-pwdMsg txt-msg">用户名不能为空！</div>-->
+					</label>
+					<!-- <label class="yz2 hide">
+						<em class="login-font-red yzfont">密码不能为空</em>
+						</label> -->
+					<div class="check-box clearfix">
+						<!--<label class="fl">
+								<input class="fl" type="checkbox" />自动登录</label>-->
+						<!-- <a class="fr" href="${request.contextPath}/hd/resendmail">忘记密码</a> -->
+					</div>
+					<button class="btn-login" onclick="login();return false;">登录</button>
+					<!--<span id="showMes"></span>-->
+					<div class="join-us">
+						还没有账号，加入我们<a class="btn-joinus" href="${request.contextPath}/course/toregeister">注册</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<#include '../common/hdfooter.html'> <#include '../common/hdjs.html'>
+	<script>
+		$(function() {
+			$('input').keypress(function(e) {
+				var key = e.which;
+				if (key == 13) {
+					login();
+				}
+			});
+		});
+
+		function login() {
+			var username = $("#username").val();
+			var password = $("#password").val();
+			if ((username != "") || (password != "")) {
+				if (username != "") {
+					$(".yz1").addClass('hide')
+				}
+				;
+				if (password != "") {
+					$(".yz2").addClass('hide')
+				}
+				;
+			}
+
+			if ((username == "") || (password == "")) {
+				if (username == "") {
+					$(".yz1").removeClass('hide')
+				}
+				;
+				if (password == "") {
+					$(".yz2").removeClass('hide')
+				}
+				;
+				return;
+			}
+			var data = {
+				username : username,
+				password : password
+			};
+			$.ajax({
+				url : "${request.contextPath}/course/login",
+				type : "post",
+				data : data,
+				success : function(s) {
+					if (s.success) {
+						location.href = "${request.contextPath}/user/tocenter";
+					} else {
+						alert(s.msg);
+					}
+				}
+			});
+		}
+	</script>
+</body>
+</html>

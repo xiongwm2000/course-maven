@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>课程信息</title>
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta name="content-type" content="text/html; charset=UTF-8">
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+<#include '../common/css.html' >
+</head>
+<body>
+	<#include '../common/header-org.html'>
+	<div class='container body'>
+		<div class='row'>
+			<div class='col-xs-3 new-style'><#include 'left.html'></div>
+			<div class='col-xs-9 fch '>
+				<div class="text">&nbsp;&nbsp;课程信息</div>
+				<span class="btn-span row-table"><button class="btn btn-success btn-f button " onclick="create()">
+						<i class="icon-plus-sign-alt"></i>&nbsp;&nbsp;添加课程
+					</button></span>
+				<!-- 列表 -->
+				<table class='table table-bordered table-striped mar-bottom0' id="example">
+					<thead>
+						<tr>
+							<th class="tab-font disp">id</th>
+							<th class="tab-font ">序号</th>
+							<th class="tab-font ">课程名称</th>
+							<th class="tab-font ">课程分类</th>
+<!-- 							<th class="tab-font ">课程级别</th> -->
+							<th class="tab-font ">创建时间</th>
+							<th class="tab-font">管理</th>
+							<th class="tab-font">删除</th>
+						</tr>
+					</thead>
+					<tbody>
+						<#list courses as course>
+						<tr class="text-center">
+							<td class="disp">${course.id}</td>
+							<td>${course_index + 1}</td>
+							<td>${course.name}</td>
+							<td>${(course.category)!''}</td>
+<!-- 							<td>${(course.level)!''}</td> -->
+							<td>${(course.createtime)!''}</td>
+							<td>
+								<div class='text-center'>
+									<button class='btn btn-success btn-xs edit-click' onclick="edit('${course.id}')">管理</button>
+								</div>
+							</td>
+							<td>
+								<div class='text-center'>
+									<button onclick="del('${course.id}')" class='btn btn-danger btn-xs '>删除</button>
+								</div>
+							</td>
+						</tr>
+						</#list>
+					</tbody>
+				</table>
+				<div style="text-align: center;margin-top: 20px;">
+					<ul id="pagination"></ul>
+				</div>
+				<!--列表 -->
+			</div>
+		</div>
+	</div>
+	<#include '../common/footer.html'>
+	<div class="push-background disp"></div>
+	<!-- 新增 -->
+	<div class='push disp'>
+		<div class="push-header">
+			<span>&nbsp;&nbsp;添加课程</span>
+		</div>
+		<form class='form form-horizontal validate-form' id="form1">
+			<div class='form-group'>
+				<label class='control-label col-sm-3 col-sm-3'>图片：</label>
+				<img src="" width="250" height="200" id="newimg" class="img-style" style="margin-left: 13px;" />
+				<p class="" style="color: red;font-size: 12px;font-style: normal;margin-left: 168px;margin-top: 10px;">建议上传250*200大小图片</p>
+				<div class='col-sm-6 controls' style="margin-left: 150px;margin-top: 10px;">
+					<div id="newimg-uploader" class="right upload-style" style="float:left;margin-right:20px"></div>
+					<p>(支持BMP、JPEG、JPG、PNG、GIF格式)</p>
+					<input type="hidden" id="newimgpath" value="" />
+					<div class="imgsc hide bmyz-sc">
+						<em class="" style="color: red;font-size: 12px;font-style: normal;">上传成功</em>
+					</div>
+					<div class="yz5 hide bmyz-sc">
+						<em class="" style="color: red;font-size: 12px;font-style: normal;">图片不能为空</em>
+					</div>
+				</div>
+			</div>
+		<!-- 	<div class='form-group'>
+				<label class='control-label col-sm-3 col-sm-3'>教学视频：</label>
+				<div class='col-sm-7 controls'>
+					<div id="newmp4-uploader" class="right upload-style" style="float:left;margin-right:20px"></div>
+					<p>(支持MP4、flv、avi、rmvb、3gp、mpeg、swf格式)</p>
+					<input type="hidden" id="newmp4path" value="" />
+					<div class="spsc hide bmyz-sc">
+						<em class="" style="color: red;font-size: 12px;font-style: normal;">上传成功</em>
+					</div>
+					<div class="yz1 hide bmyz-sc">
+						<em class="" style="color: red;font-size: 12px;font-style: normal;">视频不能为空</em>
+					</div>
+				</div>
+			</div>	 -->
+			<div class='form-group'>
+				<label class='control-label col-sm-3 col-sm-3'>课程名称：</label>
+				<div class='col-sm-6 controls'>
+					<input class='form-control link-name' id='validation_name' placeholder='请输入课程名称' type='text'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='control-label col-sm-3'>课程级别:</label>
+				<div class='col-sm-6 controls'>
+					<!-- <input class='form-control ' id='validation_category' placeholder='请输入课程分类' type='text'> -->
+					<select class="form-input1" id="validation_category" style="width:250px;height: 33px;">
+						<option value="" class="optval">---请选择级别---</option>
+						<option value="初级" class="optval">初级</option>
+						<option value="中级" class="optval">中级</option>
+						<option value="高级" class="optval">高级</option>
+					</select>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='control-label col-sm-3'>课程分类:</label>
+				<div class='col-sm-6 controls'>
+					<select class="form-input1" id="prize" style="width:250px;height: 33px;">
+						<option value="" class="optval">---请选择类别---</option>
+						<option value="产品入门" class="optval">产品入门</option>
+						<option value="产品进阶" class="optval">产品进阶</option>
+						<option value="大咖分享" class="optval">大咖分享</option>
+							  <!-- <option value="三等奖"  class="optval">三等奖</option>  -->
+					</select>
+				</div>
+			</div>
+<!-- 			<div class='form-group'> -->
+<!-- 				<label class='control-label col-sm-3'>级别分类:</label> -->
+<!-- 				<div class='col-sm-6 controls'> -->
+<!-- 					<select class="form-input1" id="level" style="width:250px;height: 33px;"> -->
+<!-- 						<option value="" class="optval">---请选择级别---</option> -->
+<!-- 						<option value="国家级" class="optval">国家级</option> -->
+<!-- 						<option value="省级" class="optval">省级</option> -->
+<!-- 					</select> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 			<div class='form-group'> -->
+<!-- 				<label class='control-label col-sm-3'>课程特色:</label> -->
+<!-- 				<div class='col-sm-6 controls'> -->
+<!-- 					<textarea rows="4" cols="120" id="validation_feature" style="width:300px"></textarea> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+			<!-- <div class='form-group'>
+				<label class='control-label col-sm-3 col-sm-3'>获奖网站：</label>
+				<div class='col-sm-6 controls'>
+					<input class='form-control link-name' id='website' placeholder='请输入课程名称' type='text'>
+				</div>
+			</div> -->
+			<div class='form-group'>
+				<label class='control-label col-sm-3'>课程描述:</label>
+				<div class='col-sm-6 controls'>
+					<textarea rows="4" cols="120" id="describle" style="width:300px"></textarea>
+				</div>
+			</div>
+			<div class='form-actions'>
+				<div class='row'>
+					<div class='col-sm-9 col-sm-offset-3'>
+						<button class='btn btn-success btn-edit btn-save' onclick="save()" type='button'>保存</button>
+						<a href="javascript:void(0)" class="btn btn-success btn-edit btn-back" onclick="back()">返回</a>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!--  编辑 -->
+	<div class='edit-push4 disp'>
+		<div class="push-header">
+			<span>&nbsp;&nbsp;编辑课程</span>
+		</div>
+		<input type="hidden" id="cid" value="" />
+		<form class='form form-horizontal validate-form' id="form2">
+			<div class='form-group'>
+				<label class='control-label col-sm-3 col-sm-3'>图片：</label>
+				<img src="" width="250" height="200" id="pathimg" class="img-style" style="margin-left: 13px;" />
+				<p class="" style="color: red;font-size: 12px;font-style: normal;margin-left: 168px;margin-top: 10px;">建议上传250*200大小图片</p>
+				<div class='col-sm-6 controls' style="margin-left: 152px;margin-top: 10px;">
+					<div id="editimg-uploader" class="right upload-style" style="float:left;margin-right:20px"></div>
+					<p>(支持BMP、JPEG、JPG、PNG、GIF格式)</p>
+					<input type="hidden" id="editimgpath" value="" />
+					<input type="hidden" id="oldimgpath" value="" />
+					<div class="imgsc hide bmyz-sc">
+						<em class="" style="color: red;font-size: 12px;font-style: normal;">上传成功</em>
+					</div>
+					<div class="yz5 hide bmyz-sc">
+						<em class="" style="color: red;font-size: 12px;font-style: normal;">图片不能为空</em>
+					</div>
+				</div>
+			</div>
+			<!-- <div class='form-group'>
+				<label class='control-label col-sm-3 col-sm-3'>教学视频：</label>
+				<div class='col-sm-7 controls'>
+					<div id="editmp4-uploader" class="right upload-style" style="float:left;margin-right:20px"></div>
+					<p>(支持MP4、flv、avi、rmvb、3gp、mpeg、swf格式)</p>
+					<input type="hidden" id="editmp4path" value="" />
+					<div class="spsc hide bmyz-sc">
+						<em class="" style="color: red;font-size: 12px;font-style: normal;">上传成功</em>
+					</div>
+					<div class="yz1 hide bmyz-sc">
+						<em class="" style="color: red;font-size: 12px;font-style: normal;">视频不能为空</em>
+					</div>
+				</div>
+			</div> -->
+			<div class='form-group'>
+				<label class='control-label col-sm-3 col-sm-3'>课程名称：</label>
+				<div class='col-sm-6 controls'>
+					<input class='form-control link-name' id='editname' placeholder='请输入课程名称' type='text'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='control-label col-sm-3'>课程分类:</label>
+				<div class='col-sm-6 controls'>
+					<input class='form-control ' id='editcategory' placeholder='请输入课程分类' type='text'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='control-label col-sm-3'>课程级别:</label>
+				<div class='col-sm-6 controls'>
+					<select class="form-input1" id="editprize" style="width:250px;height: 33px;">
+						<option value="" class="optval">---请选择级别---</option>
+						<option value="产品入门" class="optval">产品入门</option>
+						<option value="产品进阶" class="optval">产品进阶</option>
+						<option value="大咖分享" class="optval">大咖分享</option>
+						<!--  <option value="二等奖"  class="optval">二等奖</option>
+							  <option value="三等奖"  class="optval">三等奖</option>  -->
+					</select>
+				</div>
+			</div>
+			<!-- <div class='form-group'>
+				<label class='control-label col-sm-3 col-sm-3'>获奖网站：</label>
+				<div class='col-sm-6 controls'>
+					<input class='form-control link-name' id='editwebsite' placeholder='请输入课程名称' type='text'>
+				</div>
+			</div> -->
+<!-- 			<div class='form-group disp'> -->
+<!-- 				<label class='control-label col-sm-3'>级别分类:</label> -->
+<!-- 				<div class='col-sm-6 controls'> -->
+<!-- 					<select class="form-input1" id="editlevel" style="width:250px;height: 33px;"> -->
+<!-- 						<option value="" class="optval">---请选择级别---</option> -->
+<!-- 						<option value="国家级" class="optval">国家级</option> -->
+<!-- 						<option value="省级" class="optval">省级</option> -->
+<!-- 					</select> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 			<div class='form-group'> -->
+<!-- 				<label class='control-label col-sm-3'>课程特色:</label> -->
+<!-- 				<div class='col-sm-6 controls'> -->
+<!-- 					<textarea rows="4" cols="120" id="editfeature" style="width:300px"></textarea> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+			<div class='form-group'>
+				<label class='control-label col-sm-3'>课程描述:</label>
+				<div class='col-sm-6 controls'>
+					<textarea rows="4" cols="120" id="deitdescrible" style="width:300px"></textarea>
+				</div>
+			</div>
+			<div class='form-actions'>
+				<div class='row'>
+					<div class='col-sm-9 col-sm-offset-3'>
+						<button class='btn btn-success btn-edit btn-save' onclick="editsave()" type='button'>保存</button>
+						<a href="javascript:void(0)" class="btn btn-success btn-edit btn-back" onclick="back()">返回</a>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<#include '../common/js.html'>
+	<script>
+		$(function() {
+			initpage();
+			createUploaderimg();
+			createUploaderimg1();
+		});
+		
+		function create(){
+			$(".push").removeClass("disp");
+			$(".push-background").removeClass("disp");
+		}
+		function back(){
+			$(".push").addClass("disp");
+			$(".push-background").addClass("disp");
+			$(".edit-push4").addClass("disp");
+			$(".imgsc").addClass("hide");
+			$(".spsc").addClass("hide");
+		}
+
+		function save() {
+			var name = $("#validation_name").val();
+			var category = $("#validation_category").val();
+			var feature = $("#validation_feature").val();
+			var describle = $("#describle").val();
+			var thumb = $("#newimgpath").val();
+			var prize = $("#prize").val();
+			var level = "";
+			var video = $("#newmp4path").val();
+			var website = $("#website").val();
+			
+			if (thumb == "") {alert("请上传图片！");return;}
+// 			if (video == "") {alert("请上传视频！");return;}
+			if (name == "") {alert("请填写课程名！");return;}
+			if (category == "") {alert("请填写分类！");return;}
+			if (prize == "") {alert("请选择奖项！");return;}
+			
+			var data = {
+				"name" : name,
+				"category" : category,
+				"feature" : feature,
+				"describle" : describle,
+				"thumb" : thumb,
+				"prize" : prize,
+				"level" : level,
+				"video" : video,
+				"website":website,
+			};
+
+			$.ajax({
+				url : "${request.contextPath}/courseadmin/savecourse",
+				type : "post",
+				data : data,
+				success : function(s) {
+
+					if (s.success) {
+						alert(s.msg);
+					} else {
+						alert(s.msg);
+					}
+					location.reload();
+				}
+			});
+		}
+		//删除
+		function del(cid) {
+			if (confirm("你确定要删除吗？")) {
+
+				/*  alert(id); */
+				var data = {
+					"id" : cid
+				};
+				$.ajax({
+					url : "${request.contextPath}/courseadmin/delcourse",
+					type : "post",
+					data : data,
+					success : function(s) {
+						if (s.success) {
+							alert(s.msg);
+						} else {
+							alert(s.msg);
+						}
+						location.reload();
+					}
+				})
+			}
+		}
+		//图片上传
+		function createUploaderimg() {
+			var uploader = new qq.FineUploader(
+					{
+						element : document.getElementById('newimg-uploader'),
+						request : {
+							endpoint : '${request.contextPath}/courseadmin/upload'
+						},
+						validation : {
+							allowedExtensions : [ 'bmp', 'jpeg', 'jpg', 'png',
+									'gif' ]
+						},
+
+						text : {
+							uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+						},
+						template : '<div class="qq-uploader">'
+								+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+								+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#fff;background-color:#e75545" >{uploadButtonText}</div>'
+								+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+								+ '<span class="qq-drop-processing-spinner"></span></span>'
+								+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+								+ '</div>',
+						classes : {
+							success : 'alert alert-success',
+							fail : 'alert alert-error'
+						},
+						callbacks : {
+							onComplete : function(id, fileName, responseJSON) {
+								if (responseJSON.success) {
+									var filepath = responseJSON.imgpath;
+									$("#newimgpath").val(filepath);
+									$("#newimg").attr("src",filepath);
+									$(".imgsc").removeClass("hide");
+								}else{
+									alert("上传失败");
+								}
+							}
+						}
+					});
+		}
+/*		//视频上传
+		function createUploadersp() {
+			var uploader = new qq.FineUploader(
+					{
+						element : document.getElementById('newmp4-uploader'),
+						request : {
+							endpoint : '${request.contextPath}/courseadmin/upload'
+						},
+						validation : {
+							allowedExtensions : [ 'mp4', 'avi', 'rmvb', 'flv',
+									'3gp', 'mpeg', 'swf' ]
+						},
+
+						text : {
+							uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+						},
+						template : '<div class="qq-uploader">'
+								+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+								+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#fff;background-color:#e75545" >{uploadButtonText}</div>'
+								+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+								+ '<span class="qq-drop-processing-spinner"></span></span>'
+								+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+								+ '</div>',
+						classes : {
+							success : 'alert alert-success',
+							fail : 'alert alert-error'
+						},
+						callbacks : {
+							onComplete : function(id, fileName, responseJSON) {
+								if (responseJSON.success) {
+									var filepath = responseJSON.imgpath;
+
+									$("#newmp4path").val(filepath);
+									$(".spsc").removeClass("hide");
+								}else{
+									alert("上传失败");
+								}
+							}
+						}
+					});
+		}
+*/
+		//编辑框显示
+			function edit(id){
+			
+				var data = {
+						"courseid" : id
+					};
+				$.ajax({
+					url : "${request.contextPath}/courseadmin/getcourse",
+					type : "post",
+					data : data,
+					success : function(s) {
+						if (s.success) {
+							$(".push-background").removeClass("disp");
+							$(".edit-push4").removeClass("disp");
+							var course=s.other;
+							$("#cid").val(course.id);
+							$("#editimgpath").val(course.thumb);
+							$("#editmp4path").val(course.video);
+							$("#editname").val(course.name);
+							$("#editcategory").val(course.category);
+							$("#editprize").val(course.prize);
+							$("#editlevel").val(course.level);
+							$("#editfeature").val(course.feature);
+							$("#deitdescrible").val(course.describle);
+							$("#pathimg").attr("src",course.thumb);
+							$("#oldimgpath").val(course.thumb);
+							$("#editwebsite").val(course.website);
+						}
+					}
+				});
+			 }
+		   //编辑保存
+		   function editsave(){
+			id=$("#cid").val();
+			thumb=$("#editimgpath").val(); 
+			oldimgpath=$("#oldimgpath").val();
+			video=$("#editmp4path").val();
+			name=$("#editname").val();
+			category=$("#editcategory").val();
+			prize=$("#editprize").val();
+			level=$("#editlevel").val();
+			feature=$("#editfeature").val();
+			describle=$("#deitdescrible").val();
+			website=$("#editwebsite").val();
+			var data={"id":id,"name":name,"describle":describle,"category":category,"feature":feature,"thumb":thumb,"prize":prize,"level":level,"video":video,"oldimgpath":oldimgpath,"website":website};
+			   $.ajax({
+					url:"${request.contextPath}/courseadmin/editcourse",
+					type:"post",
+					data:data,
+					success:function(s){
+						if (s.success){alert(s.msg);}else{alert(s.msg);}
+						location.reload();
+					}
+				});
+		   }
+		   
+		//图片上传
+		function createUploaderimg1() {
+			var uploader = new qq.FineUploader(
+			{
+				element : document.getElementById('editimg-uploader'),
+				request : {
+					endpoint : '${request.contextPath}/courseadmin/upload'
+				},
+				validation : {
+					allowedExtensions : [ 'bmp', 'jpeg', 'jpg', 'png',
+							'gif' ]
+				},
+
+				text : {
+					uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+				},
+				template : '<div class="qq-uploader">'
+						+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+						+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#fff;background-color:#e75545" >{uploadButtonText}</div>'
+						+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+						+ '<span class="qq-drop-processing-spinner"></span></span>'
+						+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+						+ '</div>',
+				classes : {
+					success : 'alert alert-success',
+					fail : 'alert alert-error'
+				},
+				callbacks : {
+					onComplete : function(id, fileName, responseJSON) {
+						if (responseJSON.success) {
+							var filepath = responseJSON.imgpath;
+							$("#editimgpath").val(filepath);
+							$("#pathimg").attr("src",filepath);
+							$(".imgsc").removeClass("hide");
+						}else{
+							alert("上传失败");
+						}
+					}
+				}
+			});
+		}
+/*		//视频上传
+		function createUploadersp1() {
+			var uploader = new qq.FineUploader(
+			{
+				element : document.getElementById('editmp4-uploader'),
+				request : {
+					endpoint : '${request.contextPath}/courseadmin/upload'
+				},
+				validation : {
+					allowedExtensions : [ 'mp4', 'avi', 'rmvb', 'flv',
+							'3gp', 'mpeg', 'swf' ]
+				},
+
+				text : {
+					uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+				},
+				template : '<div class="qq-uploader">'
+						+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+						+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#fff;background-color:#e75545" >{uploadButtonText}</div>'
+						+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+						+ '<span class="qq-drop-processing-spinner"></span></span>'
+						+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+						+ '</div>',
+				classes : {
+					success : 'alert alert-success',
+					fail : 'alert alert-error'
+				},
+				callbacks : {
+					onComplete : function(id, fileName, responseJSON) {
+						if (responseJSON.success) {
+							var filepath = responseJSON.imgpath;
+							$("#editmp4path").val(filepath);
+							$(".spsc").removeClass("hide");
+						}else{
+							alert("上传失败");
+						}
+					}
+				}
+			});
+		}
+*/		
+		function initpage() {
+			var siteId = $("#selCourse").val();
+			var totalpage = "${totalpage}";
+			totalpage = parseInt(totalpage);
+			if (totalpage == 0)
+			{
+				return;
+			}
+			var currentpage = "${currentpage}";
+			currentpage = parseInt(currentpage);
+			$.jqPaginator(
+			'#pagination',
+			{
+				totalPages : totalpage,
+				visiblePages : 5,
+				currentPage : currentpage,
+	
+				wrapper : '<ul class="pagination lastspan"></ul>',
+				/* 		 first : '<li class="first"><a href="javascript:void(0);">首页</a></li>',
+				 */prev : '<li class="prev"><a href="javascript:void(0);">&laquo;</a></li>',
+				next : '<li class="next"><a href="javascript:void(0);">&raquo;</a></li>',
+				/*  last : '<li class="last"><a href="javascript:void(0);">尾页</a></li>', */
+				page : '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+				onPageChange : function(num) {
+					if (currentpage != num)
+					{
+						location.href="${request.contextPath}/courseadmin/course/"+num;
+					}
+				}
+			});
+		}
+
+	</script>
+
+
+</body>
+</html>

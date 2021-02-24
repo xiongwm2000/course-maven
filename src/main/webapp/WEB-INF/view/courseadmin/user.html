@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<#include '../common/css.html' >
+<body class='contrast-blue'>
+	<#include '../common/header-org.html'>
+	
+			<div class='container body'>
+		
+		
+		<div class='row'>
+		 <div class='col-xs-3 new-style'>
+		
+		<#include 'left.html'></div>
+		<div class='col-xs-9 fch ' >
+		<div class="text mt-10" >&nbsp;&nbsp;老师管理</div>
+	
+         <!-- 列表 -->
+   
+				<table class=' table table-bordered table-striped mar-bottom0' id="example">
+					<thead>
+					
+						<tr>
+							<th class="tab-font disp">hdid</th>
+							 <th class="tab-font ">姓名</th> 
+							<th class="tab-font ">邮箱</th>							
+							<th class="tab-font ">身份证</th>
+						   <th class="tab-font ">状态</th>
+						    <th class="tab-font ">操作</th> 
+						</tr>
+						
+					</thead>
+					 <tbody>
+					 	<#if users??>
+						<#list users as orguser>
+						<tr class="text-center">
+							<td class="disp">${orguser.id}</td>
+							<td>${(orguser.user.realname)!(orguser.user.username)}</td> 
+							<td>${(orguser.user.email)!''}</td>
+							<td>${(orguser.user.code)!''}</td>
+							<td>
+								<#if orguser.status = 0>
+								待审核
+								<#elseif orguser.status = 1>
+								审核不通过
+								<#else>
+								审核通过
+								</#if>
+							</td>
+							<td>
+								<div class='text-center'>
+									<a class='btn btn-success btn-xs edit-click' href='javascript:void(0)'
+										onclick="sp('${orguser.id}','${orguser.user.realname}','${orguser.user.email}','${orguser.user.code}','$orguser.user.codeimg}')">
+										审核
+									</a> 
+									 <a class='btn btn-danger btn-xs' href='javascript:void(0)' onclick="del('${orguser.id}')"> <!-- <i
+										class=' icon-trash'></i> -->删除
+									</a>
+								</div>
+							</td>
+						</tr>
+						</#list>
+						</#if>
+					</tbody> 
+				</table>
+				<ul id="pagination"></ul>
+				<!--列表 -->
+         	</div>
+         	
+         	      
+	    </div>
+		</div>
+		</div>
+		</div>
+    <#include '../common/footer.html'>
+	<!-- 弹框 -->
+		<div class="push-background disp"></div>
+		<!-- 弹框结束 -->
+		
+		<!-- 审核学校 -->
+				    <div class='pushorg disp ' >
+				    <div class="text" >&nbsp;&nbsp;审核内容</div>
+				    
+				    <div class='form-group1 disp' >                        
+                    <div class='col-sm-12 controls channeladd'>
+                    <div class='control-label col-sm-12 col-sm-12 auto2' for='validation_name' >id：</div>    
+                    <div class='control-label col-sm-12 col-sm-12 auto2' for='validation_name' > <input class='form-control link-name'  data-rule-required='true' id='id1'   type='text' readonly=true></div>                    
+                          </div>
+                        </div>
+			
+				    
+				      <div class='form-group1 ' >                        
+                    <div class='col-sm-12 controls channeladd'>
+                    <div class='control-label col-sm-12 col-sm-12 auto2' for='validation_name' >选手姓名：</div>    
+                    <div class='control-label col-sm-12 col-sm-12 auto2' for='validation_name' > <input class='form-control link-name'  data-rule-required='true' id='orgname'   type='text' readonly=true></div>                    
+                          </div>
+                        </div>
+                        
+                    <div class='form-group1 ' >                        
+                    <div class='col-sm-12 controls channeladd'>
+                    <div class='control-label col-sm-12 col-sm-12 auto2' for='validation_name' >选手邮箱：</div>    
+                    <div class='control-label col-sm-12 col-sm-12 auto2' for='validation_name' > <input class='form-control link-name'  data-rule-required='true' id='orgaddress'   type='text' readonly=true></div>                    
+                          </div>
+                        </div>
+                        
+                    <div class='form-group1 ' >                        
+                    <div class='col-sm-12 controls channeladd'>
+                    <div class='control-label col-sm-12 col-sm-12 auto2' for='validation_name' >身份证号：</div>    
+                    <div class='control-label col-sm-12 col-sm-12 auto2' for='validation_name' > <input class='form-control link-name'  data-rule-required='true' id='orgcategory'   type='text' readonly=true></div>                    
+                          </div>
+                        </div>
+				    
+				      <div class='form-group1 ' >                        
+                    <div class='col-sm-12 controls channeladd'>
+                    <div class='control-label col-sm-12 col-sm-12 auto2' for='validation_name' >身份证图片：</div>   
+                    <div class="auto2">                  
+                   <img src=""  width="219" height="80" class="imgsrc ml-14"/></div>
+                          </div>
+                        </div>
+				    
+				      <div class='form-group1 disp no-pass' >                        
+                    <div class='col-sm-12 controls channeladd'>
+                    <div class='control-label col-sm-12 col-sm-12 auto2 colorred' for='validation_name' >审核不通过理由：</div>    
+                    <div class='control-label col-sm-12 col-sm-12 auto2' for='validation_name' ><textarea rows="8" cols="106" id="reason"  ></textarea></div>                    
+                          </div>
+                        </div>
+				   
+
+                         <div class='form-actionsorg'>
+                          <div class='row'>
+                            <div class='col-sm-12 col-sm-offset-12 auto1'>
+                              <button class='btn btn-success btn-edit btn-save' onclick="pass()" type='button' >           
+                                                                    审核通过
+                              </button>
+                             <a href="javascript:void(0)" class="btn btn-danger btn-edit btn-back" onclick="nopass()"  >审核不通过</a>
+                             <button  class="btn btn-warning btn-edit btn-back" onclick="close1()" type='button' >关闭</button>
+                            </div>
+                        
+                        
+                        </div>
+                    </div> 
+                    </div>
+		<!-- 审核结束 -->
+
+		
+	
+		
+	<#include '../common/js.html'>
+	<script>
+	$(function() {
+		initpage();})
+		
+function sp(id,realname,email,code,codeimg){
+		$(".push-background").removeClass("disp");
+		$(".pushorg").removeClass("disp");
+		$("#id1").val(id);
+		$("#orgname").val(realname);
+		$("#orgaddress").val(email);
+		$("#orgcategory").val(code);
+		 $(".imgsrc").attr("src",codeimg);
+	}
+	
+	function close1(){
+		 location.reload();	
+	}
+	
+	function del(id){
+ 		if(confirm("你确定删除吗?")){
+        var id=id;
+        var data={"id":id};
+        $.ajax({
+        	url:"${request.contextPath}/orgadmin/delorguser",
+        	type:"post",
+        	data:data,
+        	success:function(s){
+        		if(s.success){
+        			alert(s.msg);
+        		}
+        		else{alert(s.msg);}
+				location.reload();
+        	}	
+        })
+ 	}
+ 	}
+	
+	function pass(){
+		var id=$("#id1").val();
+		var status=2;
+		var reply='';
+		var data={id:id,status:status,reply:reply};
+	    $.ajax({
+	    	url:"${request.contextPath}/orgadmin/sporguser",
+	    	type:"post",
+	    	data:data,
+	    	success:function(s){
+	    		if (s.success)
+				{
+					alert(s.msg);
+				
+				}
+				else{alert(s.msg);}
+				location.reload();
+	    	}
+	    })
+	}
+	
+	function nopass(){
+		if($("#reason").val()==""){
+		alert("请填写审核不通过理由");
+	    $(".no-pass").removeClass("disp");}
+		else{
+			var reply=$("#reason").val();
+			var id=$("#id1").val();
+			var status=1;
+			var data={"id":id,"status":status,"reply":reply};
+			  $.ajax({
+			    	url:"${request.contextPath}/orgadmin/sporguser",
+			    	type:"post",
+			    	data:data,
+			    	success:function(s){
+			    		{if (s.success)
+						{
+							alert(s.msg);
+							
+						}
+						else{alert(s.msg);}
+						location.reload();}
+			    	}
+			    })
+		}
+		
+	}
+	
+	
+	function initpage() {
+		var totalpage = "${totalpage}";
+		totalpage = parseInt(totalpage);
+		if (totalpage == 0)
+		{
+			return;
+		}
+		var currentpage = "${currentpage}";
+		currentpage = parseInt(currentpage);
+		$
+				.jqPaginator(
+						'#pagination',
+						{
+							totalPages : totalpage,
+							visiblePages : 5,
+							currentPage : currentpage,
+
+							wrapper : '<ul class="pagination lastspan"></ul>',
+							/* 		 first : '<li class="first"><a href="javascript:void(0);">首页</a></li>',
+							 */prev : '<li class="prev"><a href="javascript:void(0);">&laquo;</a></li>',
+							next : '<li class="next"><a href="javascript:void(0);">&raquo;</a></li>',
+							/*  last : '<li class="last"><a href="javascript:void(0);">尾页</a></li>', */
+							page : '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+							onPageChange : function(num) {
+								if (currentpage != num)
+								{
+									location.href="${request.contextPath}/orgadmin/user/"+num;
+								}
+							}
+						});
+	}
+	
+	
+	</script>
+
+</body>
+</html>
+
+
+

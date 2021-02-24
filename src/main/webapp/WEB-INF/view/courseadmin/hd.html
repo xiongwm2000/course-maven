@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<#include '../common/css.html' >
+
+<body class='contrast-blue'>
+	<#include '../common/header-org.html'>
+	<div class='container body'>
+		<div class='row'>
+			<div class='col-xs-3 new-style'><#include 'left.html'></div>
+			<div class='col-xs-9 fch '>
+				<div class="text">&nbsp;&nbsp;活动管理</div>
+				<!-- <span class="btn-span"><button class="btn btn-success button btn-f">
+						<i class="icon-plus-sign-alt"></i>&nbsp;&nbsp;添加栏目
+					</button></span> -->
+				<table id="treeTable2" class=' table table-bordered table-striped mar-bottom0'>
+					<tr>
+						<td class="text-center">活动名称</td>
+						<td class="text-center">操作</td>
+					</tr>
+					
+					<#list hds as hd>
+					<tr>
+						<td class="text-center">
+							${hd.name}
+						</td>
+						<td> 
+						<div class='text-center'>
+                                    <a class='btn btn-success btn-xs' href='${request.contextPath}/hdadmin/index/${hd.id}' target="_blank" title="管理">
+                                        <i class="icon-home"></i>
+                                    </a>
+                                  </div>
+                                  </td>
+					</tr>
+					</#list>
+				</table>
+			</div>
+		</div>
+	</div>
+	</div>
+	<#include '../common/footer.html'>
+	
+	<#include '../common/js.html'>
+	<script>
+	
+
+	    
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>课程栏目</title>
+</head>
+
+<#include '../common/css.html' >
+
+<body class='contrast-blue'>
+	<#include '../common/header-org.html'>
+	<div class='container body'>
+		<div class='row'>
+			<div class='col-xs-3 new-style'><#include 'left.html'></div>
+			<div class='col-xs-9 fch '>
+				<div class="text" onclick="">&nbsp;&nbsp;课程栏目</div>
+				<span class="btn-span"><button class="btn btn-success button btn-f">
+						<i class="icon-plus-sign-alt"></i>&nbsp;&nbsp;添加栏目
+					</button>
+					<select class="selt" id="selCourse" onchange="seleCourse();">
+					<#if len==0>
+						<option value="0">暂无课程</option>
+					</#if>
+						
+					<#list courses as course>
+						<option value="${course.siteid}">${course.name}</option>
+        			</#list>
+        			</select>
+        		</span>
+        		
+        		
+        		
+				<table id="treeTable2" class=' table table-bordered table-striped mar-bottom0'>
+					<thead>
+						<tr>
+							<th class="tab-font">栏目名称</th>
+							<th class="tab-font">操作</th>
+						</tr>
+					</thead>
+					<tbody id="getChannel">	</tbody>
+				</table>
+		</div>
+	</div>
+	</div>
+	<#include '../common/footer.html'>
+	<div class="push-background disp"></div>
+	<!-- 新增 -->
+	<div class='push disp'>
+				   <div class="push-header"><span>&nbsp;&nbsp;添加栏目</span></div>
+                      <form class='form form-horizontal validate-form' id="form1">
+                        <div class='form-group'>
+                          <label class='control-label col-sm-3 col-sm-3'>栏目名称：</label>
+                          <div class='col-sm-6 controls'>
+                            <input class='form-control link-name' id="newname" placeholder='请输入栏目名称' type='text' value="课程详情">
+                          </div>
+                        </div>
+                        <div class='form-group'>
+                          <label class='control-label col-sm-3'>父栏目:</label>
+                          <div class='col-sm-6 controls'>
+                            <input class=' link-url form-control1'   id='pid'   type='text' onclick="showMenu();" placeholder='顶级菜单'  readonly="true">
+                            <input type="hidden" id="parentid"/>
+                            <div id="menuContent" class="menuContent addchannel">
+								<ul id="treeDemo" class="ztree menuContentUl"></ul>
+							</div>
+                          </div>
+                        </div>
+<!--                         <div class='form-group'> -->
+<!--                           <label class='control-label col-sm-3' for='validation_email'>排序:</label> -->
+<!--                           <div class='col-sm-6 controls'> -->
+                            <input type="hidden" class='form-control link-sortnumber push-input-text' id='sortnumber' name='validation_email' value="10000" placeholder='请输入数值'>
+<!--                           </div> -->
+<!--                         </div> -->
+                       
+                        <div class='form-actions'>
+                          <div class='row'>
+                            <div class='col-sm-9 col-sm-offset-3'>
+                              <button class='btn btn-success btn-edit btn-save' onclick="save()" type='button'>           
+                                                                              保存
+                              </button>
+                             <a href="javascript:void(0)" class="btn btn-success btn-edit btn-back" >返回</a>
+                            </div>
+                            
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                   <!--  编辑 -->
+                   <div class='edit-push disp'>
+				   <div class="push-header"><span>&nbsp;&nbsp;编辑栏目</span></div>
+                      <form class='form form-horizontal validate-form' id="form1">
+                        <div class='form-group'>
+                          <label class='control-label col-sm-3 col-sm-3'>栏目名称：</label>
+                          <div class='col-sm-6 controls'>
+                            <input class='form-control link-name' id="link-name" placeholder='请输入栏目名称' type='text'>
+                          </div>
+                        </div>
+                        <div class='form-group'> 
+                          <label class='control-label col-sm-3' for='validation_email'>父栏目:</label>
+                          <div class='col-sm-6 controls'>
+                            <input class=' link-url form-control1'  data-rule-required='true' id='pid1'   type='text' onclick="showMenu1();" readonly="true" placeholder='顶级菜单' >
+                            <input type="hidden" id="parentid1"/>
+                            <div id="menuContent1" class="menuContent" style="display:none;position: absolute;z-index:999">
+								<ul id="treeDemo1" class="ztree"  style="margin-top:0; width:200px;"></ul>
+							</div>
+                          </div>
+                        </div>
+<!--                         <div class='form-group'> -->
+<!--                           <label class='control-label col-sm-3' for='validation_email'>排序:</label> -->
+<!--                           <div class='col-sm-6 controls'> -->
+                            <input type="hidden" class='form-control link-sortnumber push-input-text' id="link-sortnumber" data-rule-required='true' id='validation_email' name='validation_email'  placeholder='请输入数值' value="10000">
+<!--                           </div> -->
+<!--                         </div> -->
+                       
+                         <div class='form-group disp'>
+                          <label class='control-label col-sm-3' for='validation_email'>id:</label>
+                          <div class='col-sm-6 controls'>
+                            <input class='form-control link-id push-input-text'  data-rule-required='true' id='link-id' name='validation_email'  type='text'>
+                          </div>
+                        </div>
+                        <div class='form-actions'>
+                          <div class='row'>
+                            <div class='col-sm-9 col-sm-offset-3'>
+                              <button class='btn btn-success btn-edit btn-save' onclick="editsave()" type='button'>           
+                                                                              保存
+                              </button>
+                             <a href="javascript:void(0)" class="btn btn-success btn-edit btn-back" >返回</a>
+                            </div>
+                            
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+	<#include '../common/js.html'>
+	<script>
+	
+	var json=null;
+	
+  		$(function() {
+	 		seleCourse();
+ 		});
+ 		
+		//删除栏目 
+		function del(id){
+		if(confirm("你确定要删除吗？\r（如果删除其子目录也会一起删除）"))	{
+	        var id=id;
+	       /*  alert(id); */
+	        var data={"id":id};
+	        $.ajax({
+	        	url:"${request.contextPath}/courseadmin/delchannel",
+	        	type:"post",
+	        	data:data,
+	        	success:function(s){
+	        		if(s.success){
+	        			alert(s.msg);
+	        		}
+	        		else{alert(s.msg);}
+					seleCourse();
+	        	}
+	        })   
+	 	}
+	   }
+		//编辑框显示
+		function edit(id, name, sortnumber, parentid, pname) {
+			$(".push-background").removeClass("disp");
+			$(".edit-push").removeClass("disp");
+			$("#link-name").val(name);
+			$("#link-sortnumber").val(sortnumber);
+			$("#link-id").val(id);
+			$("#pid1").val(pname);
+			$("#parentid1").val(parentid);	
+
+		}
+		//编辑保存
+		function editsave() {
+			var name = $("#link-name").val();
+			var parentid=$("#parentid1").val();
+			var sortnumber = $("#link-sortnumber").val();
+			sortnumber = parseInt(sortnumber);
+			var pname=$("#pid1").val();
+			var id = $("#link-id").val();
+			var data = {
+				id : id,
+				name : name,
+				sortnumber : sortnumber,
+				parentid:parentid
+			};
+			$.ajax({
+				url : "${request.contextPath}/courseadmin/editchannel",
+				type : "post",
+				data : data,
+				success : function(s) {
+					if (s.success) {
+						alert(s.msg);
+					} else {
+						alert(s.msg);
+					}
+					$(".edit-push").addClass("disp");
+					$(".push-background").addClass("disp");
+					seleCourse();
+				}
+			});
+		}
+		//新建保存
+		function save(){
+			var siteId = $("#selCourse").val();
+	    	var name=$("#newname").val();
+	    	if(name==""){alert("栏目名称不能为空！");return;}
+			var parentid=$("#parentid").val();
+			var sortnumber=$("#sortnumber").val();
+			sortnumber=parseInt(sortnumber);
+			 if((parentid=="")){parentid=0;}
+			var data={"name":name,"parentid":parentid,"sortnumber":sortnumber,"siteId":siteId};
+			$.ajax({
+				url:"${request.contextPath}/courseadmin/savechannel",
+				type:"post",
+				data:data,
+				success:function(s){
+					
+					if (s.success)
+					{
+						alert(s.msg);
+						
+					}
+					else{alert(s.msg);}
+					
+					$(".push").addClass("disp");
+					$(".push-background").addClass("disp");
+					seleCourse();
+				}
+			});
+	    }
+
+		function seleCourse() {
+		
+			var tmp = "";
+			var siteId = $("#selCourse").val();
+			var data = {
+				siteId : siteId
+			};
+			$.ajax({
+				url : "${request.contextPath}/courseadmin/getchannel",
+				type : "post",
+				data : data,
+				success : function(s) {
+					slist = s.other;
+					json = eval(slist);
+					for ( var i = 0; i < json.length; i++) {
+						
+							var idStr = "\"" + json[i].id + "\"";
+							var nameStr = "\"" + json[i].name + "\"";
+							var sortnumberStr = "\"" + json[i].sortnumber+ "\"";
+							var pidStr = "\"" + json[i].pid + "\"";
+							var parentNameStr = "\"" + json[i].parentName+ "\"";
+							
+// 							tmp += "<tr id="+ json[i].id+ " class='disp' >"
+								var tt;
+								if (json[i].pid != 0)
+								{
+								tt += "<tr id="+ json[i].id+ " pId="+json[i].pid+">";
+								}
+								else
+								{
+								tt += "<tr id="+ json[i].id+ ">";
+								}
+								tmp += tt
+								+ "<td width=50% style='padding-left:30px'>"
+								+ json[i].name+ 
+								"</td>"
+								+ "<td class='tab-font' >"
+								+ "<div class='text-center'>"
+								+ "<a class='btn btn-success btn-xs edit-click' href='javascript:void(0)' onclick='edit("
+								+ idStr+ ","+ nameStr+ ","+ sortnumberStr+ ","+ pidStr+ ","+ parentNameStr+ ")'>"
+								+ "<i class='icon-pencil'></i>"
+								+ "</a>"
+								+ "<a class='btn btn-danger btn-xs' href='javascript:void(0)' style='margin-left:20px' onclick='del("+idStr+")'>"
+								+ "<i class=' icon-trash'></i>"
+								+ "</a>" + "</div>" + "</td>" + "<tr>"
+							}
+					$("#getChannel").html(tmp);
+					
+					var zNodes=[];
+					for ( var i = 0; i < json.length; i++) {
+						zNodes.push(  {
+							id : json[i].id,
+							pId : json[i].pid,
+							name : json[i].name
+						} );
+					}
+					var setting = {
+						view: {
+							dblClickExpand: false
+						},
+						data: {
+							simpleData: {
+								enable: true
+							}
+						},
+						callback: {
+							/* beforeClick: beforeClick, */
+							onClick: onClick
+						}
+					};
+					jzmenu(zNodes,setting);
+						
+				}
+			});
+		};
+		
+		function jzmenu(zNodes,setting){
+	         var option = {
+	            theme:'default',
+	            expandLevel : 3
+	        };
+	        $('#treeTable2').treeTable(option);
+	    	$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+	    	$.fn.zTree.init($("#treeDemo1"), setting1, zNodes);
+	    	
+	    	
+	    	$( '.btn-f').click(function(){
+	    	var courseid=$("#selCourse").val();
+	    	if(courseid==0){
+	    		alert("请先添加/选择课程");
+	    		return;
+	    	}
+	    		$(".push-background").removeClass("disp");
+	    		$(".push").removeClass("disp");	
+	    		$("#pid").attr("value","");
+				$("#parentid").attr("value", "");
+				$("#newname").attr("value", "");
+	    	});
+	    	
+	    	$( '.btn-back').click(function(){
+	    	 	$(".push-background").addClass("disp");
+	    		$(".push").addClass("disp");
+	    		$(".edit-push").addClass("disp");
+	    	}); 
+	    }
+	    
+	    
+	    function onClick(e, treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+			nodes = zTree.getSelectedNodes(),
+			v = "";
+			pv = "";
+			nodes.sort(function compare(a,b){return a.id-b.id;});
+			for (var i=0, l=nodes.length; i<l; i++) {
+				v += nodes[i].name + ",";
+				pv += nodes[i].id + ",";
+			}
+			if (v.length > 0 ) v = v.substring(0, v.length-1);
+			var cityObj = $("#pid");
+			cityObj.attr("value", v);
+			
+			if (pv.length > 0 ) pv = pv.substring(0, pv.length-1);
+			var cityObj2 = $("#parentid");
+			cityObj2.attr("value", pv);
+			
+			hideMenu();
+		}
+
+		function showMenu() {
+			var cityObj = $("#pid");
+			var cityOffset = $("#pid").offset();
+			//$("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+			$("#menuContent").slideDown("fast");
+			$("body").bind("mousedown", onBodyDown);
+		}
+		function hideMenu() {
+			$("#menuContent").fadeOut("fast");
+			$("body").unbind("mousedown", onBodyDown);
+		}
+		function onBodyDown(event) {
+			if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+				hideMenu();
+			}
+		}	
+		
+		 //编辑树
+ 		 var setting1 = {
+					view: {
+						dblClickExpand: false
+					},
+					data: {
+						simpleData: {
+							enable: true
+						}
+					},
+					callback: {
+						onClick: onClick2
+					}
+				};				
+
+				function onClick2(e, treeId, treeNode) {
+					var zTree1 = $.fn.zTree.getZTreeObj("treeDemo1"),
+					nodes = zTree1.getSelectedNodes(),
+					v = "";
+					pv = "";
+					nodes.sort(function compare(a,b){return a.id-b.id;});
+					for (var i=0, l=nodes.length; i<l; i++) {
+						v += nodes[i].name + ",";
+						pv += nodes[i].id + ",";
+					}
+					if (v.length > 0 ) v = v.substring(0, v.length-1);
+					var cityObj1 = $("#pid1");
+					cityObj1.attr("value", v);
+					
+					if (pv.length > 0 ) pv = pv.substring(0, pv.length-1);
+					var cityObj21 = $("#parentid1");
+					cityObj21.attr("value", pv);
+					
+					hideMenu1();
+				}
+
+				function showMenu1() {
+					var cityObj1 = $("#pid1");
+					var cityOffset1 = $("#pid1").offset();
+					//$("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+					$("#menuContent1").slideDown("fast");
+					$("body").bind("mousedown", onBodyDown1);
+				}
+				function hideMenu1() {
+					$("#menuContent1").fadeOut("fast");
+					$("body").unbind("mousedown", onBodyDown1);
+				}
+				function onBodyDown1(event) {
+					if (!(event.target.id == "menuBtn" || event.target.id == "menuContent1" || $(event.target).parents("#menuContent1").length>0)) {
+						hideMenu1();
+					}
+				}
+		
+
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<#include '../common/coursecss.html'>
+<link href="${request.contextPath}/style/css/index.css" rel="stylesheet" type="text/css" /> 
+<link href="${request.contextPath}/style/css/main.css" rel="stylesheet" type="text/css" /> 
+<#include '../common/css.html' >
+<style>
+body{background:#fbfbfb!important}
+.tree {width: 200px;height: 600px;margin-top: 100px;margin-left: 20px;float: left;}
+span {color:#455A6E;}
+.padding520{padding:5px 20px;cursor: pointer;}
+.margin-pho{margin:20px 12px 0px 0px!important;padding:0 0!important}
+.resd{height:140px;border:1px solid #cccccc;position:relative;}
+.resn{position:relative;left:20px;top:5px;}
+.resnp{color:red;font-size:14px;font-weight: bold;}
+.type{background-color:#455A6E;color:white}
+</style>
+</head>
+
+<body>
+	 <#include '../common/header.html'>
+	 <div class="container">
+	
+		<div class="tree">
+			<div id="menuContent" class="menuContent" style="display:none;position: absolute;z-index:999;">
+				<ul id="treeDemo" class="ztree" style="margin-top:0; width:200px; height: 500px;"></ul>
+			</div>
+		</div>
+	
+		<input type="hidden" id="courseid" value="${courseid}">
+		<input type="hidden" id="chapterid" value="${chapterid}">
+		<input type="hidden" id="type" value="${type}">
+		<input type="hidden" id="totalcount" value="${totalcount}">
+
+		<div style="width:910px;float:right;margin-top: 80px;">
+			<div><h3 style="font-weight: 600;font-size: 28px;color: #455A6E;">${course.name}资源：共(${size})个</h3></div>
+			<div style="width: 895px;border-bottom:1px solid #455A6E;border-top:1px solid #455A6E;padding:10px 0;font-weight: bold;font-size: 18px;color: #455A6E;">
+				<span id="0" class="padding520 <#if type = 0>type</#if>" onclick="selType(this)">所有资源：</span>
+				<span id="1" class="padding520 <#if type = 1>type</#if>" onclick="selType(this)">视频</span>
+				<span id="2" class="padding520 <#if type = 2>type</#if>" onclick="selType(this)">音频</span>
+				<span id="3" class="padding520 <#if type = 3>type</#if>" onclick="selType(this)">图片</span>
+				<span id="4" class="padding520 <#if type = 4>type</#if>" onclick="selType(this)">文档</span>
+				<span id="6" class="padding520 <#if type = 6>type</#if>" onclick="selType(this)">动画</span>
+				<span id="7" class="padding520 <#if type = 7>type</#if>" onclick="selType(this)">web课件</span>
+				<span id="8" class="padding520 <#if type = 8>type</#if>" onclick="selType(this)">应用程序</span>
+				<span id="5" class="padding520 <#if type = 5>type</#if>" onclick="selType(this)">其他</span>
+			</div>
+				
+			<div style="margin-top:0px;">
+				<ul id="res" class="list-unstyled list-inline" style="padding-right: 0;"></ul>
+			</div>
+		
+			<div class="pagination-wrap">
+				<div id="Pagination" class="dib pagination clearfix"></div>
+				<ul id="Searchresult" style="display:none;"></ul>
+			</div>
+		
+
+		</div>
+	</div>
+	<#include '../common/hdfooter.html'>
+	<#include '../common/js.html'>
+	<script type="text/javascript" src="/style/js/lib/jquery.pagination.js"></script>
+	<script>
+	
+	var setting = {
+		view: {
+			dblClickExpand: false
+		},
+		data: {
+			simpleData: {
+				enable: true
+			}
+		},
+		callback: {
+			/* beforeClick: beforeClick, */
+			onClick: onClick
+		}
+	};
+
+	var zNodes =[
+		<#list chapters as chapter>   
+		{id:${chapter.id}, pId:${(chapter.chapter.id)!0}, name:"${chapter.name}"},
+		</#list>
+	 ];
+	
+	function onBodyDown(event) {
+		if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+		}
+	}
+	
+	$(function(){
+		$("#menuContent").slideDown("fast");
+		$("body").bind("mousedown", onBodyDown);
+		$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+		
+		initpage();
+	});
+	
+	
+	function selType(obj){
+		var type=obj.id;
+		$(".padding520").removeClass("type");
+		$("#"+type).addClass("type");
+		courseid=$("#courseid").val();
+		chapterid=$("#chapterid").val();
+		var no = 1;
+		var data = {courseid:courseid,chapterid:chapterid,type:type,pageNo:no};
+		
+		$.ajax({
+			url:"${request.contextPath}/course/gettyperes",
+			type:"post",
+			data:data,
+			success:function(s){
+        		if(s.success){
+	        		var totalcount = s.other;
+					$("#type").val(type);
+					$("#totalcount").val(totalcount);
+					initpage();
+        		}
+        	}
+		});
+		
+	}
+	    
+    function onClick(e, treeId, treeNode) {
+		var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+		nodes = zTree.getSelectedNodes(),
+		chapterid = "";
+		nodes.sort(function compare(a,b){return a.id-b.id;});
+		for (var i=0, l=nodes.length; i<l; i++) {
+			chaptername= nodes[i].name;
+			chapterid= nodes[i].id;
+		}
+		
+		var no = 1;
+		var courseid=$("#courseid").val();
+		var data = {courseid:courseid,chapterid:chapterid,pageNo:no};
+			
+		$.ajax({
+			url:"${request.contextPath}/course/getchapres",
+			type:"post",
+			data:data,
+			success:function(s){
+        		if(s.success){
+	        		var totalcount = s.other;
+	        		$("#chapterid").val(chapterid);
+					$("#type").val(0);
+					$("#totalcount").val(totalcount);
+					initpage();
+        		}
+        	}
+		});
+	}
+	
+	function initpage() {
+		var totalcount=$("#totalcount").val();
+		var num_entries = totalcount;
+		var showCount = 12;
+		$("#Pagination").pagination(num_entries, {
+			num_edge_entries: 1,
+			num_display_entries: 6,
+			callback: pageselectCallback,
+			items_per_page: showCount
+		});
+
+		function pageselectCallback(page_index, jq) {
+			var tmp="";
+			var no = page_index + 1;
+			var courseid=$("#courseid").val();
+			var chapterid=$("#chapterid").val();
+			var type=$("#type").val();
+			var data = {courseid:courseid,chapterid:chapterid,type:type,pageNo:no};
+			
+			$.ajax({
+				url:"${request.contextPath}/course/reslist",
+				type:"post",
+				data:data,
+				success:function(s){
+	        		if(s.success){
+		        		var slist = s.other;
+						json = eval(slist);
+	        			for(var i=0;i<json.length;i++){
+	        			
+	        				tmp +="<li class='margin-pho'>"
+							+"<div class='resd'>"
+							+"<a href=''>"
+							+"<img src='${request.contextPath}/style/img/respho.png' width='210px'>"
+							+"</a>"
+							+"<div class='resn'>"
+							+"<p class='resnp'>"+json[i].name+"</p>"
+							+"</div>"
+							+"</div>"
+							+"</li>";
+	        			}
+	        			$("#res").html(tmp);
+	        		}
+	        	}
+			});
+			return false;
+		}
+	}
+			
+	
+		
+	</script>
+	
+</body>
+</html>

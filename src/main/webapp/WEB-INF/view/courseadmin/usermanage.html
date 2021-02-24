@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<#include '../common/css.html'>
+<body class='contrast-blue'>
+	<#include '../common/header-org.html'>
+	<div class='container'>
+		<div class='col-xs-3 new-style'><#include 'left.html'></div>
+			<div class='col-xs-9 fch '>
+				<div class="text">&nbsp;&nbsp;用户信息</div>
+				<button class="btn btn-success btn-f button " onclick="showdialog('增加');">
+					<i class="icon-plus-sign-alt"></i>&nbsp;&nbsp;添加用户
+				</button>
+
+				<table class='table table-bordered table-striped mar-bottom0'>
+					<thead>
+						<tr>
+							<th class="tab-font disp">id</th>
+							<th class="tab-font">用户名</th>
+							<th class="tab-font">姓名</th>
+							<th class="tab-font">邮箱</th>
+							<th class="tab-font">性别</th>
+							<th class="tab-font">状态</th>
+							<th class="tab-font">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<#if users??>
+						<#list users as user>
+						<tr class="text-center">
+							<td class="disp">${user.id}</td>
+							<td>${user.username}</td>
+							<td>${user.realname!}</td>
+							<td>${user.email!}</td>
+							<td><#if (user.sex!) == 0>男<#else>女</#if></td>
+							<td><#if (user.status!) == -1><i class="abnormal">已禁用</i><#else><i class="normal">正常</i></#if></td>
+							<td>
+								<div class='text-center'>
+									<a class='btn btn-warning btn-xs' href='javascript:void(0);'
+										onclick="forbidden(${user.id})"><i class='glyphicon glyphicon-ban-circle'></i>
+									</a> 
+									<a class='btn btn-warning btn-xs' href='javascript:void(0);'
+										onclick="edituserrole(${user.id},'${user.username}','${user.password}');"> <i class='glyphicon glyphicon-wrench'></i>
+									</a> 
+									<a class='btn btn-danger btn-xs' onclick="deleteuser(${user.id})"> <i
+										class='glyphicon glyphicon-trash'></i>
+									</a>
+								</div>
+							</td>
+						</tr>
+						</#list>
+						</#if>
+					</tbody>
+				</table>
+				<div style="text-align: center;margin-top: 20px;">
+					<ul id="pagination"></ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="myModal" data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="roletitle"></h4>
+					<input type="hidden" id="userId" />
+				</div>
+				<div class="modal-body">
+					<form class="form form-horizontal validate-form" role="form" id="formuser">
+						<div class="form-group">
+							<label class="col-sm-3 control-label"><h4>用户名</h4></label>
+							<div class="col-sm-7 controls">
+								<input type="text" class="form-control" id="username" data-rule-minlength='1' data-rule-required='true' />
+							</div>
+						</div>
+						<div class="form-group" id="pwdiv">
+							<label class="col-sm-3 control-label"><h4>密码</h4></label>
+							<div class="col-sm-7">
+								<input type="password" class="form-control" id="password">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="adduser();" id="rolebutton"></button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="myModal2" data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">角色</h4>
+					<input type="hidden" id="userid" />
+				</div>
+				<div class="modal-body">
+					<form class="form form-horizontal validate-form" role="form" id="formrole">
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-10 controls">
+								<#list roles as role>
+								<div class="checkbox">
+									<label> <input type="checkbox" value="${role.id}">${role.name}
+									</label>
+								</div>
+								</#list>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="adduserrole();">编辑</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<#include '../common/footer.html'>
+	<#include '../common/js.html'>
+	<script>
+		$(function() {
+			initpage();
+		});
+	
+		// 禁用账户
+		function forbidden(uid){
+			if(confirm("确定要禁用/启用该账户吗？")){
+				$.ajax({
+					url : "${request.contextPath}/admin/forbidden",
+					type : "post",
+					data : {uid : uid},
+					success : function(s){
+						if(s.success){
+							location.reload();
+							console.log("禁用用户成功");
+						}else{
+							alert("禁用用户失败");
+						}
+					}
+				});
+			}
+		}
+		
+		// 删除用户
+		function deleteuser(uid){
+			if(confirm("确定要删除吗？")){
+				$.ajax({
+					url : "${request.contextPath}/admin/deleteuser",
+					type : "post",
+					data : {uid : uid},
+					success : function(s){
+						if(s.success){
+							location.reload();
+							console.log("删除用户成功");
+						}else{
+							alert("删除用户失败");
+						}
+					}
+				});
+			}
+		}
+		function showdialog(title) {
+			$('#myModal').modal({
+				keyboard : false
+			});
+			$("#userId").val(-1);
+			$("#roletitle").html(title);
+			$("#rolebutton").html(title);
+			$("#username").val("");
+			$("#password").val("");
+			$("#pwdiv").show();
+		}
+		function edituser(id, name,password) {
+			$('#myModal').modal({
+				keyboard : false
+			});
+			$("#roletitle").html("编辑");
+			$("#rolebutton").html("编辑");
+			$("#userId").val(id);
+			$("#username").val(name);
+			$("#password").val(password);
+			$("#pwdiv").hide();
+		}
+		function edituserrole(id, name,password) {
+			$('#myModal2').modal({
+				keyboard : false
+			});
+		}
+		function adduserrole() {
+			
+			var userid = $("#userid").val();
+			
+			 var chk_value =[];    
+			  $("input[type='checkbox']:checked").each(function(){    
+			   chk_value.push($(this).val());    
+			  });    
+			  alert(chk_value.length==0 ?'你还没有选择任何内容！':chk_value);    
+			  return;
+			var roleid = $("#roleid").val();
+			var username = $("#username").val();
+			var data;
+			var url;
+			userid = parseInt(userid);
+			data = {
+					userid : userid,
+					role : username,
+					password : password
+			};
+			url = "${request.contextPath}/admin/edituserrole";
+			$.ajax({
+				url : url,
+				type : "post",
+				data : data,
+				success : function(s) {
+					if (s.success) {
+						location.reload();
+					}
+					else
+					{
+						alert(s.msg);
+					}
+				}
+			});
+		}
+		
+		function adduser() {
+			var isSuccess=$('.form-horizontal').valid(); 
+			if (!isSuccess)
+			{
+				return;
+			}
+			
+			var userId = $("#userId").val();
+			var password = $("#password").val();
+			var username = $("#username").val();
+			var data;
+			var url;
+			userId = parseInt(userId);
+			if (userId != -1) {
+				data = {
+					id : userId,
+					username : username,
+					password : password
+				};
+				url = "${request.contextPath}/admin/edituser";
+			} else {
+				data = {
+						username : username,
+						password : password
+				};
+				url = "${request.contextPath}/admin/saveuser";
+			}
+			$.ajax({
+				url : url,
+				type : "post",
+				data : data,
+				success : function(s) {
+					if (s.success) {
+						location.reload();
+					}
+					else
+					{
+						alert(s.msg);
+					}
+				}
+			});
+		}
+
+		function initpage() {
+			var totalpage = "${totalpage}";
+			totalpage = parseInt(totalpage);
+			if (totalpage == 0)
+			{
+				return;
+			}
+			var currentpage = "${currentpage}";
+			currentpage = parseInt(currentpage);
+			$.jqPaginator(
+			'#pagination',
+			{
+				totalPages : totalpage,
+				visiblePages : 5,
+				currentPage : currentpage,
+	
+				wrapper : '<ul class="pagination lastspan"></ul>',
+				/* 		 first : '<li class="first"><a href="javascript:void(0);">首页</a></li>',
+				 */prev : '<li class="prev"><a href="javascript:void(0);">&laquo;</a></li>',
+				next : '<li class="next"><a href="javascript:void(0);">&raquo;</a></li>',
+				/*  last : '<li class="last"><a href="javascript:void(0);">尾页</a></li>', */
+				page : '<li class="page"><a href="javascript:void(0);">{{page}}</a></li>',
+				onPageChange : function(num) {
+					if (currentpage != num)
+					{
+						location.href="${request.contextPath}/courseadmin/usermanage/"+num;
+					}
+				}
+			});
+		}
+		
+	</script>
+</body>
+</html>

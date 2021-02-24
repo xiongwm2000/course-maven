@@ -1,0 +1,21 @@
+<header>
+	<nav class='navbar navbar-default nav-header'>
+		<div class='logodiv1'>
+
+			<div class="content_left">
+				<a href="${request.contextPath}/"><img src="${request.contextPath}/style/img/tenlent.png" height="45px" /></a>
+			</div>
+			<ul class='nav paright'>
+				<li class='dropdown dark user-menu'><a class='dropdown-toggle' data-toggle='dropdown' href='#'><span
+						class='user-name'>${(user.realname)!user.username}</span> <b class='caret'></b> </a>
+					<ul class='dropdown-menu'>
+						<!-- <li class='divider'></li> -->
+						<li><a href='${request.contextPath}/user/tocenter'> <i class='icon-signout'></i> 个人中心
+						</a></li>
+						<li><a href='${request.contextPath}/course/logout'> <i class='icon-signout'></i> 退出
+						</a></li>
+					</ul></li>
+			</ul>
+		</div>
+	</nav>
+</header>

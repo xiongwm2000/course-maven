@@ -1,0 +1,58 @@
+  <div style="height:150px;width: 100%">
+	 <div class="header_content">
+	  <div class="content_left"><a href="${request.contextPath}/hd/index/1"><img src="${request.contextPath}/assets/images/logo.jpg" style="margin-top: -18px;"/></a></div>
+	   <div class="content_right">
+        <div class="search-content clearfix">
+			<input type="text" class="fl form-input input-search" placeholder='请输入关键词' />
+			<button class="btn-search" style="margin-top:0px">搜索</button>
+		</div>
+		
+     </div>
+	   <#if user??>
+     <div class="content_right2 ">
+
+		<div class="user-in" style="top:29px">
+			<div class="dib user-name ft-yc" >
+				${(user.realname)!user.username}<i class="dib wkds-icon"></i>
+			</div>
+			<ul class="user-in-bd">
+				<li class="user-in-item"><a style="color:#000" href="${request.contextPath}/user/tocenter">管理中心</a></li>
+				<li class="user-in-item last"><a style="color:#000" href="${request.contextPath}/hd/logout">退出</a></li>
+			</ul>
+		</div>
+
+	</div>
+	<#else>
+     <div class="content_right2 ">
+			<a style="color:#000" href="${request.contextPath}/hd/tologin">登录</a> / <a style="color:#000" href="${request.contextPath}/hd/toregeister">注册</a>
+		</div>
+    </div>
+    </#if>
+	 </div>
+
+<div class="top_footer" style="position:absolute; min-width:1296px;z-index:999999">
+
+	<ul class="navheader" style="min-width:1296px"><!-- id="navmenu" -->
+	
+
+	
+						
+	</ul>
+</div>
+<script type="text/JavaScript">
+/* 	navHover = function() {
+		var lis = document.getElementById("navmenu").getElementsByTagName("LI");
+		for ( var i = 0; i < lis.length; i++) {
+			lis[i].onmouseover = function() {
+				this.className += " iehover";
+			}
+			lis[i].onmouseout = function() {
+				this.className = this.className.replace(new RegExp(
+						" iehover\\b"), "");
+			}
+		}
+	}
+	if (window.attachEvent)
+		window.attachEvent("onload", navHover); */
+		
+</script>

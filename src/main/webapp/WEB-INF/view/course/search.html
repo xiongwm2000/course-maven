@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>搜索课程</title>
+		<meta name="description" content="" />
+		<style type="text/css">
+		.fcolor{
+		color:red;
+		float: left;
+		min-width: 30px;
+		}
+		.f{
+	    width:90px;
+		float: left;
+		margin-left: 30px;
+		}
+		.solid{
+		width: 100%;
+		height: 20px;
+		border-bottom: 1px solid #e4e5e6;
+		margin-bottom: 30px;
+		}
+		.t{
+			width: 1200px;
+	        height: 40px;
+	        line-height: 40px;
+	       margin: 0 auto;
+           font-size: 16px;
+	      margin-bottom: 40px;
+		}
+		.top_left{
+		min-width:150px;
+		height:40px;
+		text-align: center;
+		border: 1px solid red;
+		
+		padding-right:20px;
+		float: left;
+		}
+		</style>
+		<link href="${request.contextPath}/style/css/index.css" rel="stylesheet" type="text/css" />
+	<link href="${request.contextPath}/assets/stylesheets/bootstrap/bootstrap.css" 
+	rel="stylesheet" type="text/css" />
+<!-- / theme file [required] -->
+<link href="${request.contextPath}/assets/stylesheets/light-theme.css" media="all"
+	id="color-settings-body-color" rel="stylesheet" type="text/css" />
+<!-- / coloring file [optional] (if you are going to use custom contrast color) -->
+<link href="${request.contextPath}/assets/stylesheets/theme-colors.css" media="all"
+	rel="stylesheet" type="text/css" />
+	<link href="${request.contextPath}/assets/stylesheets/fineuploader.css" media="all" rel="stylesheet"
+	type="text/css" />	
+<link href="${request.contextPath}/assets/stylesheets/plugins/jquery_fileupload/jquery.fileupload-ui.css" media="all" rel="stylesheet" type="text/css">
+	<link href="${request.contextPath}/style/css/reset.css" rel="stylesheet" type="text/css" />
+	<link href='${request.contextPath}/assets/images/favicon.ico' rel='shortcut icon' type='image/x-icon'>
+	<!-- <link href="${request.contextPath}/style/css/goodteacher.css" rel="stylesheet" type="text/css" /> -->
+
+	
+		<#include '../common/js.html'>
+	</head>
+
+	<body class="bodyhd" onkeydown="ChangePress()">
+	<#include '../common/hdheader.html'>
+    
+    <div class="solid"></div>
+   
+    <div class="t">
+   <div class="top_left">
+  <div class="f"style="width: 75px;"> 关键词：</div> <div class="fcolor">${key}</div></div><div class="f">共找到${num}个与</div><div class="fcolor">“${key}”</div><div style="float: left;">相关课程</div>
+    </div>
+    
+    <div class="content2" style="min-height:300px; ">
+  
+   
+	 	
+		<#list clist as course>
+				
+				<div class="bottom_content1 mod-course-card mod-course-card_lu ">
+	         <a href="${request.contextPath}/course/tocourseinfo/${course.id}"><img src="${(course.thumb)!'${request.contextPath}/assets/images/cu1.jpg'}"/></a>
+	               <div class="font1">${course.name}</div>
+	                <div class="font2">课程资源：视频</div>
+	                 <div class="font2">课程类型：${course.category}</div>   
+	                 
+	             </div> 
+	          
+	           
+     </#list>
+			
+	          
+	 
+            <div class="clearfloat"></div>
+
+                
+</div>
+  
+    
+    <div class="footer">
+    <div class="footer_content1">
+ <p>主办：江苏省教育厅  承办：江苏省教育管理信息中心江苏省电化教育馆江苏省职业教育与终身教育研究所 </p>
+		<p>技术支持：江苏省凤凰职业教育图书有限公司   保留所有权利，未经允许，不得复制、镜像</p>
+		<p>Copyright ©2010 - 2015,All Rights Reserved 苏ICP 备09031036号-4</p>
+    </div>
+    <div class="footer_content2"></div>
+    </div>
+    
+
+     <script>
+    
+    </script>
+	</body>
+
+</html>

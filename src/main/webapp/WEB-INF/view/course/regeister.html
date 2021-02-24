@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>首页</title>
+<meta name="description" content="">
+<link href="/assets/stylesheets/bootstrap/bootstrap.css" rel="stylesheet" type="text/css">
+<link href="/assets/stylesheets/light-theme.css" media="all" id="color-settings-body-color" rel="stylesheet" type="text/css">
+<link href="/assets/stylesheets/theme-colors.css" media="all" rel="stylesheet" type="text/css">
+<link href="/style/css/index.css" rel="stylesheet" type="text/css">
+<link href="/style/css/main.css" rel="stylesheet" type="text/css" />
+<link href="/style/css/common.css" rel="stylesheet" type="text/css" />
+<link href="/style/css/reset.css" rel="stylesheet" type="text/css">
+<link href='${request.contextPath}/assets/images/favicon.ico' rel='shortcut icon' type='image/x-icon'>
+</head>
+
+	<body>
+		<#include '../common/hdheader.html'>
+		<div class="w-1200">
+			<div class="login-content clearfix">
+				<div class="left-background fl"></div>
+				<div class="login-right fr">
+				 <!-- <div class="fr top-back" style="background:#53606d;height:30px;width:100%;color:#ffffff;margin-bottom:15px;">
+				<span class="regeister-style" style="margin-left:10px;font-size:17px">注册</span>
+				</div> --> 
+					<form id="loginForm" class="login-form" method="post">
+						<label><em class="login-font-red">*</em>注册用户名</label>
+						<label>
+							<input id="username"  name="username" type="text" validata-options="validType:'Require',msg:'不能为空'"/>
+							<em class="login-icon login-man wkds-icon"></em>
+						</label>
+						<label class="yz1 hide">
+						<em class="login-font-red yzfont">用户名不能为空</em>
+						</label>
+<!-- 							<label><em class="login-font-red">*</em>注册邮箱</label> -->
+<!-- 						<label> -->
+<!-- 							<input id="email" name="email" type="text"/> -->
+<!-- 							<em class="login-icon login-email "></em> -->
+<!-- 						</label> -->
+<!-- 						<label class="yz2 hide"> -->
+<!-- 						<em class="login-font-red yzfont">邮箱不能为空</em> -->
+<!-- 						</label> -->
+<!-- 						<label class="yz4 hide"> -->
+<!-- 						<em class="login-font-red yzfont">邮箱格式错误</em> -->
+<!-- 						</label> -->
+						<label><em class="login-font-red ">*</em>登录密码</label>
+						<label>
+							<em class="login-icon login-key wkds-icon"></em>
+							<input id="password" name="password" type="password" />
+						
+						</label>
+						<label class="yz3 hide">
+						<em class="login-font-red yzfont">密码不能为空</em>
+						</label>
+						
+						<label><em class="login-font-red ">*</em>确认密码</label>
+						<label>
+							<em class="login-icon login-key wkds-icon"></em>
+							<input id="confirm" name="confirm" type="password" />
+						</label>
+						<label class="yz5 hide">
+						<em class="login-font-red yzfont">密码不一致</em>
+						</label>
+						<!-- <div class="check-box clearfix">
+							<label class="fl">
+								<input class="fl" type="checkbox" />自动登录</label>
+						</div> -->
+						<button class="btn-login" onclick="regeister();return false;" >注册</button>
+						<!--<span id="showMes"></span>-->
+						<div class="join-us">
+							已经有账号啦，赶快<a class="btn-joinus" href="${request.contextPath}/course/tologin">登录</a>&nbsp;吧
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<#include '../common/hdfooter.html'>
+        <#include '../common/hdjs.html'>
+		<script>
+		$(function() {
+			$('input').keypress(function (e) {
+			    var key = e.which;
+			    if (key == 13) {
+			    	regeister();
+			    }
+			});
+		});
+		
+		function regeister()
+		{
+			var username = $("#username").val();
+			var password = $("#password").val();
+			var confirm=$("#confirm").val();
+			if((username!="")||(password!="")){
+				if(username!=""){$(".yz1").addClass('hide')};
+				if(password!=""){$(".yz3").addClass('hide')};
+			}
+			if((username=="")||(password=="")){
+				if(username==""){$(".yz1").removeClass('hide')};
+				if(password==""){$(".yz3").removeClass('hide')};
+				return;
+			}
+			
+			if(password==confirm){if(username!=""){$(".yz5").addClass('hide')};}
+			if(password!=confirm){if(username!=""){$(".yz5").removeClass('hide')};return;}
+			
+			var data = {username:username,password:password};
+			$.ajax({
+				url:"${request.contextPath}/course/regteacher",
+				type:"post",
+				data:data,
+				success:function(s){
+					if (s.success)
+					{
+						location.href = "${request.contextPath}/user/tocenter";
+					}
+					else {
+						alert(s.msg);
+					}
+				}
+			});
+		}
+		
+	</script>
+	</body>
+</html>

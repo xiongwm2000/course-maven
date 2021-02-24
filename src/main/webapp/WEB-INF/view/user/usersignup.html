@@ -1,0 +1,593 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>微课大赛</title>
+		<meta name="description" content="" />
+		<#include '../common/hdcss.html'>
+		<#include '../common/hdjs.html'>
+	</head>
+
+	<body>
+		<#include '../common/hdheader.html'>
+		<div class="w-1200">
+			<div>
+				<ul id="per_tab_hd" class="per-top">
+					<li class="per-top-item fl rel first active">
+						报名身份<em class="boult-red-right"></em>
+					</li>
+					<li class="per-top-item fl rel next">
+						个人信息<em class="boult-red-right"></em>
+					</li>
+					<li class="per-top-item fl final">
+						进入审核
+					</li>
+				</ul>
+				<ul id="per_tab_bd">
+				
+					<li>
+						<div id="selectIdentity" class="identity-content">
+							<span class="dib radio-control">
+								<input id="player" type="radio" name="identity" checked="checked"/>
+								<label for="player" class="dib radio" style="height:21px">选手</label> </span>
+							<span class="dib radio-control">
+								<input id="experts" type="radio" name="identity" />
+								<label for="experts" class="dib radio" style="height:21px">专家</label> </span>
+							<@shiro.hasRole name="orgadmin"><span class="dib radio-control">
+								<input id="school" type="radio" name="identity"/>
+								<label for="school" class="dib radio" style="height:21px">学校</label> </span></@shiro.hasRole> 
+						</div>
+						<div class="per-form-btns identity-btns">
+							<a class="btn btn-red per-next">继续</a>
+						</div>
+					</li>
+					<li id="per_form" class="per-form hdie aaa">
+						
+						<input type="hidden" value="${user.id}" id="userid">
+						<form id="datumForm" method="post">
+						 <input type="hidden"  value="${hdid}"  id="hdid1"/>
+							<ul>
+								<li class="per-info-item">
+									<label>姓名：<em>*</em></label>
+									<div class="per-info-control">
+										<input class="form-input" type="text" name="Name" value="${(user.realname)!''}" id="xsrealname"  />
+									</div>
+										<div class="yz11 hide bmyz">
+						         <em class="login-font-red yzfont">真实姓名不能为空</em>
+						               </div>
+								</li>
+							
+								<!-- <li class="per-info-item">
+									<label>电话：<em>*</em></label>
+									<div class="per-info-control">
+										<input class="form-input" type="text"name="Mobile" validata-options="required:false,validType:'Mobile',msg:'手机号码不正确'" />
+									</div>
+								</li> -->
+								<li class="per-info-item">
+									<label>邮箱：<em>*</em></label>
+									<div class="per-info-control">
+										<input class="form-input" type="text" name="Email"  value="${(user.email)!''}"  disabled="disabled" style="color:#cccccc"/>
+									</div>
+								</li>
+								<li class="per-info-item">
+									<label>个人身份证：<em>*</em></label>
+									<div class="per-info-control">
+										<input class="form-input" type="text" name="Card" id="xscode" value="${(user.code)!''}" validata-options="validType:'IdCard',msg:'身份证号码不正确'" />
+									</div>
+										<div class="yz12 hide bmyz">
+						         <em class="login-font-red yzfont">身份证不能为空</em>
+						               </div>
+								</li>
+								
+								<li class="per-info-item">
+							<label>身份证照片：<em>*</em></label>
+							<div class="per-info-control">
+								
+								<div class="per-pic3 fl" > 
+								<img src="${(user.codeimg)!'${request.contextPath}/style/img/identify1.png'}" id="pathimg" width="219" height="80"></img></div>
+								<div class="fl ident">
+								<p style="color:#da1515">(请上传219*80大小图片)</p> 
+								
+								<div id="result-uploader" class="right upload-style" style="margin-top:7px"></div>
+								<input type="hidden" id="path" value="${(user.codeimg)!'${request.contextPath}/style/img/identify1.png'}"/>
+								</div>
+								
+							</div>
+							<div class="yz13 hide bmyz">
+						         <div class="login-font-red yzfont">请上传身份证图片信息</div>
+						               </div>
+						</li>
+						
+								<li class="per-info-item">
+									<label>学校名称：</label>
+									<div class="per-info-control">
+										<input class="form-input" type="text" name="Name" id="schoolname" disabled="disabled" value="${(user.org.name)!''}"/>
+									</div>
+								</li>
+								<li class="per-info-item">
+									<div class="per-info-control per-agree">
+										<input id="agree1" type="checkbox" onclick="agreexs()"/>
+										<label for="agree1" class="dib checkbox">我同意凤凰云课堂协议条款</label>
+									</div>
+								</li>
+							</ul>
+							<div class="per-form-btns">
+								<a class="font-color-red per-prev" href="javascript:void(0);">上一步</a>
+								<input class="btn btn-mr btn-datum" id="tj1" type="button" onclick="xssub();return false;" value="提交资料" disabled="disabled"/>
+							</div>
+						</form>
+						<form id="datumForm" method="post">
+							<div class="school-msg-hd">
+								专家信息填写：
+							</div>
+							<ul>
+								<li class="per-info-item">
+									<label>专家姓名：<em>*</em></label>
+									<div class="per-info-control">
+										<input class="form-input" type="text" name="Name" id="zjrealname" value="${(user.realname)!''}"  />
+									</div>
+									<div class="yz21 hide bmyz">
+						         <em class="login-font-red yzfont">真实姓名不能为空</em>
+						               </div>
+								</li>
+								
+								<li class="per-info-item">
+									<label>邮箱：<em>*</em></label>
+									<div class="per-info-control">
+										<input class="form-input" type="text" name="Email" value="${(user.email)!''}" style="color:#cccccc"/>
+									</div>
+								</li>
+								<li class="per-info-item">
+									<label>个人身份证：<em>*</em></label>
+									<div class="per-info-control">
+										<input class="form-input" type="text" name="Card" id="zjcode" value="${(user.code)!''}" validata-options="validType:'IdCard',msg:'身份证号码不正确'" />
+									</div>
+									<div class="yz22 hide bmyz">
+						         <em class="login-font-red yzfont">身份证不能为空</em>
+						               </div>
+								</li>
+								
+									<li class="per-info-item">
+							<label>身份证照片：<em>*</em></label>
+							<div class="per-info-control">
+								
+								<div class="per-pic3 fl" > 
+								<img src="${(user.codeimg)!'${request.contextPath}/style/img/identify1.png'}" id="pathimg2" width="219" height="80"></img></div>
+								<div class="fl ident">
+								<p style="color:#da1515">(请上传219*80大小图片)</p> 
+								<div id="result-uploader2" class="right upload-style" style="margin-top:7px"></div>
+								<input type="hidden" id="path2" value="${(user.codeimg)!'${request.contextPath}/style/img/identify1.png'}"/>
+								</div></div>
+							<div class="yz23 hide bmyz">
+						         <div class="login-font-red yzfont">请上传身份证图片信息</div>
+						               </div>
+						</li>
+						
+									<li class="per-info-item">
+									<label>学校名称：</label>
+									<div class="per-info-control">
+										<input class="form-input" type="text" name="Name" disabled="disabled" id="schoolname1" value="${(user.org.name)!''}"/>
+									</div>
+								</li>
+								
+								
+								
+								<li class="per-info-item">
+									<div class="per-info-control per-agree">
+										<input id="agree2" type="checkbox" onclick="agreezj()"/>
+										<label for="agree2" class="dib checkbox">我同意凤凰云课堂协议条款</label>
+									</div>
+								</li>
+							</ul>
+							<div class="per-form-btns">
+								<a class="font-color-red per-prev" href="javascript:void(0);">上一步</a>
+								<input class="btn btn-mr btn-datum" id="tj2" type="button" onclick="zjsub();return false;" value="提交资料" disabled="disabled"/>
+							</div>
+						</form>
+						<@shiro.hasRole name="orgadmin">
+						<form id="datumForm" method="post">
+							<div class="school-msg-hd">
+								院校信息填写：
+							</div>
+							<ul class="school-msg">
+							<input type="hidden" id="orgid" value="${(org.id)!''}"  />
+						    <input type="hidden"  value="${hdid}"  id="hdid"/>
+								<li class="per-info-item">
+									<label>院校名称：</label>
+									<div class="per-info-control">
+										<input class="form-input" type="text"  name="Name" value="${(user.org.name)!''}" disabled="disabled" style="color:#cccccc"/>
+									</div>
+								</li>
+							
+								<li class="per-info-item">
+									<label>院校邮箱：</label>
+									<div class="per-info-control">
+										<input class="form-input " type="text" name="Email" id="orgemail" value="${(user.org.email)!''}" disabled="disabled" style="color:#cccccc" validata-options="validType:'Email',msg:'信箱格式不正确'" />
+									</div>
+								</li>
+								<li class="per-info-item">
+									<label>院校地址：</label>
+									<div class="per-info-control clearfix">
+									<!-- 	<select id="cmbProvince" class="select-address fl"></select>
+										<select id="cmbCity" class="select-address fl"></select>
+										<select id="cmbArea" class="select-address fl"></select> -->
+										<input class="form-input fl" type="text" name="Name" id="orgaddress" value="${(user.org.address)!''}" placeholder="填写具体地址" />
+									</div>
+										<div class="yz31 hide bmyz4">
+						         <em class="login-font-red yzfont">院校地址不能为空</em>
+						               </div>
+								</li>
+								<li class="per-info-item">
+							<label>院校报名表：</label>
+							<div class="per-info-control">
+								
+								
+							
+								<div class="fl ident1">
+								
+								<div id="result-uploader1" class="right fl upload-style" style="margin-top:21px;margin-left:-6px"></div>
+								<div class="fl ident1"><a class="color-blue fl" href="${request.contextPath}/user/download">报名表下载</a></div>
+								<input type="hidden" id="codepath" />
+								</div>
+							</div>
+								<div class="yz33 hide bmyz4"> <em class="login-font-red yzfont">上传成功</em>
+						               </div>
+								<div class="yz32 hide bmyz4">
+						         <em class="login-font-red yzfont">请上传院校报名表</em>
+						               </div>
+						</li>
+								<li class="per-info-item">
+									<div class="per-info-control per-agree">
+										<input id="agree3" type="checkbox" onclick="agreexx()" />
+										<label for="agree3" class="dib checkbox">我同意凤凰云课堂协议条款</label>
+									</div>
+								</li>
+								
+								
+							</ul>
+							<div class="per-form-btns school-msg-btns">
+								<a class="font-color-red per-prev" href="javascript:void(0);">上一步</a>
+								<input class="btn btn-mr btn-datum " type="button" id="tj3" disabled="disabled" onclick="orgbm();return false;" value="提交资料" />
+							</div>
+						</form>
+						</@shiro.hasRole> 
+					</li>
+					<li class="hide" id="show">
+						<p class="per-tip">
+							请耐心等待我们的审核，审核结果会第一时间通知您!&nbsp;&nbsp;
+						<span>	<a href="${request.contextPath}/user/tocenter">
+							点我跳转到个人中心>>
+						</a></span>
+						</p>
+						
+					</li>
+				</ul>
+			</div>
+		</div>
+		<#include '../common/hdfooter.html'>
+		
+		<script>
+		$(function(){
+			$(".cl").click(function(){
+				$(".show").removeClass("hide")
+			});
+			$(".cl1").click(function(){
+				$(".show1").removeClass("hide")
+			});
+				codeUploader();
+			xsUploader();
+			zjUploader();
+		
+		});
+		
+		function agreexs(){
+			if($("#agree1").attr("checked")=="checked"){
+				
+				$('#tj1').removeAttr("disabled");
+				$('#tj1').addClass("btn-red");
+				}
+			if($("#agree1").attr("checked")!="checked"){
+				$('#tj1').attr("disabled","disabled");
+				$('#tj1').removeClass("btn-red");
+				}
+		}
+		
+		function agreezj(){
+			
+			if($("#agree2").attr("checked")=="checked"){
+				
+				$('#tj2').removeAttr("disabled");
+				$('#tj2').addClass("btn-red");
+				}
+			if($("#agree2").attr("checked")!="checked"){
+				$('#tj2').attr("disabled","disabled");
+				$('#tj2').removeClass("btn-red");
+				}
+		}
+		
+function agreexx(){
+			
+			if($("#agree3").attr("checked")=="checked"){
+				
+				$('#tj3').removeAttr("disabled");
+				$('#tj3').addClass("btn-red");
+				}
+			if($("#agree3").attr("checked")!="checked"){
+				$('#tj3').attr("disabled","disabled");
+				$('#tj3').removeClass("btn-red");
+				}
+		}
+		
+		function xssub(){
+			var school=$("#schoolname").val();
+			if(school==''){alert("您尚未加入任何机构因此无法报名。\n(请进入个人中心，加入机构)");return;}
+			var userid = "${user.id}";
+			var hdid="${hdid}";
+			var identity=0;
+			var realname=$("#xsrealname").val();
+			var code=$("#xscode").val();
+			var codeimg=$("#path").val();
+			if((realname!="")||(code!="")||(codeimg!="${request.contextPath}/style/img/identify1.png")){
+				if(realname!=""){$(".yz11").addClass('hide')};
+				if(code!=""){$(".yz12").addClass('hide')};
+				if(codeimg!="${request.contextPath}/style/img/identify1.png"){$(".yz13").addClass('hide')};
+				}
+			if((realname=="")||(code=="")||(codeimg=="${request.contextPath}/style/img/identify1.png")){
+				if(realname==""){$(".yz11").removeClass('hide')};
+				if(code==""){$(".yz12").removeClass('hide')};
+				if(codeimg=="${request.contextPath}/style/img/identify1.png"){$(".yz13").removeClass('hide')};
+				return;
+				}
+			var data={userid:userid,hdid:hdid,identity:identity,realname:realname,code:code,codeimg:codeimg};
+			$.ajax({
+				url : "${request.contextPath}/user/usersign",
+				type : "post",
+				data : data,
+				success : function(s) {
+					if (s.success) {
+					 	$(".aaa").addClass("hide");
+						$("#show").removeClass("hide"); 
+						$("#show").css("display","block"); 
+						$(".next").removeClass("active");
+						$(".final").addClass("active");
+					} else {
+						alert(s.msg);
+						return;
+					}
+				}
+			})
+			
+		}
+		
+		function zjsub(){
+			var school=$("#schoolname1").val();
+			if(school==''){alert("您尚未加入任何机构因此无法报名。\n(请进入个人中心，加入机构)");return;}
+			var userid = "${user.id}";
+			var hdid="${hdid}";
+			var identity=1;
+			var realname=$("#zjrealname").val();
+			var code=$("#zjcode").val();
+			var codeimg=$("#path2").val();
+			if((realname!="")||(code!="")||(codeimg!="${request.contextPath}/style/img/identify1.png")){
+				if(realname!=""){$(".yz21").addClass('hide')};
+				if(code!=""){$(".yz22").addClass('hide')};
+				if(codeimg!="${request.contextPath}/style/img/identify1.png"){$(".yz23").addClass('hide')};
+				}
+			if((realname=="")||(code=="")||(codeimg=="${request.contextPath}/style/img/identify1.png")){
+				if(realname==""){$(".yz21").removeClass('hide')};
+				if(code==""){$(".yz22").removeClass('hide')};
+				if(codeimg=="${request.contextPath}/style/img/identify1.png"){$(".yz23").removeClass('hide')};
+				return;
+				}
+			var data={userid:userid,hdid:hdid,identity:identity,realname:realname,code:code,codeimg:codeimg};
+			$.ajax({
+				url : "${request.contextPath}/user/usersign",
+				type : "post",
+				data : data,
+				success : function(s) {
+					if (s.success) {
+					 	$(".aaa").addClass("hide");
+						$("#show").removeClass("hide"); 
+						$("#show").css("display","block"); 
+						$(".next").removeClass("active");
+						$(".final").addClass("active");
+					} else {
+						alert(s.msg);
+						return;
+					}
+				}
+			})
+			
+		}
+		
+
+		function orgbm(){
+			  var orgid=$("#orgid").val();
+			  var hdid=$("#hdid").val();
+			  var email=$("#orgemail").val();
+			  var address=$("#orgaddress").val();
+			  var attach=$("#codepath").val();
+			  if((address!="")||(attach!="")){
+				  if(address!=""){$(".yz31").addClass('hide')};
+					if(attach!=""){$(".yz32").addClass('hide')};
+				   
+			  }
+			  if((address=="")||(attach=="")){
+				  if(address==""){$(".yz31").removeClass('hide')};
+					if(attach==""){$(".yz32").removeClass('hide')};
+				     return;
+			  }
+			  var data={orgid:orgid,hdid:hdid,email:email,address:address,attach:attach}
+				$.ajax({
+					url : "${request.contextPath}/user/orgsign",
+					type : "post",
+					data : data,
+					success : function(s) {
+						if (s.success) {
+							/* alert(s.msg); */
+						 	$(".aaa").addClass("hide");
+							$("#show").removeClass("hide"); 
+							$("#show").css("display","block"); 
+							$(".next").removeClass("active");
+							$(".final").addClass("active");
+						} else {
+							alert(s.msg);
+							return;
+						}
+						/* location.reload(); */
+					
+						
+					}
+				})
+		}
+		
+
+		
+		function codeUploader() {
+			var uploader = new qq.FineUploader(
+					{
+						
+						element : document.getElementById('result-uploader1'),
+						request : {
+							endpoint : '${request.contextPath}/user/upload'
+						},
+						validation : {
+							allowedExtensions : [  'doc', 'docx' ],
+							
+						},
+
+						text : {
+							uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+						},
+						template : '<div class="qq-uploader">'
+								+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+								+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#e75545" >{uploadButtonText}</div>'
+								+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+								+ '<span class="qq-drop-processing-spinner"></span></span>'
+								+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+								+ '</div>',
+						classes : {
+							success : 'alert alert-success',
+							fail : 'alert alert-error'
+						},
+						callbacks : {
+					
+								
+							onComplete : function(id, fileName, responseJSON) {
+								if (responseJSON.success) {			
+									var filepath = responseJSON.imgpath;
+									$("#codepath").val(filepath);
+									$(".yz32").addClass('hide');
+									$(".yz33")
+											.removeClass(
+													"hide"
+													);
+								}
+							}
+						}
+					});
+		}
+		
+		function xsUploader() {
+			var uploader = new qq.FineUploader(
+					{
+						
+						element : document.getElementById('result-uploader'),
+						request : {
+							endpoint : '${request.contextPath}/user/upload'
+						},
+						validation : {
+							allowedExtensions : [ 'jpeg', 'jpg', 'png','gif' ],
+							
+						},
+
+						text : {
+							uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+						},
+						template : '<div class="qq-uploader">'
+								+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+								+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#e75545" >{uploadButtonText}</div>'
+								+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+								+ '<span class="qq-drop-processing-spinner"></span></span>'
+								+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+								+ '</div>',
+						classes : {
+							success : 'alert alert-success',
+							fail : 'alert alert-error'
+						},
+						callbacks : {
+						
+							/* onSubmit:  function(id,  fileName)  {
+								var a=this.imgpath;
+								alert(a)
+								if(this.width==219){return true;}
+								else{alert('请上传219*80格式大小图片');return false}
+								}, */
+								
+							onComplete : function(id, fileName, responseJSON) {
+								if (responseJSON.success) {
+									if((responseJSON.imgw!=219)&&(responseJSON.imgh!=80)){
+										alert("请上传219*80大小的图片");
+										return;}
+									var filepath = responseJSON.imgpath;
+								
+									$("#path").val(filepath);
+									$("#pathimg")
+											.attr(
+													"src",
+													'${request.contextPath}'
+															+ filepath);
+								}
+							}
+						}
+					});
+		}
+		
+		function zjUploader() {
+			var uploader = new qq.FineUploader(
+					{
+						element : document.getElementById('result-uploader2'),
+						request : {
+							endpoint : '${request.contextPath}/user/upload'
+						},
+						validation : {
+							allowedExtensions : [ 'jpeg', 'jpg', 'png','gif' ]
+						},
+
+						text : {
+							uploadButton : '<i class="glyphicon glyphicon-plus"></i>上传'
+						},
+						template : '<div class="qq-uploader">'
+								+ '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>'
+								+ '<div class="qq-upload-button btn btn-success" style="border:1px solid #e75545;color:#e75545" >{uploadButtonText}</div>'
+								+ '<span class="qq-drop-processing" style="display:none"><span>{dropProcessingText}</span>'
+								+ '<span class="qq-drop-processing-spinner"></span></span>'
+								+ '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;display:none"></ul>'
+								+ '</div>',
+						classes : {
+							success : 'alert alert-success',
+							fail : 'alert alert-error'
+						},
+						callbacks : {
+							onComplete : function(id, fileName, responseJSON) {
+								if (responseJSON.success) {
+									if((responseJSON.imgw!=219)&&(responseJSON.imgh!=80)){
+										alert("请上传219*80大小的图片");
+										return;}
+									var filepath = responseJSON.imgpath;
+									$("#path2").val(filepath);
+									$("#pathimg2")
+											.attr(
+													"src",
+													'${request.contextPath}'
+															+ filepath);
+								}
+							}
+						}
+					});
+		}
+		
+		</script>
+	</body>
+</html>
